@@ -1,0 +1,17 @@
+{
+  "name": "protocolo-da-calistenia",
+  "version": "1.0.0",
+  "description": "Funil Desafio de Calistenia Militar - Quiz e VSL com Player Local Independente",
+  "main": "app/index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "app": "node server.js",
+    "serve": "npx serve .",
+    "test": "node ../brain/0f23156d-64fd-4e58-84cf-668cf8dd315f/scratch/audit_app_browser.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+

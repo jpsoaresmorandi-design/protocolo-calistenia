@@ -1,0 +1,7 @@
+# Redirecionamentos limpos para Netlify
+/vsl        /vsl.html        200
+/quiz       /index.html      200
+/app        /app/index.html  200
+/app/*      /app/:splat      200
+/*          /:splat          200
+

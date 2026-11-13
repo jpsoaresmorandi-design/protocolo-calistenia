@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Desafío de Calistenia Militar</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<!-- UTM / click-id capture: guarda os parâmetros da URL na sessão para
+     repassar à VSL e ao checkout Kash. -->
+<script>
+(function(){
+  var KEY='__funnel_qs';
+  var KEEP=['utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+            'utm_id','fbclid','gclid','gbraid','wbraid','ttclid','msclkid',
+            'twclid','sck','src','xcod','cid'];
+  var saved={};
+  try{saved=JSON.parse(sessionStorage.getItem(KEY)||'{}')}catch(e){}
+  var cur=new URLSearchParams(location.search);
+  KEEP.forEach(function(k){var v=cur.get(k); if(v) saved[k]=v;});
+  try{sessionStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}
+  window.__funnelQS=saved;
+  window.__funnelQSString=function(){
+    return Object.keys(saved).map(function(k){
+      return encodeURIComponent(k)+'='+encodeURIComponent(saved[k]);
+    }).join('&');
+  };
+})();
+</script>
+
+<!-- Fonte própria + logo e primeiro card (LCP) pré-carregados. Os outros três
+     cards carregam em prioridade normal para não disputar banda com o Pixel. -->
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="assets/md-glUlk-imgi-12-md-kxvow-imgi-1-md-rr5mw-logo-calistenia-militar.webp">
+<link rel="preload" as="image" href="assets/md-9Rrsc-image-fx-4.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/md-6Yuer-image-fx-5.webp">
+
+<!-- No deploy, scripts/build.mjs troca este link pelo CSS embutido (sem
+     requisição bloqueando a primeira pintura). -->
+<style>
+:root{
+  --bg:#000000; --bg-soft:rgb(15,17,15);
+  --featured:#16a34a; --featured-rgb:22,163,74;
+  --text:#ffffff; --text-2:rgb(209,213,219); --text-soft:rgb(92,122,92);
+}
+/* Self-hosted Inter (replaces render-blocking Google Fonts request).
+   Latin variable woff2 — one 48KB same-origin file covers weights 300-900.
+   font-display:swap so text paints immediately with the system fallback. */
+@font-face{font-family:'Inter';font-style:normal;font-weight:300 900;
+  font-display:swap;src:url('assets/fonts/inter-latin.woff2') format('woff2')}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+/* touch-action:manipulation tira o zoom de toque duplo (iPhone) e o atraso
+   do clique; text-size-adjust impede o celular de aumentar fontes sozinho. */
+html{scroll-behavior:smooth;font-size:16px;touch-action:manipulation;
+  -webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--text);
+  line-height:1.4;min-height:100vh;overflow-x:hidden}
+
+/* ============================================================
+   Tailwind Play CDN removed (was render-blocking ~3MB, killing
+   connect rate). Ported below: the v3 Preflight subset this
+   funnel actually depends on + the ~16 utilities used in app.js.
+   Same values as Tailwind v3 defaults — visual output identical.
+   ============================================================ */
+*,::before,::after{border-width:0;border-style:solid;border-color:currentColor}
+h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}
+a{color:inherit;text-decoration:inherit}
+b,strong{font-weight:bolder}
+img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}
+img,video{max-width:100%;height:auto}
+/* Defensive: iframes de rastreamento injetados por scripts de terceiros podem ser
+   adicionados como filhos diretos de <body> com inline display:none, mas alguns
+   navegadores mobile (in-app browsers, WebView antigo, certas versões iOS)
+   sobrescrevem inline-style e o iframe fica capturando toques. Força hidden
+   + pointer-events:none em qualquer iframe que esteja no nível do body —
+   iframes legítimos do quiz/VSL ficam dentro de containers (.video-container
+   etc), não como filhos diretos do body. */
+body>iframe{display:none!important;width:0!important;height:0!important;pointer-events:none!important;visibility:hidden!important;position:absolute!important;top:-9999px!important;left:-9999px!important}
+button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;background-color:transparent;background-image:none}
+button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}
+button,select{text-transform:none}
+button,[role=button]{cursor:pointer}
+:disabled{cursor:default}
+.w-full{width:100%}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.grid{display:grid}
+.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.gap-2{gap:.5rem}
+.gap-3{gap:.75rem}
+.mt-3{margin-top:.75rem}
+.mt-4{margin-top:1rem}
+.mt-5{margin-top:1.25rem}
+.mb-4{margin-bottom:1rem}
+.py-2{padding-top:.5rem;padding-bottom:.5rem}
+.py-10{padding-top:2.5rem;padding-bottom:2.5rem}
+.text-center{text-align:center}
+.break-words{overflow-wrap:break-word}
+.opacity-40{opacity:.4}
+
+.main-content{display:flex;flex-direction:column;padding:.75rem;min-height:95svh}
+@media(min-width:768px){.main-content{padding:1.25rem}}
+/* Live mechanism: shell fills the viewport and space-between distributes
+   header(top) / body(centred) / footer(bottom). Header stays pinned up. */
+.shell{flex:1;width:100%;max-width:28rem;margin:0 auto;
+  display:flex;flex-direction:column;justify-content:space-between}
+.shell-body{display:flex;flex-direction:column;justify-content:center;flex:1 1 auto}
+.shell-foot{flex:0 0 auto;min-height:3.5rem;display:flex;align-items:flex-start;
+  justify-content:center;padding-top:.75rem}
+/* Header logo: centered on its own line, above the full-width bar */
+.shell-logo{display:flex;justify-content:center;margin-bottom:.85rem}
+.shell-logo img{width:auto;max-width:60%;height:1.75rem;object-fit:contain}
+.progress-track{position:relative;border-radius:9999px;overflow:hidden;width:100%;height:.5rem;margin-top:.5rem}
+.progress-track .bg{position:absolute;inset:0;background:var(--featured);opacity:.1}
+.progress-track .fill{position:absolute;top:0;left:0;height:100%;background:var(--featured);
+  transition:width .7s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .28s cubic-bezier(0.16,1,0.3,1)}
+
+/* Barra de progresso moderna com indicador de passo */
+.progress-wrap{width:100%;margin-top:.4rem}
+.progress-info{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;letter-spacing:.8px;color:#9ca3af;margin-bottom:6px}
+.progress-info .step-num{color:#22c55e}
+.progress-info .step-pct{color:#a1a1aa}
+
+/* Rodapé de compliance e links legais */
+.quiz-footer{width:100%;max-width:420px;margin:24px auto 16px;text-align:center;padding:0 12px;font-size:11px;color:#71717a;line-height:1.5}
+.quiz-footer a{color:#a1a1aa;text-decoration:underline;cursor:pointer;margin:0 6px;transition:color .2s}
+.quiz-footer a:hover{color:#22c55e}
+.quiz-disclaimer{margin-top:10px;font-size:10px;color:#52525b}
+
+/* Modal legal acessível */
+.legal-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);z-index:999;display:none;align-items:center;justify-content:center;padding:16px}
+.legal-modal-card{background:#18181b;border:1px solid #27272a;border-radius:16px;max-width:540px;width:100%;max-height:85vh;overflow-y:auto;padding:24px;color:#e4e4e7;position:relative;text-align:left;box-shadow:0 20px 40px rgba(0,0,0,0.8)}
+.legal-modal-card h3{font-size:18px;font-weight:800;color:#fff;margin-bottom:14px}
+.legal-modal-card p{font-size:13px;color:#a1a1aa;line-height:1.6;margin-bottom:12px}
+.legal-modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:#27272a;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px}
+
+/* ---- Quill content typography (matches live: h1=32/700, h2=24/700,
+       h3=18.72/700 left-aligned body, p=16/400 white) ---- */
+.content{font-size:16px}
+.content.py-2{padding-top:.5rem;padding-bottom:.5rem}
+/* Live truth: Quill headings render their text in <strong> at weight 900,
+   color slate-50 rgb(248,250,252). Question titles match this. */
+.q-h1{font-size:32px;font-weight:900;line-height:1.15;text-align:center;color:rgb(248,250,252)}
+.q-h2{font-size:24px;font-weight:900;line-height:1.15;text-align:center;color:rgb(248,250,252)}
+.q-h1 strong,.q-h2 strong{font-weight:900}
+.q-h1+.q-h2{margin-top:0}
+.q-body{font-size:16px;font-weight:400;line-height:1.4;text-align:center;margin-top:12px;color:#fff}
+.q-body p{margin:0}
+/* Multi-select subtitle ("Selecciona todas las opciones…") is green on live */
+.q-body-green{color:rgb(5,150,105)}
+/* Landing intro paragraphs: centered 16px, white on live (not gray) */
+.q-body-lines{margin-top:12px;text-align:center}
+.q-body-lines p{font-size:16px;font-weight:400;line-height:1.4;color:#fff;margin:0}
+.q-body3{margin-top:12px}
+.q-body3 h3{font-size:18.72px;font-weight:900;line-height:1.4;text-align:left;color:rgb(248,250,252);margin:0}
+.q-body3 h3 .q-c{display:block;text-align:center}
+/* Inline emphasis colors (live: yellow run is weight 400, a green box, etc.) */
+.q-hl-yellow{color:rgb(250,204,21);font-weight:400}
+.q-hl-box{background-color:rgb(22,163,74);color:#fff;font-weight:900;padding:0 .18em;border-radius:4px}
+.content-img{margin:1.25rem 0}
+.content-img img{width:100%;border-radius:16px;display:block;object-fit:cover}
+
+/* ---- Base option card ---- */
+.opt-card{border:.8px solid rgba(var(--featured-rgb),.5);border-radius:16px;overflow:hidden;
+  cursor:pointer;text-align:left;width:100%;
+  transition:transform .2s,border-color .2s,background-color .2s;
+  background:rgba(var(--featured-rgb),.1);color:var(--text)}
+.opt-card:hover{border-color:var(--featured)}
+.opt-card:active{transform:scale(1.01)}
+.opt-card.selected{border-color:var(--featured);background:rgba(var(--featured-rgb),.1)}
+.opt-card.touch-hover{border-color:var(--featured)}
+
+/* square 2-col image grid (steps 0 & 1) */
+.opt-card.sq{display:flex;flex-direction:column}
+.opt-card.sq .imgwrap{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#000}
+.opt-card.sq .imgwrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.opt-card.sq .label{min-height:56px;display:flex;align-items:center;padding:12px;
+  font-size:16px;line-height:1.15}
+.opt-label{font-size:16px;font-weight:400}
+.opt-sub{font-size:.78rem;margin-top:2px;color:var(--text-2)}
+
+/* full-width horizontal list card (steps 2,3,6,7,8,10) */
+.opt-card.lh {
+  display: block;
+  border-radius: 14px;
+  background: rgba(18, 18, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.18s ease;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.opt-card.lh:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(26, 26, 26, 0.95);
+}
+.opt-card.lh.selected {
+  background: rgba(22, 163, 74, 0.12);
+  border-color: rgb(34, 197, 94);
+  box-shadow: 0 0 0 1px rgb(34, 197, 94), 0 4px 14px rgba(22, 163, 74, 0.2);
+}
+.opt-card.lh .opt-wrap {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+/* Modern Icon Badge for SVG cards (Step 3, 8, 10) */
+.opt-iconbadge {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  background: rgba(22, 163, 74, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin: 10px 0 10px 14px;
+  transition: all 0.2s ease;
+}
+.opt-card.lh.selected .opt-iconbadge {
+  background: rgba(22, 163, 74, 0.25);
+  border-color: rgba(34, 197, 94, 0.65);
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.28);
+}
+.opt-svg-ico {
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+/* Photo container for steps with real photos (Step 2, 6, 7) */
+.opt-imgbox {
+  flex: 0 0 auto;
+  padding: 8px 0 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.opt-imgsq {
+  width: 62px;
+  height: 62px;
+  aspect-ratio: 1/1;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.opt-imgsq img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.opt-txt {
+  width: 100%;
+  flex: 1 1 auto;
+  padding: 12px 14px 12px 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.opt-txt-inner {
+  padding-right: 8px;
+  flex: 1 1 auto;
+  text-align: left;
+}
+.opt-p {
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.15px;
+}
+.opt-p-sub {
+  margin-top: 4px;
+}
+.opt-strong {
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.35;
+}
+.opt-sub-em {
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--featured);
+  font-style: italic;
+}
+.opt-check {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin-left: 10px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(22, 163, 74, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  transition: all 0.2s;
+}
+.opt-card.lh.selected .opt-check {
+  border-color: rgb(34, 197, 94);
+  background: rgba(22, 163, 74, 0.2);
+}
+.opt-check svg {
+  width: 16px;
+  height: 16px;
+  color: rgb(34, 197, 94);
+  display: block;
+}
+.opt-chev {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  margin-left: 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+.opt-chev svg {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  display: block;
+}
+.opt-card.lh.has-sub {
+  border-width: 1px;
+}
+.opt-card.lh.has-sub .opt-strong {
+  font-weight: 600;
+}
+
+/* 2-col text card with radio (step 9) */
+.opt-card.gt{display:block}
+.opt-card.gt{height:66px}
+.opt-card.gt .gt-wrap{display:flex;flex-direction:row;align-items:center;
+  justify-content:space-between;gap:8px;padding:0 16px;height:100%;box-sizing:border-box}
+.opt-radio-lbl{font-size:16px;font-weight:400;color:rgb(240,253,244)}
+.opt-radio{width:25.6px;height:25.6px;flex:0 0 auto;border:.8px solid rgba(255,255,255,.5);
+  border-radius:9999px;display:flex;align-items:center;justify-content:center}
+.opt-card.gt.selected .opt-radio{border-color:var(--featured)}
+.opt-radio-dot{width:12px;height:12px;border-radius:9999px;background:var(--featured)}
+
+/* ---- Green-list (step 9): solid-green button column + side image ---- */
+.green-list{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+.gl-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.gl-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  width:100%;min-height:67px;padding:12px 16px;border:none;border-radius:16px;
+  background:rgb(22,163,74);color:#fff;font-size:16px;font-weight:400;
+  text-align:left;cursor:pointer;transition:filter .15s}
+.gl-btn:hover{filter:brightness(1.06)}
+.gl-btn:active{transform:scale(1.01)}
+.gl-lbl{flex:1 1 auto}
+.gl-chev{flex:0 0 auto;width:26px;height:26px;border-radius:9999px;
+  border:1px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center}
+.gl-chev svg{width:16px;height:16px;color:#fff;display:block}
+.gl-img{flex:0 0 auto;align-self:stretch;display:flex}
+.gl-img img{height:100%;width:auto;max-width:42vw;object-fit:contain;
+  object-position:bottom;display:block}
+@media(min-width:520px){.gl-img img{max-width:200px}}
+
+/* ---- Ruler ---- */
+.ruler-units{display:flex;justify-content:center;gap:8px;margin:1rem 0}
+.ruler-unit{padding:4px 20px;border:none;border-radius:16px;font-size:16px;font-weight:500;
+  cursor:pointer;background:rgba(var(--featured-rgb),.12);color:#fff;transition:background .2s}
+.ruler-unit.active{background:var(--featured);color:#fff}
+/* Live structure: relative container, ticks track with pt-16 pb-[28px],
+   value SPAN absolutely pinned to the top, green caret SVG centred. */
+.ruler-wrap{position:relative;width:100%;overflow:hidden}
+.ruler-track{display:flex;overflow-x:auto;scrollbar-width:none;padding:64px 0 28px}
+.ruler-track::-webkit-scrollbar{display:none}
+.ruler-pad{flex:0 0 calc(50% - 7.5px)} /* -half a mark (15px/2) so tick centers land on the 50% caret */
+.ruler-mark{flex:0 0 15px;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start} /* min-width:0 stops the nowrap labels from stretching major-tick marks past 15px and drifting every tick */
+.ruler-mark .line{width:1px;background:rgb(13,13,13);margin:0 auto}
+.ruler-mark .line.minor{height:16px}
+.ruler-mark .line.middle{height:32px}
+.ruler-mark .line.major{height:40px}
+.ruler-mark .lbl{font-size:16px;color:rgb(193,193,193);margin-top:8px;white-space:nowrap}
+.ruler-value{position:absolute;top:0;left:0;width:100%;text-align:center;
+  font-size:40px;font-weight:600;color:#fff;line-height:60px;pointer-events:none}
+.ruler-value small{font-size:20px;font-weight:600}
+.ruler-caret{position:absolute;bottom:0;left:50%;width:28px;height:100px;
+  transform:translateX(-50%);color:var(--featured);pointer-events:none;z-index:10}
+.ruler-hint{text-align:center;margin-top:12px;color:var(--text-2);font-size:.85rem}
+
+/* ---- Progress chart (Recharts-equivalent SVG, viewBox 0 0 448 252) ----
+   Scales responsively to the shell width; overflow visible so the
+   "Tu objetivo" badge (negative y) is not clipped. */
+.chart-shell{margin-top:1.5rem;padding:24px 3.2px 0;display:block}
+.chart-svg{display:block;width:100%;height:auto;overflow:visible}
+.chart-svg .recharts-cartesian-grid line{stroke:rgb(77,77,77);stroke-width:1;
+  stroke-dasharray:3 3;fill:none}
+.chart-axis-txt{fill:#fff;font-size:12px;font-weight:400;font-family:Inter,sans-serif}
+/* Live step-15 subtitle is two green runs, not plain white */
+.chart-sub .chart-sub-a{color:rgb(5,150,105);font-weight:700}
+.chart-sub .chart-sub-b{color:rgb(21,128,61);font-weight:700}
+
+/* ---- Processing step ---- */
+.proc-bars{display:flex;flex-direction:column;gap:1rem;margin-top:1.25rem}
+.proc-row{display:flex;flex-direction:column;gap:6px}
+.proc-row-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.proc-label{font-size:16px;font-weight:700;color:#fff;flex:1;text-align:center}
+.proc-state{font-size:14px;color:var(--text-2);font-weight:700}
+.proc-pct{font-size:16px;font-weight:700;color:#fff}
+.proc-track{position:relative;width:100%;height:8px;border-radius:9999px;
+  background:rgba(var(--featured-rgb),.12);overflow:hidden}
+.proc-fill{position:absolute;left:0;top:0;height:100%;width:0;background:var(--featured);
+  border-radius:9999px;transition:width .15s linear}
+.proc-final{margin-top:1.5rem;text-align:center}
+.proc-testis{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;margin-top:1.25rem;
+  padding-bottom:4px;cursor:grab;-webkit-overflow-scrolling:touch}
+.proc-testis::-webkit-scrollbar{display:none}
+.proc-testi{flex:0 0 80%;border:.8px solid rgba(var(--featured-rgb),.4);border-radius:16px;
+  padding:16px;background:rgba(var(--featured-rgb),.06);user-select:none}
+.proc-testi-head{display:flex;align-items:center;gap:10px}
+.proc-testi-av{width:40px;height:40px;border-radius:9999px;object-fit:cover;
+  flex:0 0 auto;display:block;pointer-events:none}
+.proc-testi-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.proc-stars{color:#fbbf24;font-size:14px;letter-spacing:2px}
+.proc-testi-title{font-weight:700;font-size:15px;color:#fff}
+.proc-testi-body{font-size:14px;color:var(--text-2);margin-top:10px;line-height:1.5}
+
+/* ---- Approval ---- */
+.appr-title strong{font-weight:700;color:#fff}
+.appr-item{display:flex;gap:14px;padding:8px;align-items:flex-start;
+  background:rgb(202,252,208);border:1px solid rgb(154,243,168);border-radius:16px}
+.appr-ico{font-size:18.72px;flex:0 0 auto;line-height:1.4}
+.appr-it-title{font-size:18.72px;font-weight:900;color:rgb(22,163,74)}
+.appr-it-desc{font-size:16px;font-weight:400;color:rgb(9,9,11);margin-top:2px}
+
+/* ---- Buttons ---- */
+.btn-continue {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 16.5px;
+  font-weight: 700;
+  border-radius: 14px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.btn-continue:hover {
+  background: #15803d;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
+  transform: translateY(-1px);
+}
+.btn-continue:active {
+  transform: translateY(1px);
+}
+.btn-back{background:none;border:none;color:var(--text-2);font-size:.8rem;cursor:pointer;
+  display:flex;align-items:center;gap:6px;margin:8px auto 0}
+/* VSL-only: small back arrow pinned top-left, clear of the bottom CTA */
+.btn-back-tl{position:fixed;top:.6rem;left:.6rem;z-index:50;width:2.25rem;height:2.25rem;
+  display:flex;align-items:center;justify-content:center;border:none;border-radius:9999px;
+  background:rgba(255,255,255,.08);color:#fff;font-size:1.25rem;line-height:1;cursor:pointer;
+  transition:background .2s}
+.btn-back-tl:hover{background:rgba(255,255,255,.18)}
+
+
+</style>
+
+</head>
+<body class="group/body">
+<!-- Step 0 is pre-rendered as static HTML so the LCP image paints from the
+     initial response (no JS render-delay). app.js hydrates this in place
+     (renderStep() sees data-prerendered and only binds behavior, no rebuild).
+     Markup is byte-identical to renderStep()'s step-0 output; only the
+     per-step `fade-in` (opacity 0->1, which would defer LCP) is omitted. -->
+<!-- Barra Superior de Acesso Direto ao PWA -->
+<div class="top-app-link" style="background: rgba(20, 26, 20, 0.95); border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 8px 12px; text-align: center; font-size: 12px; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; gap: 8px;">
+  <span style="color: #a1a1aa;">¿Ya tienes acceso al Protocolo?</span>
+  <a href="./app/" style="color: #d4af37; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; background: rgba(212, 175, 55, 0.15); padding: 3px 10px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.4);">
+    Entrar al Centro de Mando Táctico (App PWA) →
+  </a>
+</div>
+
+<div id="app" data-prerendered><div class="main-content"><div class="shell"><div class="w-full mb-4">
+    <div class="shell-logo"><img src="assets/md-glUlk-imgi-12-md-kxvow-imgi-1-md-rr5mw-logo-calistenia-militar.webp" alt="Calistenia Militar" width="400" height="62" decoding="async" fetchpriority="high"></div>
+    <div class="progress-track" style="width:100%">
+      <div class="bg"></div><div class="fill" style="width:5.26316%"></div>
+    </div></div><div class="shell-body"><div class="content text break-words py-2"><div class="q-h2"><div><strong style="background-color: inherit; color: rgb(255, 255, 255);">Consigue un </strong><strong style="background-color: inherit; color: rgb(22, 163, 74);">físico</strong><strong style="background-color: inherit; color: rgb(255, 255, 255);"> marcado en </strong><strong style="background-color: inherit; color: rgb(22, 163, 74);">solo 21</strong><strong style="background-color: inherit; color: rgb(255, 255, 255);"> días con el</strong></div><div><strong style="background-color: inherit; color: rgb(22, 163, 74);">Desafío de Calistenia Militar</strong></div><div><strong style="background-color: inherit; color: rgb(255, 255, 255);">sin salir de casa.</strong></div></div><div class="q-body-lines"><p><span style="color: rgb(255, 255, 255);">Identifica tu nivel actual y descubre  exactamente qué hacer para</span></p><p><span style="background-color: rgb(15, 17, 15); color: rgb(255, 255, 255);"> </span><strong style="background-color: rgb(15, 17, 15); color: rgb(92, 122, 92);">secar, definir y evolucionar en casa</strong><span style="background-color: rgb(15, 17, 15); color: rgb(255, 255, 255);">.</span></p></div><div class="q-h1">¿Cuál es tu género?</div></div><div class="grid grid-cols-2 gap-2 mt-3"><button type="button" class="opt-card sq " data-value="hombre" onclick="selectOption('hombre')">
+      <div class="imgwrap"><img src="assets/md-9Rrsc-image-fx-4.webp" alt="HOMBRE" width="1135" height="768" decoding="async" loading="eager" fetchpriority="high"></div>
+      <div class="label"><div><div class="opt-label">HOMBRE</div></div></div>
+    </button><button type="button" class="opt-card sq " data-value="mujer" onclick="selectOption('mujer')">
+      <div class="imgwrap"><img src="assets/md-6Yuer-image-fx-5.webp" alt="MUJER" width="997" height="768" decoding="async" loading="eager" fetchpriority="high"></div>
+      <div class="label"><div><div class="opt-label">MUJER</div></div></div>
+    </button></div></div><div class="shell-foot"></div></div></div></div>
+<script src="app.js"></script>
+
+<!-- Rodapé Legal e Compliance (Meta Ads / Google Ads) -->
+<footer class="quiz-footer">
+  <div>
+    <a onclick="openLegal('privacidad')">Política de Privacidad</a> |
+    <a onclick="openLegal('terminos')">Términos y Condiciones</a> |
+    <a onclick="openLegal('contacto')">Contacto</a>
+  </div>
+  <p class="quiz-disclaimer">
+    Descargo de responsabilidad: Este sitio web no está afiliado ni respaldado por Meta Platforms, Inc., Facebook, Google LLC ni ninguna entidad gubernamental. Los resultados de condición física pueden variar de persona a persona según el nivel de compromiso y disciplina.
+  </p>
+</footer>
+
+<!-- Modais Legais -->
+<div class="legal-modal" id="legalModal" onclick="closeLegal(event)">
+  <div class="legal-modal-card" id="legalCard">
+    <button class="legal-modal-close" onclick="closeLegalDirect()">&times;</button>
+    <div id="legalContent"></div>
+  </div>
+</div>
+
+<script>
+window.openLegal = function(type) {
+  var modal = document.getElementById('legalModal');
+  var content = document.getElementById('legalContent');
+  if (type === 'privacidad') {
+    content.innerHTML = '<h3>Política de Privacidad</h3><p>En Desafío Calistenia Militar, nos comprometemos a proteger su privacidad. La información recopilada en este diagnóstico (género, edad y metas físicas) se utiliza exclusivamente para personalizar su experiencia y plan de entrenamiento.</p><p>Nunca vendemos, alquilamos ni compartimos sus datos con terceros sin su consentimiento explícito. Cumplimos con los estándares internacionales de protección de datos.</p>';
+  } else if (type === 'terminos') {
+    content.innerHTML = '<h3>Términos y Condiciones</h3><p>El Desafío de Calistenia Militar es un programa digital de entrenamiento físico con peso corporal. diseñado para ejecutarse en casa paso a paso.</p><p>El acceso al protocolo digital incluye garantía de satisfacción incondicional durante el periodo establecido tras la compra.</p>';
+  } else {
+    content.innerHTML = '<h3>Contacto y Soporte</h3><p>¿Tienes dudas o necesitas asistencia sobre tu diagnóstico o plan de entrenamiento? Nuestro equipo de soporte está disponible por correo electrónico en: <strong>soporte@protocolocalistenia.com</strong></p><p>Horario de atención: Lunes a Viernes, respuesta garantizada en menos de 24 horas hábiles.</p>';
+  }
+  modal.style.display = 'flex';
+};
+window.closeLegalDirect = function() {
+  document.getElementById('legalModal').style.display = 'none';
+};
+window.closeLegal = function(e) {
+  if (e.target.id === 'legalModal') {
+    closeLegalDirect();
+  }
+};
+</script>
+
+</body>
+</html>
