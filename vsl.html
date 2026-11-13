@@ -78,6 +78,9 @@ body {
 .hl-red { color: rgb(220, 38, 38); }
 .hl-green { color: rgb(22, 163, 74); }
 
+/* Ocultar badge Powered by Netlify */
+[id*="netlify"], [class*="netlify-badge"], [data-netlify-badge], .netlify-badge {display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;}
+
 /* Container do player: proporção vertical exata 3:4 (133.33%) e max-width 400px */
 .vsl-wrapper {
   width: 100%;
