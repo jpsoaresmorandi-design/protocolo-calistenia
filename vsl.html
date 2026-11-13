@@ -826,8 +826,8 @@ body {
 
       <div class="vsl-price-box">
         <div class="vsl-price-total">Valor Total Acumulado: <del>$120 USD</del></div>
-        <div class="vsl-price-today">HOY POR UN PAGO ÚNICO PROMOCIONAL</div>
-        <div class="vsl-price-tag">Acceso Vitalicio • Sin Mensualidades</div>
+        <div class="vsl-price-today">HOY POR SOLO $9.90 USD (Pago Único)</div>
+        <div class="vsl-price-tag">Acceso Vitalicio Inmediato • Sin Mensualidades</div>
       </div>
 
       <button class="btn-checkout btn-checkout-inner" onclick="triggerCheckout(event)">
@@ -969,8 +969,23 @@ body {
   // Tempo do pitch em segundos (505s = 8m25s)
   var PITCH_SECONDS = 505;
 
-  // URL de redirecionamento para o Aplicativo PWA (Centro de Comando)
-  var CHECKOUT_URL = './app/';
+  // URL oficial de Checkout da Hotmart
+  var CHECKOUT_URL = 'https://pay.hotmart.com/T108488175Q';
+
+  function getFinalCheckoutUrl() {
+    try {
+      var currentParams = new URLSearchParams(window.location.search);
+      var targetUrl = new URL(CHECKOUT_URL);
+      currentParams.forEach(function(val, key) {
+        if (key !== 'cta' && key !== 'pitch' && key !== 'test') {
+          targetUrl.searchParams.set(key, val);
+        }
+      });
+      return targetUrl.toString();
+    } catch(err) {
+      return CHECKOUT_URL;
+    }
+  }
 
   var video = document.getElementById('vslVideo');
   var videoWrapper = document.getElementById('videoWrapper');
@@ -1134,8 +1149,9 @@ body {
   // Clique do botão de checkout
   btnCheckout.addEventListener('click', function(e) {
     e.preventDefault();
-    if (CHECKOUT_URL && CHECKOUT_URL.trim() !== '' && CHECKOUT_URL !== '#') {
-      window.location.href = CHECKOUT_URL;
+    var dest = getFinalCheckoutUrl();
+    if (dest && dest.trim() !== '' && dest !== '#') {
+      window.location.href = dest;
     } else {
       showToast('⚙️ Botón de pago en preparación.');
     }
@@ -1145,10 +1161,11 @@ body {
   // Função para abrir o checkout de qualquer botão CTA
   window.triggerCheckout = function(e) {
     if (e) e.preventDefault();
-    if (CHECKOUT_URL && CHECKOUT_URL.trim() !== '' && CHECKOUT_URL !== '#') {
-      window.location.href = CHECKOUT_URL;
+    var dest = getFinalCheckoutUrl();
+    if (dest && dest.trim() !== '' && dest !== '#') {
+      window.location.href = dest;
     } else {
-      showToast('⚙️ Botón de pago en preparación.');
+      showToast('⚙️ Botón de pago en preparação.');
     }
   };
 

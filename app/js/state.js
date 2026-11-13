@@ -53,7 +53,7 @@
     hotmart: {
       // Links configuráveis de checkout da Hotmart
       // O modo checkoutMode=10 permite abrir como pop-up / modal embutido na tela
-      entryCheckoutUrl: 'https://pay.hotmart.com/PROT21ENTRY?checkoutMode=10',
+      entryCheckoutUrl: 'https://pay.hotmart.com/T108488175Q?checkoutMode=10',
       vipCheckoutUrl: 'https://pay.hotmart.com/PROT21VIP?checkoutMode=10',
       useEmbeddedWidget: true
     },
