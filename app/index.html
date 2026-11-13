@@ -31,6 +31,23 @@
 </head>
 <body>
 
+  <!-- Ocultar permanentemente Netlify Badge / HUD -->
+  <div id="nl-badge-frame" style="display:none!important;visibility:hidden!important;"></div>
+  <div id="nl-hud-frame" style="display:none!important;visibility:hidden!important;"></div>
+  <script>
+  (function(){
+    try {
+      var obs = new MutationObserver(function(){
+        var s = document.querySelector('script[src*="/.netlify/scripts/hud"]');
+        if (s) { delete s.dataset.nfVariant; s.remove(); }
+        var f = document.querySelectorAll('#nl-badge-frame, #nl-hud-frame, iframe[src*="netlify"], iframe[title*="Netlify"]');
+        f.forEach(function(el){ if (el.tagName === 'IFRAME') el.remove(); });
+      });
+      obs.observe(document.documentElement, { childList: true, subtree: true });
+    } catch(e){}
+  })();
+  </script>
+
   <!-- Ponto de Montagem do PWA -->
   <div id="appRoot"></div>
 
