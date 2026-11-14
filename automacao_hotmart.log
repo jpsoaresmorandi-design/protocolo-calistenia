@@ -1,0 +1,18 @@
+[02:02:31] ==========================================================
+[02:02:31]    ROBO TÁTICO: AUTOMACAO VISÍVEL HOTMART INICIADA
+[02:02:31] ==========================================================
+[02:02:31] Abrindo navegador visível no seu monitor...
+[02:02:32] Acessando Hotmart...
+[02:02:36] Pagina carregada: https://sso.hotmart.com/login?service=https%3A%2F%2Fsso.hotmart.com%2Foauth2.0%2FcallbackAuthorize%3Fclient_id%3D8cef361b-94f8-4679-bd92-9d1cb496452d%26scope%3Dopenid%2Bprofile%2Bauthorities%2Bemail%2Buser%2Baddress%26redirect_uri%3Dhttps%253A%252F%252Fapp.hotmart.com%252Fauth%252Flogin%253Frealm%253Dhotmart%2526branding_id%253Dbw%26response_type%3Dcode%26state%3D46c0adf472c1485a9d5a1330af816056%26code_challenge%3DHNtQZKcHzcEX6BBqPD5k-zqO6k0meKhyRjt0A2d87R4%26code_challenge_method%3DS256%26client_name%3DCasOAuthClient
+[02:02:36] ----------------------------------------------------------
+[02:02:36] >>> POR FAVOR, FACA SEU LOGIN NA JANELA DO CHROME <<<
+[02:02:36] O robô está aguardando você entrar. Assim que você logar,
+[02:02:36] ele detectará automaticamente e continuará o processo!
+[02:02:36] ----------------------------------------------------------
+[02:04:07] >>> LOGIN DETECTADO COM SUCESSO! <<<
+[02:04:07] Indo para o painel de produtos do produtor...
+[02:04:17] Painel carregado! URL atual: https://app.hotmart.com/products/producer
+[02:04:17] Foto da tela salva em: C:\Users\buggu\.gemini\antigravity\scratch\Protocolo da Calistenia\hotmart_painel_conectado.png
+[02:04:17] Procurando produtos cadastrados...
+[02:04:17] Produtos encontrados na tela: []
+[02:04:17] Robô conectado e pronto! Não feche esta janela.

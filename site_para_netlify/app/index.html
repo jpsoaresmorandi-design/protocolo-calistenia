@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Protocolo de Calistenia Militar - App</title>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1150002567653288');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1150002567653288&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- PWA & Mobile Web App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0c0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Protocolo">
+  <link rel="apple-touch-icon" href="assets/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Fonte Inter Auto-hospedada -->
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 300 900;
+      font-display: swap;
+      src: url('assets/fonts/inter-latin.woff2') format('woff2');
+    }
+  </style>
+
+  <!-- Estilos do Aplicativo (Dark Tactical Luxury) -->
+  <link rel="stylesheet" href="css/app.css?v=3.0">
+</head>
+<body>
+
+  <!-- Ocultar permanentemente Netlify Badge / HUD -->
+  <div id="nl-badge-frame" style="display:none!important;visibility:hidden!important;"></div>
+  <div id="nl-hud-frame" style="display:none!important;visibility:hidden!important;"></div>
+  <script>
+  (function(){
+    try {
+      var obs = new MutationObserver(function(){
+        var s = document.querySelector('script[src*="/.netlify/scripts/hud"]');
+        if (s) { delete s.dataset.nfVariant; s.remove(); }
+        var f = document.querySelectorAll('#nl-badge-frame, #nl-hud-frame, iframe[src*="netlify"], iframe[title*="Netlify"]');
+        f.forEach(function(el){ if (el.tagName === 'IFRAME') el.remove(); });
+      });
+      obs.observe(document.documentElement, { childList: true, subtree: true });
+    } catch(e){}
+  })();
+  </script>
+
+  <!-- Ponto de Montagem do PWA -->
+  <div id="appRoot"></div>
+
+  <!-- Modal de Ajustes / Perfil -->
+  <div class="app-modal" id="settingsModal"></div>
+
+  <!-- Scripts do App (Modular & Zero Dependências Externas) -->
+  <script src="js/nutri-db.js?v=3.0"></script>
+  <script src="js/supabase-client.js?v=3.0"></script>
+  <script src="js/gemini-nutrition.js?v=3.0"></script>
+  <script src="js/state.js?v=3.0"></script>
+  <script src="js/exercises-db.js?v=3.0"></script>
+  <script src="js/recipes-db.js?v=3.0"></script>
+  <script src="js/exercise-animator.js?v=3.0"></script>
+  <script src="js/workout-player.js?v=3.0"></script>
+  <script src="js/views.js?v=3.0"></script>
+  <script src="js/app.js?v=3.0"></script>
+</body>
+</html>

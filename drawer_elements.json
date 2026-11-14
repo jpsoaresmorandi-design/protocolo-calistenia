@@ -1,0 +1,484 @@
+[
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--tertiary",
+    "value": "",
+    "text": "Ver todas as dicas"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--tertiary",
+    "value": "",
+    "text": "Ver todas as notificações"
+  },
+  {
+    "tag": "INPUT",
+    "type": "text",
+    "id": "sidebar-title-field",
+    "className": "_border-0 _text-3 _font-weight-light content-ellipsis sidebar-title-area",
+    "value": "Em Branco",
+    "text": ""
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--primary",
+    "value": "",
+    "text": "Salvar alterações"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Order Bump"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Exit Popup"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Background"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Fontes"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Avaliações"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Contagem Regressiva"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Facebook"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Imagem"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Lista"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Mapa"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Selos"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Texto"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Topo"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Vantagens"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "sidebar-item-button",
+    "value": "",
+    "text": "Vídeo"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "order-bump__button _p-4 _rounded-bottom",
+    "value": "",
+    "text": "Produto adicionado"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "order-bump__button _p-4 _rounded-bottom",
+    "value": "",
+    "text": "Produto adicionado"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button",
+    "value": "",
+    "text": "Adicionar linha"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "hot-button _mr-3 hot-button--danger",
+    "value": "",
+    "text": "Não, sair"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "hot-button hot-button--primary",
+    "value": "",
+    "text": "Sim, salvar"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "hot-button _mr-3 hot-button--secondary",
+    "value": "",
+    "text": "Cancelar"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "hot-button hot-button--primary",
+    "value": "",
+    "text": "Salvar e atualizar"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "¿Tienes otro hijo o sobrino? Agrega +1 libro con 50% OFF"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15010233",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "🙏 Agrega \"Aprendiendo el Padre Nuestro con Jesús\""
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15010373",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "📚 Llévate la Colección Completa (4 Libros + 10 Bonos)"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15041296",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "+1 Personalized Book"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15059715",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "12 Batidos Anabólicos Militares (3 Minutos)"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15962751",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "El Encuentro de Tu Hijo con Jesús — Video"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15145285",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15145318",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "OFERTA ESPECIAL: Mira a Tu Hijo al Lado de Jesús — Video"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "El Milagro de las Rosas — Una Aventura con la Virgen de Guadalupe 🌹"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15010351",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "Faith Adventure Bundle — 3 Christian Books for Kids"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15059832",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "Finisher Abdomen de Acero (7 Minutos)"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15962719",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "_border-0 _bg-white _m-0 _p-0",
+    "value": "",
+    "text": "Learning the Lord’s Prayer with Jesus"
+  },
+  {
+    "tag": "INPUT",
+    "type": "radio",
+    "id": "option-15059683",
+    "className": "_mr-5",
+    "value": "on",
+    "text": ""
+  },
+  {
+    "tag": "LABEL",
+    "id": "",
+    "className": "hot-form__label _flex-2 _mb-0 content-ellipsis",
+    "text": "Preço base"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "submit",
+    "id": "",
+    "className": "hot-button hot-button--secondary _mx-auto",
+    "value": "",
+    "text": "Carregar mais produtos"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--tertiary _mr-2",
+    "value": "",
+    "text": "Cancelar"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--primary",
+    "value": "",
+    "text": "Selecionar"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--tertiary _mr-4",
+    "value": "",
+    "text": "Voltar"
+  },
+  {
+    "tag": "BUTTON",
+    "type": "button",
+    "id": "",
+    "className": "hot-button hot-button--primary",
+    "value": "",
+    "text": "Confirmar"
+  }
+]
