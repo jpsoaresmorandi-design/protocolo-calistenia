@@ -277,7 +277,7 @@
         <!-- 3. COMUNIDAD VIP (ELEMENTO CENTRAL DESTACADO) -->
         <button class="nav-tab-btn nav-tab-center-vip ${state.activeTab === 'comunidad' ? 'active' : ''}" onclick="App.setTab('comunidad')">
           <div class="center-vip-button">
-            <span class="center-vip-badge">${state.community.isVipMember ? 'VIP' : 'PRO'}</span>
+            <span class="center-vip-badge" style="background:#22c55e; color:#000; font-weight:900;">LIVE</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
           <span class="center-vip-label">Comunidad</span>
@@ -1024,32 +1024,32 @@
     modal.innerHTML = `
       <div class="app-modal-card">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-          <h3 style="font-size:17px; font-weight:800; color:#fff;">Hermandad Táctica VIP</h3>
+          <h3 style="font-size:17px; font-weight:800; color:#fff;">Scanner Nutricional por Foto (IA)</h3>
           <button class="player-close-btn" style="width:44px; height:44px;" onclick="App.closeEditProfileModal()">&times;</button>
         </div>
 
         <div style="text-align:center; padding:10px 0 16px;">
-          <div style="font-size:40px; margin-bottom:8px;">⚔️</div>
-          <h4 style="color:#fff; font-size:16px; font-weight:800; margin-bottom:6px;">Suscripción VIP: ${cfg.formattedMonthly || '$4.90 USD / mes'}</h4>
+          <div style="font-size:40px; margin-bottom:8px;">📸</div>
+          <h4 style="color:#fff; font-size:16px; font-weight:800; margin-bottom:6px;">Módulo VIP IA: ${cfg.formattedMonthly || '$4.90 USD / mes'}</h4>
           <p style="color:#a1a1aa; font-size:12.5px; line-height:1.4;">
-            Desbloquea el Scanner Nutricional por Foto con IA + Acceso al Feed Social Táctico de la Hermandad.
+            No calcules tus macros a mano. Apunta la cámara de tu celular a tu plato y la Inteligencia Artificial segmentará los gramos, calorías y nutrientes de tu comida al instante.
           </p>
         </div>
 
         <div style="background:rgba(34, 197, 94, 0.08); border:1px solid rgba(34, 197, 94, 0.25); border-radius:10px; padding:12px; margin-bottom:16px; font-size:12px; color:#d4d4d8; line-height:1.4;">
           🔒 <strong>Pago Seguro Internacional via Hotmart:</strong><br>
-          Acepta tarjetas de crédito, débito y métodos locales (OXXO en México, PSE en Colombia, PayPal internacional).
+          Acceso instantáneo con cancelación en 1 clic. Acepta tarjetas, OXXO, PSE y PayPal.
         </div>
 
         <div style="display:flex; flex-direction:column; gap:10px;">
           <button class="btn-checkout-community" style="width:100%; justify-content:center;" onclick="App.openHotmartCheckout('vip')">
-            DESBLOQUEAR MI ACCESO VIP (${cfg.formattedMonthlyShort || '$4.90/MES'})
+            DESBLOQUEAR SCANNER IA (${cfg.formattedMonthlyShort || '$4.90/MES'})
           </button>
           <button class="btn-action-full" style="background:#18201a; border-color:rgba(234,179,8,0.3); color:#fef08a;" onclick="App.toggleCommunityDemo(true); App.closeEditProfileModal();">
             ▶ ACTIVAR MODO PRUEBA / DEMOSTRACIÓN
           </button>
           <button class="btn-secondary-full" onclick="App.closeEditProfileModal()">
-            Volver al Cuartel
+            Continuar con Registro Manual Gratuito
           </button>
         </div>
       </div>

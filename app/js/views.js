@@ -1809,15 +1809,24 @@
               <span class="memb-status-badge active">ACTIVO</span>
             </div>
 
-            <div class="membership-item ${state.community.isVipMember ? 'active' : 'inactive'}">
-              <div class="memb-ico">⚔️</div>
+            <div class="membership-item active">
+              <div class="memb-ico">💬</div>
               <div class="memb-details">
-                <strong>Hermandad Táctica VIP (Comunidad)</strong>
-                <span>Feed exclusivo, ranking y apoyo entre soldados (${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.formattedMonthlyShort : '$4.99/mes'})</span>
+                <strong>Hermandad Táctica (Comunidad)</strong>
+                <span>Canal oficial de apoyo mutuo y reportes diarios</span>
+              </div>
+              <span class="memb-status-badge active">INCLUIDO</span>
+            </div>
+
+            <div class="membership-item ${state.community.isVipMember ? 'active' : 'inactive'}">
+              <div class="memb-ico">📸</div>
+              <div class="memb-details">
+                <strong>Scanner Nutricional por Foto (IA)</strong>
+                <span>Reconocimiento fotográfico de calorías y macros con IA (${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.formattedMonthlyShort : '$4.90/mes'})</span>
               </div>
               ${state.community.isVipMember
                 ? '<span class="memb-status-badge active">VIP ACTIVO</span>'
-                : `<button class="memb-upgrade-btn" onclick="App.setTab('comunidad')">ACTIVAR (${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.formattedPrice : '$4.99'})</button>`
+                : `<button class="memb-upgrade-btn" onclick="App.openVipScannerOfferModal()">DESBLOQUEAR (${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.formattedPrice : '$4.90'})</button>`
               }
             </div>
           </div>
@@ -1843,101 +1852,11 @@
   // ==========================================
   // 6. VISTA: COMUNIDAD TÁCTICA PREMIUM (HERMANDAD)
   // ==========================================
+  // 6. VISTA: COMUNIDAD TÁCTICA (HERMANDAD) - 100% LIBERADA E INCLUÍDA
+  // ==========================================
   function renderComunidad(state) {
-    // Caso 1: Usuário NÃO possui acesso VIP -> Apresenta Tela de Vendas Táctica ($4.99/mês)
-    if (!state.community.isVipMember) {
-      return `
-        <div class="view-comunidad-paywall">
-          <div class="comm-paywall-badge">
-            <span>⚔️ ÁREA EXCLUSIVA DE ÉLITE</span>
-          </div>
-
-          <h1 class="comm-paywall-title">HERMANDAD TÁCTICA</h1>
-          <p class="comm-paywall-sub">
-            No entrenes solo en la oscuridad. Accede a la base de operaciones para compartir tus entrenamientos, consultar dudas sobre ejecuciones y registrar tu evolución con otros miembros.
-          </p>
-
-          <!-- Ticker de Prova Social -->
-          <div class="comm-live-counter">
-            <span class="pulse-green-dot"></span>
-            <span>Canal Operativo de Apoyo Mutuo y Registro Comunitario</span>
-          </div>
-
-          <!-- Pilares de Valor de la Hermandad -->
-          <div class="comm-pillars-grid">
-            <div class="comm-pillar-card">
-              <div class="pillar-icon">🔥</div>
-              <div class="pillar-content">
-                <strong>Rendición de Cuentas Diaria</strong>
-                <span>Publica tu misión completada. Saber que otros ven tu avance elimina la pereza y te obliga a no abandonar antes del Día 21.</span>
-              </div>
-            </div>
-
-            <div class="comm-pillar-card">
-              <div class="pillar-icon">💬</div>
-              <div class="pillar-content">
-                <strong>Camaradería & Respuestas</strong>
-                <span>Intercambia consejos sobre ejecución de ejercicios, adaptaciones para principiantes y combinaciones de recetas con tus compañeros.</span>
-              </div>
-            </div>
-
-            <div class="comm-pillar-card">
-              <div class="pillar-icon">🏆</div>
-              <div class="pillar-content">
-                <strong>Mural de Honor y Conquistas</strong>
-                <span>Gana medallas por rachas, celebra tus ascensos de rango y compite amistosamente en el ranking de soldados de honor.</span>
-              </div>
-            </div>
-
-            <div class="comm-pillar-card">
-              <div class="pillar-icon">🛡️</div>
-              <div class="pillar-content">
-                <strong>Espíritu de Unidad Militar</strong>
-                <span>El camino en solitario es propenso a recaídas. En la unidad militar, si un recluta tropieza, la hermandad lo levanta.</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Box de Oferta Táctica ($4.99 USD / mês) -->
-          <div class="comm-offer-box">
-            <div class="offer-top-badge">PROPUESTA DE LANZAMIENTO EXCLUSIVA</div>
-            <div class="comm-price-display">
-              <span class="comm-price-currency">${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.currencySymbol : '$'}</span>
-              <span class="comm-price-num">${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.amount : '4.99'}</span>
-              <span class="comm-price-period">${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.currencyCode : 'USD'} / ${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.periodText : 'mes'}</span>
-            </div>
-            <div class="comm-price-daily">Aproximadamente solo ${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.approxDaily : '$0.16 USD / día'}</div>
-
-            <div class="comm-benefits-list">
-              <div class="comm-ben-item"><span class="ben-check">✓</span> Acceso ilimitado al Feed de la Hermandad</div>
-              <div class="comm-ben-item"><span class="ben-check">✓</span> Publica reportes de tus entrenamientos</div>
-              <div class="comm-ben-item"><span class="ben-check">✓</span> Comenta, interactúa y recibe motivación en tiempo real</div>
-              <div class="comm-ben-item"><span class="ben-check">✓</span> Cancela cuando quieras con 1 solo clic • Cero ataduras</div>
-            </div>
-
-            <button class="btn-checkout-community" onclick="App.handleCommunityCheckout()">
-              DESBLOQUEAR MI ACCESO A LA HERMANDAD (${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.formattedMonthlyShort : '$4.99/MES'})
-            </button>
-            <div class="comm-guarantee-note">🔒 Compra 100% Segura • Acceso Inmediato a la Red</div>
-          </div>
-
-          <!-- MODO DEMOSTRACIÓN / TESTE PARA O USUÁRIO E SÓCIO -->
-          <div class="comm-demo-box">
-            <div class="demo-box-badge">⚡ MODO DEMOSTRACIÓN PARA REVISIÓN</div>
-            <div class="demo-box-text">
-              ¿Quieres evaluar cómo funciona la comunidad, ver las publicaciones de los soldados, probar los likes, comentarios y crear un post de prueba?
-            </div>
-            <button class="btn-demo-toggle" onclick="App.toggleCommunityDemo(true)">
-              ▶ SIMULAR ACCESO VIP (VER FEED COMPLETO)
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-    // Caso 2: Usuário POSSUI acesso VIP -> Exibe Feed Social Militar Interativo
-    const filter = state.community.filter || 'todos';
-    let filteredPosts = state.community.posts || [];
+    const filter = (state.community && state.community.filter) || 'todos';
+    let filteredPosts = (state.community && state.community.posts) || [];
 
     if (filter === 'misiones') {
       filteredPosts = filteredPosts.filter(p => p.tag === 'misiones');
@@ -1946,26 +1865,21 @@
     } else if (filter === 'motivacion') {
       filteredPosts = filteredPosts.filter(p => p.tag === 'motivacion');
     } else if (filter === 'mis_reportes') {
-      filteredPosts = filteredPosts.filter(p => p.isMyPost || p.author === state.profile.name);
+      filteredPosts = filteredPosts.filter(p => p.isMyPost || p.author === (state.profile && state.profile.name));
     }
 
     return `
       <div class="view-comunidad-feed">
-        <!-- Top Banner de la Hermandad VIP -->
+        <!-- Top Banner de la Hermandad -->
         <div class="comm-feed-topbar">
           <div class="comm-feed-title-block">
             <div class="comm-feed-title">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#d4af37" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               <span>HERMANDAD TÁCTICA</span>
-              <span class="comm-vip-badge">MIEMBRO VIP</span>
+              <span class="comm-vip-badge" style="background:rgba(34,197,94,0.18); color:#4ade80; border-color:rgba(34,197,94,0.4);">COMUNIDAD INCLUIDA</span>
             </div>
-            <div class="comm-feed-subtitle">Comunidad táctica para compartir avances, dudas y disciplina</div>
+            <div class="comm-feed-subtitle">Canal oficial de la unidad militar para compartir avances, dudas y disciplina</div>
           </div>
-
-          <!-- Botón para alternar modo demostración -->
-          <button class="btn-comm-mode-switch" onclick="App.toggleCommunityDemo(false)" title="Ver pantalla de acceso para nuevos miembros">
-            Ver Pantalla ${(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.pricing) ? window.PROTOCOLO_CONFIG.pricing.formattedPrice : '$4.99'}
-          </button>
         </div>
 
         <!-- Ticker de Actividad de la Unidad (Ejemplos) -->

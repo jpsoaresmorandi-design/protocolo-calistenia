@@ -278,7 +278,7 @@
       weeklyCheckins: []
     },
     community: {
-      isVipMember: false, // VIP: false exibe tela de vendas; true exibe feed interativo
+      isVipMember: false, // VIP: controla acesso ao Scanner Nutricional por Foto (IA); Comunidade é 100% gratuita e incluída para todos
       filter: 'todos', // 'todos' | 'misiones' | 'motivacion' | 'mis_reportes'
       posts: defaultCommunityPosts
     },
