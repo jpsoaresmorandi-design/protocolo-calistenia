@@ -100,16 +100,20 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
   top: 0;
   left: 0;
   right: 0;
-  height: var(--header-height);
-  background: rgba(10, 12, 10, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border-subtle);
+  height: calc(58px + env(safe-area-inset-top, 0px)) !important;
+  padding-top: env(safe-area-inset-top, 0px) !important;
+  padding-left: max(14px, env(safe-area-inset-left, 0px)) !important;
+  padding-right: max(14px, env(safe-area-inset-right, 0px)) !important;
+  padding-bottom: 6px !important;
+  background: rgba(10, 13, 10, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  z-index: 50;
+  z-index: 90;
+  box-sizing: border-box !important;
 }
 
 .header-user {
@@ -212,7 +216,7 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
 /* --- Main Content Area (Safe-Area & Generous Bottom Clearance) --- */
 .app-content {
   flex: 1 1 auto;
-  padding: 14px 14px calc(90px + env(safe-area-inset-bottom)) 14px !important;
+  padding: 14px 14px calc(115px + env(safe-area-inset-bottom, 24px)) 14px !important;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
@@ -227,17 +231,17 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  height: calc(56px + env(safe-area-inset-bottom));
+  height: calc(58px + env(safe-area-inset-bottom, 16px)) !important;
   background: rgba(10, 13, 10, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: grid !important;
   grid-template-columns: repeat(5, 1fr) !important;
-  align-items: center;
-  padding: 2px 2px env(safe-area-inset-bottom) 2px !important;
+  align-items: flex-start !important;
+  padding: 6px 2px env(safe-area-inset-bottom, 16px) 2px !important;
   z-index: 100;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 @media (min-width: 768px) {
@@ -605,10 +609,11 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
   position: fixed;
   inset: 0;
   background: #000;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 16px)) !important;
+  box-sizing: border-box;
   animation: fadeIn 0.3s ease;
 }
 
@@ -2750,8 +2755,10 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
 .onboarding-container {
   max-width: 520px;
   margin: 0 auto;
-  padding: 16px 12px 40px;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 12px calc(50px + env(safe-area-inset-bottom, 16px)) !important;
   box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
 }
 
 .onb-progress-box {
@@ -3336,17 +3343,6 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
 /* ==========================================================================
    NAVEGACIÓN INFERIOR: COMUNIDAD VIP CENTRALIZADA Y DESTACADA
    ========================================================================== */
-.bottom-nav {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  align-items: center;
-  gap: 0;
-  padding: 2px 2px env(safe-area-inset-bottom) 2px;
-  background: rgba(10, 13, 10, 0.96);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
 
 .nav-tab-center-vip {
   position: relative;
