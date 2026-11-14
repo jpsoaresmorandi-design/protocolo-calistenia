@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>¡Orden Confirmada! - Activa tu Protocolo de Calistenia</title>
+
+  <!-- PWA & Mobile Meta -->
+  <meta name="theme-color" content="#0a0c0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 300 900;
+      font-display: swap;
+      src: url('assets/fonts/inter-latin.woff2') format('woff2');
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #070907;
+      color: #f3f4f6;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      line-height: 1.5;
+    }
+
+    /* Trava antibadge da Netlify */
+    #nl-badge-frame, #nl-hud-frame { display: none !important; }
+
+    .onboarding-card {
+      width: 100%;
+      max-width: 440px;
+      background: linear-gradient(180deg, #111611 0%, #0d110d 100%);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 16px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(34, 197, 94, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .onboarding-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #15803d, #22c55e, #15803d);
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #4ade80;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .title {
+      font-size: 21px;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .title span {
+      color: #22c55e;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 22px;
+      line-height: 1.45;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #d1d5db;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      background: #171d17;
+      border: 1px solid #273427;
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #ffffff;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: #22c55e;
+      background: #1a221a;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+    }
+
+    .form-input:read-only {
+      background: #121612;
+      color: #9ca3af;
+      border-color: #1f271f;
+      cursor: not-allowed;
+    }
+
+    .btn-toggle-pass {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+    }
+
+    .btn-activate {
+      width: 100%;
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 6px 18px rgba(22, 163, 74, 0.35);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-activate:hover {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.45);
+    }
+
+    .btn-activate:active {
+      transform: translateY(1px);
+    }
+
+    .btn-activate:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .security-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 16px;
+    }
+
+    .guarantee-pills {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 20px;
+      padding-top: 14px;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .pill-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Modal de Sucesso / Tutorial PWA */
+    .success-screen {
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .success-icon {
+      font-size: 44px;
+      margin-bottom: 12px;
+    }
+
+    .btn-enter-app {
+      display: inline-block;
+      width: 100%;
+      background: #22c55e;
+      color: #000000;
+      text-decoration: none;
+      font-weight: 900;
+      padding: 14px 18px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      margin-top: 16px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+    }
+
+    .instructions-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 14px;
+      text-align: left;
+      font-size: 11.5px;
+      color: #d1d5db;
+    }
+
+    .instructions-box strong {
+      color: #22c55e;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Trava Antibadge Netlify -->
+  <div id="nl-badge-frame"></div>
+  <div id="nl-hud-frame"></div>
+
+  <div class="onboarding-card">
+    
+    <!-- TELA 1: FORMULÁRIO DE ATIVAÇÃO DE SENHA -->
+    <div id="activationScreen">
+      <div class="badge-status">
+        <span class="badge-dot"></span>
+        Orden Aprobada • Hotmart
+      </div>
+
+      <h1 class="title">¡Bienvenido al <span>Protocolo</span>!</h1>
+      <p class="subtitle">
+        Tu pago ha sido procesado con éxito. Crea tu contraseña militar para activar tu cuenta y acceder a tus 21 días de entrenamiento.
+      </p>
+
+      <form id="activationForm" onsubmit="handleActivation(event)">
+        <div class="form-group">
+          <label class="form-label" for="soldierName">Nombre del Recluta / Soldado:</label>
+          <input type="text" id="soldierName" class="form-input" placeholder="Tu nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="buyerEmail">Correo de Compra (Hotmart):</label>
+          <input type="email" id="buyerEmail" class="form-input" placeholder="tu@correo.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="soldierPassword">Crea tu Contraseña Táctica:</label>
+          <div class="input-wrapper">
+            <input type="password" id="soldierPassword" class="form-input" placeholder="Mínimo 6 caracteres" minlength="6" required>
+            <button type="button" class="btn-toggle-pass" onclick="togglePassVisibility('soldierPassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirmPassword">Confirma tu Contraseña:</label>
+          <div class="input-wrapper">
+            <input type="password" id="confirmPassword" class="form-input" placeholder="Repite tu contraseña" minlength="6" required>
+            <button type="button" class="btn-toggle-pass" onclick="togglePassVisibility('confirmPassword', this)">👁️</button>
+          </div>
+        </div>
+
+        <button type="submit" id="btnSubmit" class="btn-activate">
+          <span>🪖 ACTIVAR MI CUENTA Y COMENZAR</span>
+        </button>
+      </form>
+
+      <div class="security-note">
+        <span>🔒</span> Cifrado seguro de grado militar • Sesión persistente
+      </div>
+
+      <div class="guarantee-pills">
+        <div class="pill-item">✓ Acceso Vitalicio</div>
+        <div class="pill-item">✓ Modo PWA Offline</div>
+        <div class="pill-item">✓ Garantía Hotmart</div>
+      </div>
+    </div>
+
+    <!-- TELA 2: SUCESSO E DIRECIONAMENTO AO APP -->
+    <div id="successScreen" class="success-screen">
+      <div class="success-icon">🎖️</div>
+      <h2 class="title" style="font-size:22px; color:#22c55e;">¡Cuenta Militar Activada!</h2>
+      <p class="subtitle" style="margin-bottom:14px;">
+        Soldado <strong id="confirmedName" style="color:#fff;"></strong>, tu acceso al Centro de Mando Táctico está listo.
+      </p>
+
+      <div class="instructions-box">
+        <strong>💡 Consejo táctico para tu celular:</strong>
+        <p style="margin-top:4px;">
+          Una vez dentro del aplicativo, pulsa en los 3 puntos de Chrome o en Compartir en Safari y selecciona <strong>"Agregar a la pantalla de inicio"</strong> para tener el app siempre a mano sin usar espacio de memoria.
+        </p>
+      </div>
+
+      <a href="./" id="btnEnterApp" class="btn-enter-app">
+        ENTRAR AL CENTRO DE MANDO AHORA &rarr;
+      </a>
+      
+      <div style="font-size:11px; color:#6b7280; margin-top:12px;">
+        Serás redirigido automáticamente en <span id="countdownSec">4</span> segundos...
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts do Supabase & Estado -->
+  <script src="js/supabase-client.js"></script>
+  <script>
+    (function initParams() {
+      var params = new URLSearchParams(window.location.search);
+      var emailParam = params.get('email') || params.get('buyer_email') || params.get('checkout_email') || '';
+      var nameParam = params.get('name') || params.get('buyer_name') || params.get('first_name') || '';
+
+      var emailInput = document.getElementById('buyerEmail');
+      var nameInput = document.getElementById('soldierName');
+
+      if (emailParam && emailInput) {
+        emailInput.value = decodeURIComponent(emailParam).trim();
+        emailInput.readOnly = true; // Trava o e-mail se já veio validado da Hotmart
+      }
+
+      if (nameParam && nameInput) {
+        nameInput.value = decodeURIComponent(nameParam).trim();
+      }
+    })();
+
+    function togglePassVisibility(inputId, btn) {
+      var inp = document.getElementById(inputId);
+      if (!inp) return;
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        inp.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    async function handleActivation(e) {
+      e.preventDefault();
+
+      var name = document.getElementById('soldierName').value.trim();
+      var email = document.getElementById('buyerEmail').value.trim();
+      var pass = document.getElementById('soldierPassword').value.trim();
+      var passConf = document.getElementById('confirmPassword').value.trim();
+      var btn = document.getElementById('btnSubmit');
+
+      if (!email) {
+        alert('Por favor ingresa el correo utilizado en tu compra.');
+        return;
+      }
+
+      if (pass.length < 6) {
+        alert('La contraseña debe tener al menos 6 caracteres.');
+        return;
+      }
+
+      if (pass !== passConf) {
+        alert('Las contraseñas no coinciden. Por favor verifícalas.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ VERIFICANDO Y ACTIVANDO...</span>';
+
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var transaction = params.get('transaction') || params.get('transaction_id') || 'HOTMART_ONBOARDING';
+
+        // 1. Tenta autenticação via Supabase Auth
+        var supaResult = null;
+        if (window.SupabaseClient && typeof window.SupabaseClient.signUp === 'function') {
+          supaResult = await window.SupabaseClient.signUp(email, pass, {
+            name: name,
+            activated_via: 'onboarding_hotmart',
+            transaction_id: transaction
+          });
+
+          // Se o usuário já existia (ex: criado pelo webhook), tenta signIn
+          if (!supaResult.success && supaResult.error && supaResult.error.includes('already registered')) {
+            supaResult = await window.SupabaseClient.signIn(email, pass);
+          }
+        }
+
+        // 2. Garante persistência da sessão e do perfil local militar (funciona 100% mesmo se Supabase offline)
+        var userSession = {
+          email: email,
+          name: name,
+          isPaidUser: true,
+          activatedAt: new Date().toISOString(),
+          token: (supaResult && supaResult.token) || ('local_tok_' + Date.now())
+        };
+
+        try {
+          localStorage.setItem('protocolo_current_user', JSON.stringify(userSession));
+          localStorage.setItem('protocolo_auth_remember', 'true');
+          
+          // Atualiza perfil no store local
+          var localState = JSON.parse(localStorage.getItem('protocolo_calistenia_state_v1') || '{}');
+          if (!localState.profile) localState.profile = {};
+          localState.profile.name = name;
+          localState.profile.email = email;
+          localState.profile.isUnlocked = true;
+          localStorage.setItem('protocolo_calistenia_state_v1', JSON.stringify(localState));
+        } catch(storageErr) {
+          console.warn('Erro ao salvar no localStorage:', storageErr);
+        }
+
+        // 3. Exibe tela de celebração e redirecionamento
+        document.getElementById('confirmedName').textContent = name || 'Soldado';
+        document.getElementById('activationScreen').style.display = 'none';
+        document.getElementById('successScreen').style.display = 'block';
+
+        // Countdown de 4 segundos
+        var countdown = 4;
+        var countEl = document.getElementById('countdownSec');
+        var timer = setInterval(function() {
+          countdown--;
+          if (countEl) countEl.textContent = countdown;
+          if (countdown <= 0) {
+            clearInterval(timer);
+            window.location.href = './';
+          }
+        }, 1000);
+
+      } catch(err) {
+        console.error('Erro na ativação:', err);
+        btn.disabled = false;
+        btn.innerHTML = '<span>🪖 ACTIVAR MI CUENTA Y COMENZAR</span>';
+        alert('Ocurrió un detalle al activar tu cuenta: ' + (err.message || 'Inténtalo de nuevo.'));
+      }
+    }
+  </script>
+</body>
+</html>

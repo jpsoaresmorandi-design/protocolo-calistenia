@@ -26,8 +26,9 @@ Incluye acceso completo al aplicativo web progresivo (PWA), reproductor de sesio
 
 - **Preço do Produto de Entrada:** `US$ 9.90` (Pagamento Único)
 - **Garantia:** `7 dias` (Padrão de alta conversão)
-- **Página de Vendas:** `https://seudominio.com/funil` (ou sua VSL)
-- **Página de Agradecimento / Entrega:** `https://seudominio.com/app/`
+- **Página de Vendas:** `https://protocolo-calistenia.netlify.app/vsl` (ou o funil completo `https://protocolo-calistenia.netlify.app/`)
+- **Página de Agradecimento / Entrega (Página de Obrigado & Criação de Senha):** `https://protocolo-calistenia.netlify.app/app/onboarding.html`
+  - *Dica Hotmart:* Marque a opção de **"Enviar parâmetros do comprador na URL"** para que o e-mail do cliente venha preenchido automaticamente na tela de criação de senha!
 
 ---
 

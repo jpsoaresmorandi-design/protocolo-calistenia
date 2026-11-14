@@ -160,8 +160,25 @@
     }
   };
 
+  function checkHotmartRedirect() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const isHotmart = params.get('origem') === 'hotmart' || params.has('transaction') || params.has('hottok');
+      const email = params.get('email') || params.get('buyer_email');
+      const currentUser = localStorage.getItem('protocolo_current_user');
+      
+      // Se veio de compra na Hotmart e ainda não ativou a senha, redireciona para onboarding
+      if ((isHotmart || email) && !currentUser) {
+        window.location.replace('./onboarding.html' + window.location.search);
+        return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
   function initApp() {
     try {
+      if (checkHotmartRedirect()) return;
       initOnboardingDraft();
       ProtocoloStore.subscribe(renderApp);
       renderApp(ProtocoloStore.getState());
