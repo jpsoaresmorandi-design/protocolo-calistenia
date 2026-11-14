@@ -10,12 +10,19 @@
   const STORAGE_KEY_CONFIG = 'protocolo_supabase_config_v1';
   const STORAGE_KEY_USER = 'protocolo_supabase_user_v1';
 
+  // Configuração Oficial de Produção do Supabase
+  const DEFAULT_SUPABASE_URL = 'https://roomyqvuwaotnwgceahe.supabase.co';
+  const DEFAULT_SUPABASE_KEY = 'sb_publishable_iqrFq3ns5Lyd9QT3QHgKMA_0-kciliC';
+
   function getStoredConfig() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY_CONFIG);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.url && parsed.anonKey) return parsed;
+      }
     } catch (e) {}
-    return { url: '', anonKey: '', token: null };
+    return { url: DEFAULT_SUPABASE_URL, anonKey: DEFAULT_SUPABASE_KEY, token: null };
   }
 
   function getStoredUser() {
@@ -27,6 +34,10 @@
   }
 
   let config = getStoredConfig();
+  if (!config.url || !config.anonKey) {
+    config.url = DEFAULT_SUPABASE_URL;
+    config.anonKey = DEFAULT_SUPABASE_KEY;
+  }
   let currentUser = getStoredUser();
 
   const SupabaseClient = {
