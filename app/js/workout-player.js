@@ -75,6 +75,12 @@
     }
     overlay.style.display = 'flex';
     document.body.classList.add('workout-player-active');
+    
+    // Forçar ocultação imediata de toda barra inferior para fullscreen total
+    const bottomNav = document.querySelector('.bottom-nav');
+    if (bottomNav) {
+      bottomNav.style.setProperty('display', 'none', 'important');
+    }
   }
 
   function closePlayer() {
@@ -86,6 +92,10 @@
       overlay.innerHTML = '';
     }
     document.body.classList.remove('workout-player-active');
+    const bottomNav = document.querySelector('.bottom-nav');
+    if (bottomNav) {
+      bottomNav.style.removeProperty('display');
+    }
     currentWorkout = null;
     playerState = 'idle';
   }
