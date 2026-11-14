@@ -39,10 +39,31 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS email TEXT;
 ALTER TABLE public.profiles ALTER COLUMN is_vip SET DEFAULT false;
 ALTER TABLE public.profiles ALTER COLUMN has_base_access SET DEFAULT false;
 
--- 3. Atualizar trigger para novos cadastros
+-- 3. Atualizar trigger para novos cadastros (com validação de compra Hotmart)
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+  v_transaction TEXT;
+  v_has_access BOOLEAN := false;
 BEGIN
+  v_transaction := NULLIF(TRIM(NEW.raw_user_meta_data->>'transaction_id'), '');
+
+  -- Se o cadastro veio de uma compra real da Hotmart com código de transação, libera o acesso base
+  IF v_transaction IS NOT NULL AND v_transaction != 'HOTMART_ONBOARDING' AND LENGTH(v_transaction) >= 5 THEN
+    v_has_access := true;
+
+    INSERT INTO public.payment_events (
+      event_id, buyer_email, buyer_name, status, event_type, platform
+    ) VALUES (
+      v_transaction,
+      NEW.email,
+      COALESCE(NEW.raw_user_meta_data->>'full_name', 'Soldado'),
+      'APPROVED',
+      'PURCHASE_APPROVED',
+      'hotmart_onboarding'
+    ) ON CONFLICT (event_id) DO NOTHING;
+  END IF;
+
   INSERT INTO public.profiles (
     id,
     email,
@@ -58,13 +79,15 @@ BEGIN
     NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'full_name', 'Recluta'),
     COALESCE(NEW.raw_user_meta_data->>'nickname', 'Operador-' || SUBSTRING(NEW.id::text, 1, 4)),
-    false, -- Apenas pagamento aprovado pode liberar VIP
-    false, -- Apenas pagamento aprovado pode liberar Base
+    false, -- Apenas pagamento de assinatura VIP pode liberar VIP
+    v_has_access, -- Liberado apenas se comprovada compra da Hotmart
     false,
     false
   )
   ON CONFLICT (id) DO UPDATE SET
-    email = COALESCE(public.profiles.email, EXCLUDED.email);
+    email = COALESCE(public.profiles.email, EXCLUDED.email),
+    has_base_access = CASE WHEN v_has_access THEN true ELSE public.profiles.has_base_access END;
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

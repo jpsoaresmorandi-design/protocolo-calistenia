@@ -456,7 +456,7 @@
 
       try {
         var params = new URLSearchParams(window.location.search);
-        var transaction = params.get('transaction') || params.get('transaction_id') || 'HOTMART_ONBOARDING';
+        var transaction = params.get('transaction') || params.get('transaction_id') || params.get('hottok') || params.get('off') || '';
 
         // 1. Tenta autenticação via Supabase Auth
         var supaResult = null;
