@@ -98,7 +98,7 @@ doc.font('Helvetica-Bold').fontSize(9.5).fillColor('#ffffff').text('CENTRO DE MA
   width: doc.page.width - 100,
   align: 'center'
 });
-doc.font('Helvetica').fontSize(8.5).fillColor('#9ca3af').text('Acceso Oficial Web / PWA: https://protocolo-calistenia.netlify.app/app/', 50, boxY + 32, {
+doc.font('Helvetica').fontSize(8.5).fillColor('#9ca3af').text('Acceso Oficial Web / PWA: https://protocolo-calistenia-pi.vercel.app/app/', 50, boxY + 32, {
   width: doc.page.width - 100,
   align: 'center'
 });
@@ -197,7 +197,7 @@ doc.moveDown(0.5);
 doc.roundedRect(40, doc.y, doc.page.width - 80, 52, 6).fillAndStroke(C_BG_BOX, C_BORDER_BOX);
 const linkBoxY = doc.y;
 doc.font('Helvetica-Bold').fontSize(9.5).fillColor(C_GREEN).text('ENLACE DIRECTO DE ACCESO OFICIAL:', 52, linkBoxY + 11);
-doc.font('Helvetica-Bold').fontSize(11).fillColor('#0f172a').text('https://protocolo-calistenia.netlify.app/app/', 52, linkBoxY + 26);
+doc.font('Helvetica-Bold').fontSize(11).fillColor('#0f172a').text('https://protocolo-calistenia-pi.vercel.app/app/', 52, linkBoxY + 26);
 
 doc.y = linkBoxY + 68;
 
