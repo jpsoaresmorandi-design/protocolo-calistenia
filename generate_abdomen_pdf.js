@@ -271,3 +271,4 @@ addHeaderFooter(3, 'Cronograma y Aplicación');
 
 doc.end();
 console.log('PDF Finisher Abdomen generado exitosamente en:', outputPath);
+

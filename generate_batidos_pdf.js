@@ -270,3 +270,4 @@ addHeaderFooter(3, 'Fórmulas #7 a #12');
 
 doc.end();
 console.log('PDF 12 Batidos generado exitosamente en:', outputPath);
+

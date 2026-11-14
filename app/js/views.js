@@ -1920,82 +1920,63 @@
 
     return `
       <div class="view-comunidad-feed">
-        <!-- Top Banner de la Hermandad -->
-        <div class="comm-feed-topbar">
-          <div class="comm-feed-title-block">
-            <div class="comm-feed-title">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#22c55e" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span>HERMANDAD TÁCTICA</span>
-              <span class="comm-vip-badge" style="background:rgba(34,197,94,0.18); color:#4ade80; border-color:rgba(34,197,94,0.4);">COMUNIDAD INCLUIDA</span>
+        <!-- Top Header Compacto da Hermandad -->
+        <div class="comm-feed-topbar" style="margin-bottom:10px; padding:0 2px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <strong style="font-size:14px; color:#fff; letter-spacing:0.3px;">HERMANDAD TÁCTICA</strong>
             </div>
-            <div class="comm-feed-subtitle">Canal oficial de la unidad militar para compartir avances, dudas y disciplina</div>
+            <span style="font-size:9px; font-weight:800; color:#4ade80; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.35); padding:2px 7px; border-radius:4px; letter-spacing:0.5px;">CANAL ABIERTO</span>
           </div>
-        </div>
-
-        <!-- Ticker de Actividad de la Unidad (Ejemplos) -->
-        <div class="comm-hall-fame-strip">
-          <div class="hall-fame-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div class="hall-fame-title" style="margin:0; display:flex; align-items:center; gap:6px;">
-              <span class="pulse-green-dot" style="display:inline-block; width:7px; height:7px;"></span>
-              <span>Ejemplos de actividad</span>
-              <span class="badge-ejemplo" style="font-size:8.5px; padding:1px 5px;">EJEMPLO</span>
-            </div>
-            <span style="font-size:9.5px; font-weight:800; color:#22c55e; letter-spacing:0.5px; background:rgba(34,197,94,0.12); padding:2px 6px; border-radius:4px;">CANAL OPERATIVO</span>
-          </div>
-          <div class="hall-fame-scroll">
-            <div class="soldier-pill"><span class="pill-dot green"></span><strong>Sgto. Mateo</strong> <span style="color:#a1a1aa;">Día 14 listo 🔥</span></div>
-            <div class="soldier-pill"><span class="pill-dot green"></span><strong>Cabo Valentina</strong> <span style="color:#a1a1aa;">-3.4kg Racha 12d ⚡</span></div>
-            <div class="soldier-pill"><span class="pill-dot green"></span><strong>Tte. Marcos</strong> <span style="color:#a1a1aa;">Comida registrada 🥗</span></div>
-            <div class="soldier-pill"><span class="pill-dot green"></span><strong>Soldado Javier</strong> <span style="color:#a1a1aa;">Día 6 completado ⚔️</span></div>
-            <div class="soldier-pill"><span class="pill-dot green"></span><strong>Recluta Sofía</strong> <span style="color:#a1a1aa;">Día 1 completado 🎯</span></div>
-          </div>
+          <div style="font-size:11px; color:#71717a; margin-top:2px;">Reporta tu misión del día, aclara dudas y comparte tus victorias.</div>
         </div>
 
         <!-- Inputs ocultos para adjuntar foto en publicación -->
         <input type="file" id="commPhotoInput" accept="image/*" style="display:none;" onchange="App.handleCommunityPhotoSelect(event)">
 
-        <!-- Caixa de Novo Relatório ("Reportar a la Base") -->
-        <div class="comm-composer-card">
-          <div class="composer-header">
-            <div class="composer-avatar">${getAvatarDisplay(state.profile.avatar)}</div>
-            <div class="composer-meta">
-              <strong>${state.profile.name}</strong>
-              <span class="composer-tag">${state.profile.nickname} • Publicando en la Hermandad</span>
+        <!-- Caixa de Novo Relatório Compacta e Funcional -->
+        <div class="comm-composer-card" style="background:#0d120e; border:1px solid rgba(34,197,94,0.25); border-radius:12px; padding:12px; margin-bottom:12px;">
+          <div class="composer-header" style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+            <div class="composer-avatar" style="width:28px; height:28px; border-radius:50%; background:#000; border:1px solid #22c55e; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;">
+              ${getAvatarDisplay(state.profile.avatar)}
+            </div>
+            <div style="min-width:0; flex:1;">
+              <strong style="color:#fff; font-size:12px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${state.profile.name}</strong>
+              <span style="color:#71717a; font-size:10px;">Publicar en la Hermandad</span>
             </div>
           </div>
 
-          <textarea id="commPostInput" class="composer-textarea" placeholder="Comparte tu entrenamiento de hoy, tus dudas, tu plato de comida o una victoria personal..." spellcheck="false" autocomplete="off" autocapitalize="sentences"></textarea>
+          <textarea id="commPostInput" class="composer-textarea" style="width:100%; height:46px; background:#070a07; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px 10px; color:#fff; font-size:11.5px; resize:none; box-sizing:border-box; margin-bottom:8px;" placeholder="¿Qué misión conquistaste hoy? Escribe aquí..." spellcheck="false" autocomplete="off" autocapitalize="sentences"></textarea>
 
           <!-- Previsualización de Foto Adjunta (si seleccionada) -->
-          <div id="commAttachedPhotoPreview" style="display:none; margin: 10px 0; position:relative;">
-            <img id="commAttachedPhotoImg" src="" style="width:100%; max-height:220px; object-fit:cover; border-radius:10px; border:1px solid rgba(255,255,255,0.12);">
-            <button onclick="App.removeAttachedCommunityPhoto()" style="position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.75); color:#fff; border:none; border-radius:50%; width:28px; height:28px; font-weight:bold; cursor:pointer;">&times;</button>
+          <div id="commAttachedPhotoPreview" style="display:none; margin: 8px 0; position:relative;">
+            <img id="commAttachedPhotoImg" src="" style="width:100%; max-height:160px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.12);">
+            <button onclick="App.removeAttachedCommunityPhoto()" style="position:absolute; top:6px; right:6px; background:rgba(0,0,0,0.75); color:#fff; border:none; border-radius:50%; width:24px; height:24px; font-weight:bold; cursor:pointer;">&times;</button>
           </div>
 
-          <div class="composer-actions">
-            <div class="composer-left-tools">
-              <select id="commPostTag" class="composer-select">
-                <option value="misiones">🎯 Misión Cumplida</option>
-                <option value="nutricion">🥗 Nutrición / Receta</option>
-                <option value="motivacion">🔥 Evolución & Victoria</option>
-                <option value="blindaje">🛡️ Movilidad & Salud</option>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; width:100%;">
+            <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1;">
+              <select id="commPostTag" class="composer-select" style="max-width:130px; font-size:10.5px; background:#050705; border:1px solid rgba(255,255,255,0.1); color:#d1d5db; padding:6px 6px; border-radius:6px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+                <option value="misiones">🎯 Misión</option>
+                <option value="nutricion">🥗 Nutrición</option>
+                <option value="motivacion">🔥 Victoria</option>
+                <option value="blindaje">🛡️ Salud</option>
               </select>
 
-              <button class="btn-attach-photo" type="button" onclick="App.triggerCommunityPhotoUpload()" title="Adjuntar foto a tu publicación">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                <span>FOTO</span>
+              <button class="btn-attach-photo" type="button" onclick="App.triggerCommunityPhotoUpload()" style="padding:6px 8px; font-size:10.5px; white-space:nowrap; flex-shrink:0; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#d1d5db; border-radius:6px; cursor:pointer;">
+                <span>📷 FOTO</span>
               </button>
             </div>
 
-            <button class="btn-publish-post" onclick="App.submitCommunityPost()">
-              <span>PUBLICAR</span>
-              <span class="post-xp-pill">+30 XP</span>
+            <button class="btn-publish-post" onclick="App.submitCommunityPost()" style="background:#22c55e; color:#000; border:none; font-size:10.5px; font-weight:900; padding:7px 11px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0;">
+              PUBLICAR <span style="background:rgba(0,0,0,0.2); font-size:9px; padding:1px 4px; border-radius:4px; margin-left:2px;">+30 XP</span>
             </button>
           </div>
         </div>
 
-        <!-- Filtros do Feed em Chips Arredondados com Scroll Snap -->
-        <div class="comm-filters-scroll">
+        <!-- Filtros do Feed Compactos -->
+        <div class="comm-filters-scroll" style="margin-bottom:12px; gap:6px; padding-bottom:4px;">
           <button class="filter-chip ${filter === 'todos' ? 'active' : ''}" onclick="App.setCommunityFilter('todos')">
             Todos (${(state.community.posts || []).length})
           </button>
@@ -2006,106 +1987,103 @@
             🥗 Nutrición
           </button>
           <button class="filter-chip ${filter === 'motivacion' ? 'active' : ''}" onclick="App.setCommunityFilter('motivacion')">
-            🔥 Evolución
+            🔥 Victoria
           </button>
           <button class="filter-chip ${filter === 'mis_reportes' ? 'active' : ''}" onclick="App.setCommunityFilter('mis_reportes')">
             👤 Mis Reportes
           </button>
         </div>
 
-        <!-- Lista de Posts do Feed -->
+        <!-- Lista de Posts do Feed com Divisões Claras -->
         <div class="comm-posts-feed">
           ${filteredPosts.length === 0 ? `
-            <div class="comm-empty-feed">
-              <div class="empty-icon-shield">
-                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#d4af37" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <strong style="color:#fff; font-size:15px; margin-top:8px; display:block;">Aún no hay publicaciones en esta sección.</strong>
-              <p style="color:#a1a1aa; font-size:13px; max-width:340px; margin: 6px auto 14px auto;">
-                Comparte tus entrenamientos, resuelve dudas y apoya a tus compañeros.
+            <div class="comm-empty-feed" style="background:#0d120e; border:1px dashed rgba(255,255,255,0.1); border-radius:12px; padding:24px 16px; text-align:center;">
+              <strong style="color:#fff; font-size:13px; display:block;">No hay publicaciones en esta sección todavía.</strong>
+              <p style="color:#71717a; font-size:11.5px; margin: 4px auto 12px auto;">
+                Sé el primer soldado en reportar tu misión.
               </p>
-              <button class="btn-first-post" onclick="document.getElementById('commPostInput').focus()">
-                Escribir la primera publicación
+              <button class="btn-first-post" onclick="document.getElementById('commPostInput').focus()" style="padding:7px 14px; font-size:11px;">
+                Escribir primer reporte
               </button>
             </div>
           ` : filteredPosts.map(post => `
-            <div class="comm-post-card" id="${post.id}">
+            <div class="comm-post-card" id="${post.id}" style="background:#0d120e; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 14px; margin-bottom:12px; box-shadow:0 3px 12px rgba(0,0,0,0.35);">
               <!-- Cabeçalho do Post -->
-              <div class="post-header-row">
-                <div class="post-author-avatar">
+              <div class="post-header-row" style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <div class="post-author-avatar" style="width:34px; height:34px; border-radius:50%; background:#000; border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">
                   ${getAvatarDisplay(post.avatar)}
                 </div>
-                <div class="post-author-info">
-                  <div class="author-name-line">
-                    <strong>${post.author}</strong>
-                    <span class="post-rank-badge">${post.rankBadge || 'R-1'} ${post.rankIcon || '🎖️'}</span>
+                <div class="post-author-info" style="min-width:0; flex:1;">
+                  <div class="author-name-line" style="display:flex; align-items:center; gap:5px;">
+                    <strong style="color:#fff; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${post.author}</strong>
+                    <span class="post-rank-badge" style="font-size:8.5px; padding:1px 4px; border-radius:3px; background:rgba(234,179,8,0.15); color:#eab308; font-weight:800; flex-shrink:0;">${post.rankBadge || 'R-1'} ${post.rankIcon || '🎖️'}</span>
                   </div>
-                  <div class="author-sub-line">
-                    <span class="post-nickname">"${post.nickname}"</span> • 
+                  <div class="author-sub-line" style="font-size:10px; color:#71717a;">
+                    <span class="post-nickname" style="color:#22c55e;">"${post.nickname}"</span> • 
                     <span class="post-time">${post.date}</span>
                   </div>
                 </div>
 
-                <div style="display:flex; align-items:center; gap:6px;">
-                  <div class="post-tag-badge ${post.tag}">
+                <div style="display:flex; align-items:center; gap:5px; flex-shrink:0;">
+                  <div class="post-tag-badge ${post.tag}" style="font-size:9px; padding:2px 6px; border-radius:4px;">
                     ${post.tagLabel || 'MISIÓN'}
                   </div>
-                  ${post.isExample ? '<span class="badge-ejemplo">EJEMPLO</span>' : ''}
+                  ${post.isExample ? '<span class="badge-ejemplo" style="font-size:8px; padding:1px 4px;">EJEMPLO</span>' : ''}
                 </div>
               </div>
 
               <!-- Conteúdo de Texto -->
-              <div class="post-body-text">
+              <div class="post-body-text" style="font-size:12.5px; line-height:1.45; color:#e4e4e7; margin-bottom:10px;">
                 ${post.text}
               </div>
 
               ${post.image ? `
-                <div class="post-image-container">
-                  <img src="${post.image}" alt="Reporte" class="post-image-fluid" loading="lazy">
+                <div class="post-image-container" style="margin-bottom:10px;">
+                  <img src="${post.image}" alt="Reporte" class="post-image-fluid" style="width:100%; max-height:220px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.08);" loading="lazy">
                 </div>
               ` : ''}
 
               <!-- Barra de Ações (Likes, Comentários e Exclusão) -->
-              <div class="post-footer-actions">
-                <button class="btn-like-tactical ${post.likedByMe ? 'liked' : ''}" onclick="App.likeCommunityPost('${post.id}')">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="${post.likedByMe ? '#ef4444' : 'none'}" stroke="${post.likedByMe ? '#ef4444' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                  <span class="like-label">${post.likedByMe ? 'Apoyo' : 'Apoyar'}</span>
-                  <span class="like-count">(${post.likes})</span>
+              <div class="post-footer-actions" style="display:flex; align-items:center; gap:8px; border-top:1px solid rgba(255,255,255,0.06); padding-top:8px; margin-bottom:0;">
+                <button class="btn-like-tactical ${post.likedByMe ? 'liked' : ''}" onclick="App.likeCommunityPost('${post.id}')" style="font-size:11px; padding:5px 10px; border-radius:20px;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="${post.likedByMe ? '#ef4444' : 'none'}" stroke="${post.likedByMe ? '#ef4444' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <span>${post.likedByMe ? 'Apoyo' : 'Apoyar'}</span>
+                  <span>(${post.likes})</span>
                 </button>
 
-                <button class="btn-comment-tactical" onclick="App.focusCommentInput('${post.id}')">
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <button class="btn-comment-tactical" onclick="App.toggleComments('${post.id}')" style="font-size:11px; padding:5px 10px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:#a1a1aa; cursor:pointer;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                   <span>Comentarios (${post.comments ? post.comments.length : 0})</span>
                 </button>
 
                 ${(post.isMyPost || post.author === state.profile.name) ? `
-                  <button class="btn-post-delete" onclick="App.deleteCommunityPost('${post.id}')" title="Eliminar mi publicación">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  <button class="btn-post-delete" onclick="App.deleteCommunityPost('${post.id}')" style="margin-left:auto; background:none; border:none; color:#71717a; cursor:pointer; padding:4px;" title="Eliminar mi publicación">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                   </button>
                 ` : ''}
               </div>
 
-              <!-- Seção de Comentários -->
-              <div class="post-comments-section" id="comments_${post.id}">
+              <!-- Seção de Comentários (FECHADA POR PADRÃO - SÓ ABRE AO CLICAR EM COMENTÁRIOS) -->
+              <div class="post-comments-section" id="comments_${post.id}" style="display:none; margin-top:8px; border-top:1px solid rgba(255,255,255,0.06); padding-top:8px;">
                 ${(post.comments && post.comments.length > 0) ? `
-                  <div class="comments-list">
+                  <div class="comments-list" style="display:flex; flex-direction:column; gap:6px; margin-bottom:8px;">
                     ${post.comments.map(c => `
-                      <div class="comment-item">
-                        <div class="comment-author-line">
-                          <strong>${c.author}</strong>
-                          <span class="comment-time">${c.date}</span>
+                      <div class="comment-item" style="background:rgba(255,255,255,0.03); padding:5px 8px; border-radius:6px; font-size:11px;">
+                        <div class="comment-author-line" style="display:flex; justify-content:space-between; margin-bottom:2px;">
+                          <strong style="color:#22c55e; font-size:10.5px;">${c.author}</strong>
+                          <span class="comment-time" style="color:#71717a; font-size:9.5px;">${c.date}</span>
                         </div>
-                        <div class="comment-text">${c.text}</div>
+                        <div class="comment-text" style="color:#d1d5db;">${c.text}</div>
                       </div>
                     `).join('')}
                   </div>
                 ` : ''}
 
                 <!-- Campo para Adicionar Comentário -->
-                <div class="comment-input-row">
-                  <input type="text" id="input_comment_${post.id}" class="comment-input" placeholder="Escribe un mensaje de apoyo o consejo..." onkeydown="if(event.key === 'Enter') App.submitComment('${post.id}')">
-                  <button class="btn-send-comment" onclick="App.submitComment('${post.id}')">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <div class="comment-input-row" style="display:flex; gap:6px; align-items:center;">
+                  <input type="text" id="input_comment_${post.id}" class="comment-input" style="flex:1; background:#070a07; border:1px solid rgba(255,255,255,0.1); border-radius:6px; padding:6px 10px; font-size:11px; color:#fff;" placeholder="Escribe un comentario..." onkeydown="if(event.key === 'Enter') App.submitComment('${post.id}')">
+                  <button class="btn-send-comment" onclick="App.submitComment('${post.id}')" style="background:#22c55e; color:#000; border:none; border-radius:6px; padding:6px 10px; cursor:pointer;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                   </button>
                 </div>
               </div>

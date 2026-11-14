@@ -993,12 +993,20 @@
     }
   }
 
-  function focusCommentInput(postId) {
-    const input = document.getElementById('input_comment_' + postId);
-    if (input) {
-      input.focus();
+  function toggleComments(postId) {
+    const section = document.getElementById('comments_' + postId);
+    if (!section) return;
+    const isHidden = (section.style.display === 'none' || window.getComputedStyle(section).display === 'none');
+    if (isHidden) {
+      section.style.display = 'block';
+      const input = document.getElementById('input_comment_' + postId);
+      if (input) input.focus();
+    } else {
+      section.style.display = 'none';
     }
   }
+
+  const focusCommentInput = toggleComments;
 
   async function submitComment(postId) {
     const input = document.getElementById('input_comment_' + postId);
@@ -1458,6 +1466,7 @@
     setCommunityFilter,
     submitCommunityPost,
     likeCommunityPost,
+    toggleComments,
     focusCommentInput,
     submitComment,
     deleteCommunityPost,
