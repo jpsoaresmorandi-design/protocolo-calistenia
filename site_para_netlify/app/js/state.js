@@ -15,6 +15,20 @@
 
   const STORAGE_KEY = 'protocolo_calistenia_state_v1';
 
+  function getUserScopedStorageKey() {
+    try {
+      const rawUser = localStorage.getItem('protocolo_supabase_user') || localStorage.getItem('protocolo_current_user');
+      if (rawUser) {
+        const u = JSON.parse(rawUser);
+        const uid = u.id || u.email;
+        if (uid) {
+          return 'protocolo_state_' + String(uid).toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+        }
+      }
+    } catch (e) {}
+    return STORAGE_KEY;
+  }
+
   // ============================================================
   // CONFIGURAÇÃO CENTRAL DE PREÇO, MOEDA E RECURSOS VIP
   // Altere aqui para trocar a moeda ou valor em todo o aplicativo
@@ -54,7 +68,7 @@
       // Links configuráveis de checkout da Hotmart
       // O modo checkoutMode=10 permite abrir como pop-up / modal embutido na tela
       entryCheckoutUrl: 'https://pay.hotmart.com/T108488175Q?checkoutMode=10',
-      vipCheckoutUrl: 'https://pay.hotmart.com/PROT21VIP?checkoutMode=10',
+      vipCheckoutUrl: 'https://pay.hotmart.com/K108494815B?checkoutMode=10',
       useEmbeddedWidget: true
     },
     scanner: {
@@ -66,7 +80,7 @@
       // Controle central de login obrigatório
       // false: permite modo convidado/demonstração
       // true: exige login para acessar as áreas protegidas
-      requireAuth: false
+      requireAuth: true
     },
     features: {
       // Funcionalidades Base (Incluídas no Protocolo de 21 Dias)
@@ -92,8 +106,8 @@
   let initialStartWeight = 78;
   let initialGoal = 'perder-peso';
   let initialAge = 28;
-  let initialName = 'Recluta Carlos';
-  let initialNickname = 'Vanguardia-01';
+  let initialName = 'Recluta';
+  let initialNickname = 'Operador-01';
 
   try {
     const funnelQuiz = JSON.parse(localStorage.getItem('calistenia_state') || '{}');
@@ -268,12 +282,12 @@
     },
     progress: {
       currentDay: 1,
-      completedDays: [], // Ex: [1, 2] -> o dia 3 estará liberado
-      points: 150,
-      streak: 1,
+      completedDays: [],
+      points: 0,
+      streak: 0,
       lastActiveDate: new Date().toISOString().split('T')[0],
       currentPhase: 1,
-      achievements: ['first_day_ready'],
+      achievements: [],
       weeklyGoal: { targetDays: 5, currentDays: 0, weekNumber: 1 },
       weeklyCheckins: []
     },
@@ -291,27 +305,7 @@
       waterGlasses: 0,
       lastWaterDate: new Date().toISOString().split('T')[0],
       shoppingChecked: [],
-      meals: [
-        {
-          id: 'meal_demo_1',
-          date: new Date().toISOString().split('T')[0],
-          time: '08:30',
-          type: 'desayuno',
-          title: 'Desayuno Proteico de Avena y Claras',
-          photoUrl: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80',
-          confidence: 0.95,
-          calories: 380,
-          protein: 34.0,
-          carbs: 42.0,
-          fats: 8.5,
-          items: [
-            { id: 'it_1', name: 'Huevos enteros de campo', grams: 100, calories: 143, protein: 12.6, carbs: 0.7, fats: 9.5, foodId: 'huevo_entero' },
-            { id: 'it_2', name: 'Claras de huevo', grams: 120, calories: 62, protein: 13.2, carbs: 0.8, fats: 0.2, foodId: 'clara_huevo' },
-            { id: 'it_3', name: 'Avena en hojuelas cruda', grams: 45, calories: 175, protein: 7.6, carbs: 29.8, fats: 3.1, foodId: 'avena_hojuelas' }
-          ],
-          notes: 'Excelente relación de leucina y carbohidratos complejos para el entrenamiento.'
-        }
-      ]
+      meals: []
     },
     evolutionPhotos: {
       day1: null, // base64 string
@@ -336,7 +330,11 @@
 
   function loadState() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const scopedKey = getUserScopedStorageKey();
+      let saved = localStorage.getItem(scopedKey);
+      if (!saved && scopedKey !== STORAGE_KEY) {
+        saved = localStorage.getItem(STORAGE_KEY);
+      }
       if (saved) {
         const parsed = JSON.parse(saved);
         return {
@@ -425,7 +423,8 @@
 
   function saveState() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const scopedKey = getUserScopedStorageKey();
+      localStorage.setItem(scopedKey, JSON.stringify(state));
     } catch (e) {
       console.warn('Erro ao salvar state:', e);
     }
@@ -790,15 +789,14 @@
       const rounded = Math.round(w * 10) / 10;
       const today = new Date().toISOString().split('T')[0];
       if (!Array.isArray(state.weightLog)) state.weightLog = [];
-      const existing = state.weightLog.find(item => item.date === today);
-      if (existing) {
-        existing.kg = rounded;
-        existing.weight = rounded;
+      const timeStr = new Date().toLocaleTimeString().slice(0, 5);
+      
+      const lastEntry = state.weightLog[state.weightLog.length - 1];
+      if (lastEntry && lastEntry.date === today && lastEntry.kg === rounded) {
+        // Já possui essa exata medição
       } else {
-        state.weightLog.push({ date: today, kg: rounded, weight: rounded });
+        state.weightLog.push({ date: today, time: timeStr, kg: rounded, weight: rounded });
       }
-      // Ordena por data cronológica
-      state.weightLog.sort((a, b) => a.date.localeCompare(b.date));
       state.profile.currentWeight = rounded;
       state.progress.points += 25;
       
@@ -972,14 +970,12 @@
   window.ProtocoloStore = {
     config: PROTOCOLO_CONFIG,
     isVip: () => {
-      if (PROTOCOLO_CONFIG.scanner.localTestMode) return true;
-      return Boolean(state && state.community && state.community.isVipMember);
+      return Boolean(state && ((state.entitlements && state.entitlements.isVip) || (state.community && state.community.isVipMember)));
     },
     hasFeatureAccess: (featureKey) => {
       const feat = PROTOCOLO_CONFIG.features[featureKey];
       if (!feat || feat.tier !== 'vip') return true;
-      if (PROTOCOLO_CONFIG.scanner.localTestMode) return true;
-      return Boolean(state && state.community && state.community.isVipMember);
+      return Boolean(state && ((state.entitlements && state.entitlements.isVip) || (state.community && state.community.isVipMember)));
     },
     setVipStatus: (val) => {
       if (state && state.community) {
@@ -990,6 +986,49 @@
     setOrderBumpStatus: (abdomen, batidos) => {
       if (typeof abdomen === 'boolean') state.hasAbdomenWorkout = abdomen;
       if (typeof batidos === 'boolean') state.hasBatidosAnabolicos = batidos;
+      saveState();
+    },
+    reloadUserState: () => {
+      state = loadState();
+      notify();
+    },
+    resetToGuest: () => {
+      state = JSON.parse(JSON.stringify(defaultState));
+      notify();
+    },
+    hydrateFromCloud: (p) => {
+      if (!p) return;
+      if (p.full_name) state.profile.name = p.full_name;
+      if (p.nickname) state.profile.nickname = p.nickname;
+      if (p.avatar_id) state.profile.avatar = p.avatar_id;
+      if (p.gender) state.profile.gender = p.gender;
+      if (p.age) state.profile.age = Number(p.age);
+      if (p.height_cm) state.profile.height = Number(p.height_cm);
+      if (p.start_weight) state.profile.startWeight = Number(p.start_weight);
+      if (p.target_weight) state.profile.targetWeight = Number(p.target_weight);
+      if (p.current_weight) state.profile.currentWeight = Number(p.current_weight);
+      if (p.fitness_goal) state.profile.goal = p.fitness_goal;
+      if (p.experience_level) state.profile.experienceLevel = p.experience_level;
+      if (p.time_availability) state.profile.timeAvailability = p.time_availability;
+      if (p.joint_protection_active !== undefined) state.profile.jointProtection = Boolean(p.joint_protection_active);
+      if (p.joint_regions) state.profile.jointRegions = p.joint_regions;
+
+      if (p.current_day) state.progress.currentDay = Number(p.current_day);
+      if (Array.isArray(p.completed_days)) state.progress.completedDays = p.completed_days;
+      if (p.points_xp !== undefined) state.progress.points = Number(p.points_xp);
+      if (p.streak_days !== undefined) state.progress.streak = Number(p.streak_days);
+
+      if (Array.isArray(p.weight_history) && p.weight_history.length > 0) {
+        state.weightLog = p.weight_history;
+      }
+
+      if (p.is_vip !== undefined) {
+        state.community.isVipMember = Boolean(p.is_vip);
+        state.entitlements.isVip = Boolean(p.is_vip);
+      }
+      if (p.has_orderbump_abdomen !== undefined) state.hasAbdomenWorkout = Boolean(p.has_orderbump_abdomen);
+      if (p.has_orderbump_batidos !== undefined) state.hasBatidosAnabolicos = Boolean(p.has_orderbump_batidos);
+
       saveState();
     },
     getState: () => state,

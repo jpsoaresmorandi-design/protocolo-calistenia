@@ -1471,15 +1471,21 @@
 
     async function handleAuthSubmit(e, mode = 'login') {
       if (e && e.preventDefault) e.preventDefault();
+
+      // BLOQUEIO TOTAL DE REGISTRO DIRETO EM /app/
+      if (mode === 'register') {
+        alert('🔒 Registro directo inhabilitado: Para activar tu acceso al Protocolo Militar debes adquirir tu membresía oficial.');
+        window.location.href = '../vsl.html';
+        return;
+      }
+
       const emailEl = document.getElementById('authEmailInput');
       const passEl = document.getElementById('authPasswordInput');
-      const nameEl = document.getElementById('authNameInput');
       const submitBtn = document.getElementById('btnAuthSubmit');
       if (!emailEl || !passEl) return;
 
       const email = emailEl.value.trim();
       const pass = passEl.value.trim();
-      const name = nameEl ? nameEl.value.trim() : ProtocoloStore.getState().profile.name;
 
       if (!email || pass.length < 6) {
         alert('Ingresa un correo válido y una contraseña de al menos 6 caracteres.');
@@ -1491,12 +1497,7 @@
         submitBtn.disabled = true;
       }
 
-      let res;
-      if (mode === 'register') {
-        res = await window.SupabaseClient.signUp(email, pass, { name });
-      } else {
-        res = await window.SupabaseClient.signIn(email, pass);
-      }
+      const res = await window.SupabaseClient.signIn(email, pass);
 
       if (res && res.success) {
         closeAuthModal();

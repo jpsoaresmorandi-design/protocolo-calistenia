@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background-color: #0a0c0a; color: #f4f4f5;">
 <head>
+  <base href="/app/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>¡Orden Confirmada! - Activa tu Protocolo de Calistenia</title>
@@ -470,13 +471,40 @@
           if (!supaResult.success && supaResult.error && supaResult.error.includes('already registered')) {
             supaResult = await window.SupabaseClient.signIn(email, pass);
           }
+
+          if (!supaResult || !supaResult.success) {
+            throw new Error(supaResult ? supaResult.error : 'No se pudo autenticar con el servidor.');
+          }
+
+          // Validação estrita de compra no Supabase
+          if (typeof window.SupabaseClient.pullProfile === 'function') {
+            var profileCheck = await window.SupabaseClient.pullProfile();
+            var p = (profileCheck && profileCheck.success && profileCheck.data) || null;
+            if (!p || p.has_base_access !== true) {
+              if (window.SupabaseClient && typeof window.SupabaseClient.signOut === 'function') {
+                window.SupabaseClient.signOut();
+              }
+              try {
+                localStorage.removeItem('protocolo_current_user');
+                localStorage.removeItem('protocolo_auth_remember');
+                localStorage.removeItem('protocolo_supabase_user');
+              } catch(e){}
+              btn.disabled = false;
+              btn.innerHTML = '<span>🪖 ACTIVAR MI CUENTA Y COMENZAR</span>';
+              alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada al correo ' + email + ' en Hotmart.\n\nPara ingresar, adquiere tu membresía oficial en el checkout o verifica que estés usando el mismo correo de tu compra.');
+              return;
+            }
+          }
         }
 
         // 2. Garante persistência da sessão e do perfil local militar (funciona 100% mesmo se Supabase offline)
+        var userId = (supaResult && supaResult.user && supaResult.user.id) || ('usr_' + btoa(email).replace(/[^a-zA-Z0-9]/g, ''));
         var userSession = {
+          id: userId,
           email: email,
           name: name,
           isPaidUser: true,
+          has_base_access: true,
           activatedAt: new Date().toISOString(),
           token: (supaResult && supaResult.token) || ('local_tok_' + Date.now())
         };
@@ -484,13 +512,15 @@
         try {
           localStorage.setItem('protocolo_current_user', JSON.stringify(userSession));
           localStorage.setItem('protocolo_auth_remember', 'true');
+          localStorage.setItem('protocolo_supabase_user', JSON.stringify({ id: userId, email: email, name: name }));
           
-          // Atualiza perfil no store local
-          var localState = JSON.parse(localStorage.getItem('protocolo_calistenia_state_v1') || '{}');
+          var scopedKey = 'protocolo_state_' + String(userId || email).toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+          var localState = JSON.parse(localStorage.getItem(scopedKey) || localStorage.getItem('protocolo_calistenia_state_v1') || '{}');
           if (!localState.profile) localState.profile = {};
           localState.profile.name = name;
           localState.profile.email = email;
           localState.profile.isUnlocked = true;
+          localStorage.setItem(scopedKey, JSON.stringify(localState));
           localStorage.setItem('protocolo_calistenia_state_v1', JSON.stringify(localState));
         } catch(storageErr) {
           console.warn('Erro ao salvar no localStorage:', storageErr);

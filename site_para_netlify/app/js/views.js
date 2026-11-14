@@ -813,9 +813,9 @@
     };
 
     return `
-      <div class="recipe-modal-backdrop" onclick="App.closeVipScannerOfferModal(event)">
-        <div class="recipe-modal-card vip-scanner-offer-card" onclick="event.stopPropagation()">
-          <button class="recipe-modal-close" onclick="App.closeVipScannerOfferModal()">&times;</button>
+      <div class="recipe-modal-backdrop" onclick="App.closeVipScannerOfferModal(event)" style="z-index:100000; display:flex; align-items:center; justify-content:center; padding:16px;">
+        <div class="recipe-modal-card vip-scanner-offer-card" style="margin:auto; max-height:88vh; max-height:88svh; overflow-y:auto; border-radius:16px; border:1.5px solid rgba(34,197,94,0.35); box-shadow:0 16px 48px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
+          <button type="button" class="recipe-modal-close" onclick="App.closeVipScannerOfferModal(event)" style="width:40px; height:40px; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; background:rgba(0,0,0,0.8); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:50%; z-index:10;" aria-label="Cerrar">&times;</button>
 
           <div class="vip-scanner-modal-header">
             <span class="vip-exclusive-pill">🔒 EXCLUSIVO MIEMBROS VIP</span>
@@ -854,14 +854,14 @@
             <div class="vip-price-main">${cfg.formattedMonthly}</div>
             <div class="vip-price-sub">Aproximadamente solo ${cfg.approxDaily} • Cancela cuando quieras</div>
 
-            <button class="btn-unlock-vip-scanner" onclick="App.handleCommunityCheckout()">
+            <button class="btn-unlock-vip-scanner" onclick="App.openHotmartCheckout('vip')">
               DESBLOQUEAR SCANNER TÁCTICO (${cfg.formattedMonthlyShort})
             </button>
             <div class="vip-guarantee-note">🔒 Acceso Inmediato • Compra 100% Segura</div>
           </div>
 
           <div class="vip-free-fallback-note">
-            <button class="btn-continue-manual-free" onclick="App.closeVipScannerOfferModal()">
+            <button class="btn-continue-manual-free" onclick="App.closeVipScannerOfferModal(event)">
               Continuar con Registro Manual Gratuito
             </button>
           </div>
@@ -1461,31 +1461,22 @@
       `;
     }
 
-    if (cleanLogs.length === 1) {
-      const pt = cleanLogs[0];
-      return `
-        ${metricsHeaderHtml}
-        <div class="weight-single-point-box" style="background:#070907; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:16px 12px; text-align:center;">
-          <svg viewBox="0 0 340 85" style="width:100%; height:85px; overflow:visible;">
-            <line x1="20" y1="42" x2="320" y2="42" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <circle cx="170" cy="42" r="6" fill="#22c55e" stroke="#050705" stroke-width="2.5" style="filter: drop-shadow(0 0 6px rgba(34,197,94,0.6));" />
-            <text x="170" y="26" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">${pt.kg} kg</text>
-            <text x="170" y="68" fill="#a1a1aa" font-size="9" text-anchor="middle">Primer pesaje: ${pt.date}</text>
-          </svg>
-          <div style="font-size:11.5px; color:#22c55e; font-weight:700; margin-top:4px;">
-            📍 Registra más un pesaje para ver tu curva gráfica de evolución.
-          </div>
-        </div>
-      `;
+    // Se houver apenas 1 pesagem, conecta o Peso Inicial à medição atual para traçar a curva real
+    let plotPoints = [...cleanLogs];
+    if (plotPoints.length === 1) {
+      plotPoints = [
+        { date: 'Inicial', kg: initialW },
+        plotPoints[0]
+      ];
     }
 
-    const weights = cleanLogs.map(l => l.kg);
+    const weights = plotPoints.map(l => l.kg);
     const minW = Math.min(...weights, targetW) - 1.5;
     const maxW = Math.max(...weights, initialW, targetW) + 1.5;
     const rangeW = (maxW - minW) || 1;
 
     const width = 340;
-    const height = 130;
+    const height = 135;
     const padL = 36;
     const padR = 16;
     const padT = 20;
@@ -1494,8 +1485,8 @@
     const plotWidth = width - padL - padR;
     const plotHeight = height - padT - padB;
 
-    const coordPoints = cleanLogs.map((l, idx) => {
-      const x = padL + (idx / (cleanLogs.length - 1)) * plotWidth;
+    const coordPoints = plotPoints.map((l, idx) => {
+      const x = padL + (idx / (plotPoints.length - 1)) * plotWidth;
       const y = padT + (1 - (l.kg - minW) / rangeW) * plotHeight;
       return { x, y, kg: l.kg, date: l.date };
     });
@@ -1512,7 +1503,7 @@
         <svg viewBox="0 0 ${width} ${height}" style="width:100%; height:auto; display:block;" class="weight-svg-chart">
           <defs>
             <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#22c55e" stop-opacity="0.32" />
+              <stop offset="0%" stop-color="#22c55e" stop-opacity="0.35" />
               <stop offset="100%" stop-color="#22c55e" stop-opacity="0.0" />
             </linearGradient>
           </defs>
@@ -1531,11 +1522,12 @@
           <text x="${padL - 6}" y="${padT + 4}" fill="#71717a" font-size="8.5" font-weight="600" text-anchor="end">${maxW.toFixed(0)}</text>
           <text x="${padL - 6}" y="${padT + plotHeight}" fill="#71717a" font-size="8.5" font-weight="600" text-anchor="end">${minW.toFixed(0)}</text>
 
-          <!-- Puntos con Tooltip al tocar -->
+          <!-- Puntos con Valores y Tooltips -->
           ${coordPoints.map((pt, i) => `
             <g class="weight-point-group" tabindex="0">
-              <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="4" fill="#22c55e" stroke="#050705" stroke-width="2" style="cursor:pointer;" />
-              <text x="${pt.x.toFixed(1)}" y="${height - 6}" fill="#71717a" font-size="7.5" text-anchor="middle">${pt.date.substring(5)}</text>
+              <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="4.5" fill="#22c55e" stroke="#050705" stroke-width="2" style="cursor:pointer;" />
+              <text x="${pt.x.toFixed(1)}" y="${(pt.y - 6).toFixed(1)}" fill="#fff" font-size="8.5" font-weight="800" text-anchor="middle">${pt.kg}</text>
+              <text x="${pt.x.toFixed(1)}" y="${height - 6}" fill="#71717a" font-size="7.5" text-anchor="middle">${pt.date.length > 5 ? pt.date.substring(5) : pt.date}</text>
               <title>${pt.date}: ${pt.kg} kg</title>
             </g>
           `).join('')}
@@ -2684,6 +2676,7 @@
 
   
   function renderAuthModal(mode = 'login') {
+    const isAuth = typeof window !== 'undefined' && window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
     return `
       <div class="edit-profile-modal-box auth-modal-tactical" style="max-width:420px;">
         <div class="edit-modal-header">
@@ -2691,20 +2684,17 @@
             <span style="font-size:18px;">🪖</span>
             <span style="font-size:13px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Cuenta Militar & Respaldo</span>
           </div>
-          <button class="btn-close-modal" onclick="App.closeAuthModal()" title="Cerrar ventana">✕</button>
+          ${isAuth ? `<button class="btn-close-modal" onclick="App.closeAuthModal()" title="Cerrar ventana">✕</button>` : ''}
         </div>
 
         <div class="auth-modal-body">
-          <!-- Tabs de Alternância Tática -->
+          <!-- Tabs de Alternância Tática (Apenas Login e Recuperação - Registro Aberto Desabilitado) -->
           <div class="auth-tabs-nav">
-            <button type="button" class="auth-tab-pill ${mode === 'login' ? 'active' : ''}" onclick="App.setAuthModalMode('login')">
+            <button type="button" class="auth-tab-pill ${mode !== 'recover' ? 'active' : ''}" onclick="App.setAuthModalMode('login')">
               INGRESAR
             </button>
-            <button type="button" class="auth-tab-pill ${mode === 'register' ? 'active' : ''}" onclick="App.setAuthModalMode('register')">
-              ACTIVAR CUENTA
-            </button>
             <button type="button" class="auth-tab-pill ${mode === 'recover' ? 'active' : ''}" onclick="App.setAuthModalMode('recover')">
-              RECUPERAR
+              RECUPERAR CONTRASEÑA
             </button>
           </div>
 
@@ -2723,17 +2713,9 @@
             </form>
           ` : `
             <div style="font-size:12px; color:#a1a1aa; margin-bottom:14px; line-height:1.5;">
-              ${mode === 'register' 
-                ? 'Activa tu acceso con el mismo correo registrado en tu compra para sincronizar tus 21 días y membresías.'
-                : 'Ingresa a tu Centro de Mando para sincronizar tu progreso de 21 días, recetas y rango militar.'}
+              Ingresa a tu Centro de Mando para sincronizar tu progreso de 21 días, recetas y rango militar.
             </div>
-            <form onsubmit="App.handleAuthSubmit(event, '${mode}')">
-              ${mode === 'register' ? `
-                <div class="form-group" style="margin-bottom:10px;">
-                  <label style="font-size:11px; color:#fff; font-weight:700;">Nombre del Soldado:</label>
-                  <input type="text" id="authNameInput" required placeholder="Tu nombre o apodo militar" class="comment-input" style="width:100%; margin-top:4px;">
-                </div>
-              ` : ''}
+            <form onsubmit="App.handleAuthSubmit(event, 'login')">
               <div class="form-group" style="margin-bottom:10px;">
                 <label style="font-size:11px; color:#fff; font-weight:700;">Correo Electrónico:</label>
                 <input type="email" id="authEmailInput" required placeholder="tu@correo.com" class="comment-input" style="width:100%; margin-top:4px;">
@@ -2741,18 +2723,52 @@
               <div class="form-group" style="margin-bottom:14px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                   <label style="font-size:11px; color:#fff; font-weight:700;">Contraseña:</label>
-                  ${mode === 'login' ? `
-                    <a href="javascript:void(0)" onclick="App.setAuthModalMode('recover')" style="font-size:10.5px; color:#22c55e; text-decoration:none;">¿Olvidaste tu contraseña?</a>
-                  ` : ''}
+                  <a href="javascript:void(0)" onclick="App.setAuthModalMode('recover')" style="font-size:10.5px; color:#22c55e; text-decoration:none;">¿Olvidaste tu contraseña?</a>
                 </div>
                 <input type="password" id="authPasswordInput" required minlength="6" placeholder="Mínimo 6 caracteres" class="comment-input" style="width:100%; margin-top:4px;">
               </div>
               <button type="submit" class="btn-start-mission" style="width:100%;" id="btnAuthSubmit">
-                ${mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL'}
+                INICIAR SESIÓN EN EL CUARTEL
               </button>
             </form>
           `}
         </div>
+      </div>
+    `;
+  }
+
+  function renderLoginScreen(mode = 'login') {
+    return `
+      <div class="login-fullscreen-wrap" style="min-height:100vh; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 16px; background:radial-gradient(circle at 50% 15%, rgba(34,197,94,0.14), transparent 60%), #0a0c0a; box-sizing:border-box;">
+        
+        <!-- Top Tactical Branding -->
+        <div style="text-align:center; margin-bottom:20px; max-width:400px; width:100%;">
+          <div style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:14px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35); font-size:28px; margin-bottom:12px; box-shadow:0 0 24px rgba(34,197,94,0.25);">
+            🪖
+          </div>
+          <h1 style="font-size:20px; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:1px; margin:0 0 4px 0;">
+            Protocolo de Calistenia
+          </h1>
+          <div style="font-size:11px; font-weight:800; color:#22c55e; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px;">
+            Centro de Comando Táctico
+          </div>
+          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:999px; padding:4px 12px; font-size:10.5px; color:#a1a1aa;">
+            <span style="color:#22c55e;">🔒</span> Acceso Restringido a Miembros Activos
+          </div>
+        </div>
+
+        <!-- Auth Card Component -->
+        <div style="width:100%; max-width:400px;">
+          ${renderAuthModal(mode)}
+        </div>
+
+        <!-- Link de Compra / VSL -->
+        <div style="margin-top:20px; text-align:center;">
+          <a href="../vsl.html" style="font-size:12px; color:#a1a1aa; text-decoration:none;">
+            ¿Aún no eres miembro? <strong style="color:#22c55e;">Desbloquea el Protocolo Militar aquí ›</strong>
+          </a>
+        </div>
+
       </div>
     `;
   }
@@ -3308,15 +3324,10 @@
         </button>
       </div>
     `;
-
-        <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:12px;">
-          ← VOLVER AL ARSENAL
-        </button>
-      </div>
-    `;
   }
 
   window.Views = {
+    renderLoginScreen,
     renderAuthModal,
     renderBadgeInspectModal,
     getMedalsList,

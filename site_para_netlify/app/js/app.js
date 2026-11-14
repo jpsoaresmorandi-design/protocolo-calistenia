@@ -1,4 +1,4 @@
-3/**
+/**
  * Main Application Controller, Router & PWA Service Worker Registration
  * Protocolo de Calistenia Militar - Centro de Comando Táctico
  */
@@ -42,8 +42,8 @@
     function initOnboardingDraft() {
       const s = ProtocoloStore.getState();
       window.OnboardingDraft = {
-        name: s.profile.name || 'Recluta Carlos',
-        nickname: s.profile.nickname || 'Vanguardia-01',
+        name: s.profile.name || 'Recluta',
+        nickname: s.profile.nickname || 'Operador-01',
         gender: s.profile.gender || 'hombre',
         avatar: s.profile.avatar || 'tactical-helmet',
         age: s.profile.age || 28,
@@ -181,6 +181,18 @@
         if (checkHotmartRedirect()) return;
         initOnboardingDraft();
         ProtocoloStore.subscribe(renderApp);
+
+        const isAuth = window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
+        if (isAuth && window.SupabaseClient.pullProfile) {
+          window.SupabaseClient.pullProfile().then(function(res) {
+            if (res && res.success && res.data) {
+              if (window.ProtocoloStore && window.ProtocoloStore.hydrateFromCloud) {
+                window.ProtocoloStore.hydrateFromCloud(res.data);
+              }
+            }
+          }).catch(function() {});
+        }
+
         renderApp(ProtocoloStore.getState());
         renderPwaBanner();
       } catch (err) {
@@ -196,9 +208,18 @@
       }
     }
 
-    function renderApp(state) {
+    function renderApp(state = (window.ProtocoloStore ? window.ProtocoloStore.getState() : {})) {
       const root = document.getElementById('appRoot');
       if (!root) return;
+
+      // 0. VERIFICAÇÃO DE LOGIN OBRIGATÓRIO (Bloqueia qualquer acesso sem autenticação do Supabase)
+      const isAuth = window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
+      const requireAuth = Boolean(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.auth && window.PROTOCOLO_CONFIG.auth.requireAuth);
+
+      if (requireAuth && !isAuth) {
+        root.innerHTML = Views.renderLoginScreen ? Views.renderLoginScreen(currentAuthMode || 'login') : '';
+        return;
+      }
 
       // CASO 1: Si el usuario aún no completó la configuración inicial, renderiza el ONBOARDING TÁCTICO
       if (!state.onboarding || !state.onboarding.completed) {
@@ -393,6 +414,39 @@
       modal.classList.add('show');
     }
 
+    function viewMealPhoto(mealId) {
+      const state = ProtocoloStore.getState();
+      const diary = (state.nutrition && state.nutrition.diary) || [];
+      const meal = diary.find(m => String(m.id) === String(mealId));
+      if (!meal || !meal.photoUrl) return;
+
+      const modal = document.getElementById('settingsModal');
+      if (!modal) return;
+
+      modal.innerHTML = `
+        <div class="edit-profile-modal-box" style="max-width:440px; padding:16px;">
+          <div class="edit-modal-header" style="margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">📸</span>
+              <strong style="color:#fff; font-size:14px; text-transform:uppercase;">${meal.title || 'Foto de Comida'}</strong>
+            </div>
+            <button class="btn-close-modal" onclick="App.closeEditProfileModal()">✕</button>
+          </div>
+          <div style="border-radius:10px; overflow:hidden; background:#000; margin-bottom:12px; border:1px solid rgba(255,255,255,0.1);">
+            <img src="${meal.photoUrl}" alt="${meal.title || 'Comida'}" style="width:100%; height:auto; display:block; max-height:60vh; object-fit:contain;">
+          </div>
+          <div style="display:flex; justify-content:space-around; background:rgba(0,0,0,0.5); padding:10px; border-radius:8px; border:1px solid rgba(34,197,94,0.2); margin-bottom:12px;">
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">CALORÍAS</div><strong style="color:#22c55e; font-size:14px;">${meal.calories || 0} kcal</strong></div>
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">PROTEÍNA</div><strong style="color:#38bdf8; font-size:14px;">${meal.protein || 0}g</strong></div>
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">CARBOS</div><strong style="color:#eab308; font-size:14px;">${meal.carbs || 0}g</strong></div>
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">GRASAS</div><strong style="color:#f43f5e; font-size:14px;">${meal.fat || 0}g</strong></div>
+          </div>
+          <button class="btn-secondary-full" onclick="App.closeEditProfileModal()">CERRAR VISOR</button>
+        </div>
+      `;
+      modal.classList.add('show');
+    }
+
     let selectedAvatarId = null;
     function selectAvatarPreset(avId) {
       selectedAvatarId = avId;
@@ -461,16 +515,27 @@
     }
 
     function openVipScannerOfferModal() {
+      const modal = document.getElementById('settingsModal');
+      if (modal && window.Views && window.Views.renderVipScannerOfferModal) {
+        modal.innerHTML = Views.renderVipScannerOfferModal({ activeVipScannerModal: true });
+        modal.classList.add('show');
+        return;
+      }
       const s = ProtocoloStore.getState();
       s.activeVipScannerModal = true;
-      renderApp();
+      renderApp(s);
     }
 
     function closeVipScannerOfferModal(event) {
-      if (event && event.target && event.target !== event.currentTarget) return;
+      if (event && event.stopPropagation) event.stopPropagation();
+      const modal = document.getElementById('settingsModal');
+      if (modal) {
+        modal.classList.remove('show');
+        modal.innerHTML = '';
+      }
       const s = ProtocoloStore.getState();
       s.activeVipScannerModal = false;
-      renderApp();
+      renderApp(s);
     }
 
     function openNutriCamera(mealType) {
@@ -1356,6 +1421,14 @@
 
     function setAuthModalMode(mode) {
       currentAuthMode = mode;
+      const isAuth = window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
+      const requireAuth = Boolean(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.auth && window.PROTOCOLO_CONFIG.auth.requireAuth);
+
+      if (requireAuth && !isAuth) {
+        renderApp(ProtocoloStore.getState());
+        return;
+      }
+
       const modal = document.getElementById('settingsModal');
       if (!modal) return;
       modal.innerHTML = Views.renderAuthModal(mode);
@@ -1398,15 +1471,21 @@
 
     async function handleAuthSubmit(e, mode = 'login') {
       if (e && e.preventDefault) e.preventDefault();
+
+      // BLOQUEIO TOTAL DE REGISTRO DIRETO EM /app/
+      if (mode === 'register') {
+        alert('🔒 Registro directo inhabilitado: Para activar tu acceso al Protocolo Militar debes adquirir tu membresía oficial.');
+        window.location.href = '../vsl.html';
+        return;
+      }
+
       const emailEl = document.getElementById('authEmailInput');
       const passEl = document.getElementById('authPasswordInput');
-      const nameEl = document.getElementById('authNameInput');
       const submitBtn = document.getElementById('btnAuthSubmit');
       if (!emailEl || !passEl) return;
 
       const email = emailEl.value.trim();
       const pass = passEl.value.trim();
-      const name = nameEl ? nameEl.value.trim() : ProtocoloStore.getState().profile.name;
 
       if (!email || pass.length < 6) {
         alert('Ingresa un correo válido y una contraseña de al menos 6 caracteres.');
@@ -1418,39 +1497,43 @@
         submitBtn.disabled = true;
       }
 
-      let res;
-      if (mode === 'register') {
-        res = await window.SupabaseClient.signUp(email, pass, { name });
-      } else {
-        res = await window.SupabaseClient.signIn(email, pass);
-        // Fallback amigável se a conta não existia ainda e foi criada na compra
-        if (!res.success && (res.error && res.error.includes('Invalid login credentials'))) {
-          res = await window.SupabaseClient.signUp(email, pass, { name });
-        }
-      }
+      const res = await window.SupabaseClient.signIn(email, pass);
 
       if (res && res.success) {
         closeAuthModal();
         showToast('☁️ ¡Sesión militar iniciada con éxito!', 'success');
         
+        // Recarrega o estado local para o usuário autenticado
+        if (window.ProtocoloStore && window.ProtocoloStore.reloadUserState) {
+          window.ProtocoloStore.reloadUserState();
+        }
+
         // Sincroniza permissões e entitlements vindos do banco de dados (Hotmart / Supabase)
         try {
           const profileData = await window.SupabaseClient.pullProfile();
-          if (profileData && profileData.success && profileData.data) {
-            const p = profileData.data;
-            if (ProtocoloStore.setOrderBumpStatus) {
-              ProtocoloStore.setOrderBumpStatus(Boolean(p.has_orderbump_abdomen), Boolean(p.has_orderbump_batidos));
+          const p = (profileData && profileData.success && profileData.data) || null;
+
+          // REGRA DE SEGURANÇA ESTRITA: Exige compra aprovada no Supabase (has_base_access = true)
+          if (!p || p.has_base_access !== true) {
+            window.SupabaseClient.signOut();
+            if (window.ProtocoloStore && window.ProtocoloStore.resetToGuest) {
+              window.ProtocoloStore.resetToGuest();
             }
-            if (ProtocoloStore.setVipStatus && p.is_vip !== undefined) {
-              ProtocoloStore.setVipStatus(Boolean(p.is_vip));
+            alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada a este correo electrónico.\n\nPara acceder al Centro de Mando, adquiere tu membresía oficial en el checkout.');
+            if (submitBtn) {
+              submitBtn.innerText = mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL';
+              submitBtn.disabled = false;
             }
+            return;
+          }
+
+          if (window.ProtocoloStore && window.ProtocoloStore.hydrateFromCloud) {
+            window.ProtocoloStore.hydrateFromCloud(p);
           }
         } catch (pullErr) {
           console.warn('Aviso ao sincronizar permissões:', pullErr);
         }
 
-        // Sincronizar dados atuais
-        await syncProfileCloud();
         renderApp(ProtocoloStore.getState());
       } else {
         if (submitBtn) {
@@ -1478,9 +1561,17 @@
     function signOutCloud() {
       if (window.SupabaseClient) {
         window.SupabaseClient.signOut();
-        showToast('Sesión en la nube cerrada.', 'info');
-        renderApp(ProtocoloStore.getState());
       }
+      try {
+        localStorage.removeItem('protocolo_current_user');
+        localStorage.removeItem('protocolo_auth_remember');
+        localStorage.removeItem('protocolo_supabase_user');
+      } catch (e) {}
+      if (window.ProtocoloStore && window.ProtocoloStore.resetToGuest) {
+        window.ProtocoloStore.resetToGuest();
+      }
+      showToast('Sesión en la nube cerrada.', 'info');
+      renderApp(ProtocoloStore.getState());
     }
 
     window.App = {
@@ -1491,6 +1582,7 @@
       closeArsenalModal,
       openBatidosModal,
       openAbdomenWorkoutModal,
+      viewMealPhoto,
       openEditProfileModal,
       closeEditProfileModal,
       openSettings: openEditProfileModal,

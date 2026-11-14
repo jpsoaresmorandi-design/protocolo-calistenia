@@ -57,3 +57,14 @@ CREATE POLICY "Usuários podem atualizar seus dados pessoais mas não privilégi
       has_base_access = (SELECT p.has_base_access FROM public.profiles p WHERE p.id = auth.uid())
     )
   );
+
+-- 4. Trancar imediatamente contas existentes criadas sem pagamento aprovado
+UPDATE public.profiles
+SET has_base_access = false, is_vip = false
+WHERE id NOT IN (
+  SELECT p.id 
+  FROM public.profiles p
+  JOIN public.payment_events pe ON LOWER(p.email) = LOWER(pe.buyer_email)
+  WHERE pe.status = 'APPROVED' OR pe.event_type = 'PURCHASE_APPROVED'
+);
+

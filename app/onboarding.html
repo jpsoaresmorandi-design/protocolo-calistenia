@@ -480,10 +480,18 @@
           if (typeof window.SupabaseClient.pullProfile === 'function') {
             var profileCheck = await window.SupabaseClient.pullProfile();
             var p = (profileCheck && profileCheck.success && profileCheck.data) || null;
-            if (p && p.has_base_access !== true) {
+            if (!p || p.has_base_access !== true) {
+              if (window.SupabaseClient && typeof window.SupabaseClient.signOut === 'function') {
+                window.SupabaseClient.signOut();
+              }
+              try {
+                localStorage.removeItem('protocolo_current_user');
+                localStorage.removeItem('protocolo_auth_remember');
+                localStorage.removeItem('protocolo_supabase_user');
+              } catch(e){}
               btn.disabled = false;
               btn.innerHTML = '<span>🪖 ACTIVAR MI CUENTA Y COMENZAR</span>';
-              alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada al correo ' + email + ' en Hotmart.\n\nPor favor verifica que estés utilizando el mismo correo que registraste en la compra.');
+              alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada al correo ' + email + ' en Hotmart.\n\nPara ingresar, adquiere tu membresía oficial en el checkout o verifica que estés usando el mismo correo de tu compra.');
               return;
             }
           }

@@ -2688,16 +2688,13 @@
         </div>
 
         <div class="auth-modal-body">
-          <!-- Tabs de Alternância Tática -->
+          <!-- Tabs de Alternância Tática (Apenas Login e Recuperação - Registro Aberto Desabilitado) -->
           <div class="auth-tabs-nav">
-            <button type="button" class="auth-tab-pill ${mode === 'login' ? 'active' : ''}" onclick="App.setAuthModalMode('login')">
+            <button type="button" class="auth-tab-pill ${mode !== 'recover' ? 'active' : ''}" onclick="App.setAuthModalMode('login')">
               INGRESAR
             </button>
-            <button type="button" class="auth-tab-pill ${mode === 'register' ? 'active' : ''}" onclick="App.setAuthModalMode('register')">
-              ACTIVAR CUENTA
-            </button>
             <button type="button" class="auth-tab-pill ${mode === 'recover' ? 'active' : ''}" onclick="App.setAuthModalMode('recover')">
-              RECUPERAR
+              RECUPERAR CONTRASEÑA
             </button>
           </div>
 
@@ -2716,17 +2713,9 @@
             </form>
           ` : `
             <div style="font-size:12px; color:#a1a1aa; margin-bottom:14px; line-height:1.5;">
-              ${mode === 'register' 
-                ? 'Activa tu acceso con el mismo correo registrado en tu compra para sincronizar tus 21 días y membresías.'
-                : 'Ingresa a tu Centro de Mando para sincronizar tu progreso de 21 días, recetas y rango militar.'}
+              Ingresa a tu Centro de Mando para sincronizar tu progreso de 21 días, recetas y rango militar.
             </div>
-            <form onsubmit="App.handleAuthSubmit(event, '${mode}')">
-              ${mode === 'register' ? `
-                <div class="form-group" style="margin-bottom:10px;">
-                  <label style="font-size:11px; color:#fff; font-weight:700;">Nombre del Soldado:</label>
-                  <input type="text" id="authNameInput" required placeholder="Tu nombre o apodo militar" class="comment-input" style="width:100%; margin-top:4px;">
-                </div>
-              ` : ''}
+            <form onsubmit="App.handleAuthSubmit(event, 'login')">
               <div class="form-group" style="margin-bottom:10px;">
                 <label style="font-size:11px; color:#fff; font-weight:700;">Correo Electrónico:</label>
                 <input type="email" id="authEmailInput" required placeholder="tu@correo.com" class="comment-input" style="width:100%; margin-top:4px;">
@@ -2734,14 +2723,12 @@
               <div class="form-group" style="margin-bottom:14px;">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                   <label style="font-size:11px; color:#fff; font-weight:700;">Contraseña:</label>
-                  ${mode === 'login' ? `
-                    <a href="javascript:void(0)" onclick="App.setAuthModalMode('recover')" style="font-size:10.5px; color:#22c55e; text-decoration:none;">¿Olvidaste tu contraseña?</a>
-                  ` : ''}
+                  <a href="javascript:void(0)" onclick="App.setAuthModalMode('recover')" style="font-size:10.5px; color:#22c55e; text-decoration:none;">¿Olvidaste tu contraseña?</a>
                 </div>
                 <input type="password" id="authPasswordInput" required minlength="6" placeholder="Mínimo 6 caracteres" class="comment-input" style="width:100%; margin-top:4px;">
               </div>
               <button type="submit" class="btn-start-mission" style="width:100%;" id="btnAuthSubmit">
-                ${mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL'}
+                INICIAR SESIÓN EN EL CUARTEL
               </button>
             </form>
           `}

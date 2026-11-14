@@ -146,3 +146,4 @@ if (failed.length > 0) {
 } else {
   console.log('✓ TODOS OS TESTES PASSARAM COM SUCESSO!');
 }
+
