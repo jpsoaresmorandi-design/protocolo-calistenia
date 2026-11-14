@@ -5556,3 +5556,240 @@ textarea {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
+/* ============================================================
+   GUÍA PWA & ALERTAS TÁCTICAS (ONBOARDING PASO 5)
+   ============================================================ */
+.pwa-guide-box {
+  background: #0d120e;
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.pwa-guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.pwa-guide-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pwa-guide-ico {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.pwa-guide-title strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.pwa-guide-title span {
+  display: block;
+  font-size: 11px;
+  color: #a1a1aa;
+  margin-top: 1px;
+}
+
+.pwa-guide-tag {
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.pwa-guide-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: #050705;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+
+.pwa-guide-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #71717a;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 9px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.pwa-guide-tab-btn:hover {
+  color: #d1d5db;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.pwa-guide-tab-btn.active {
+  background: #172418;
+  color: #ffffff;
+  border-color: rgba(34, 197, 94, 0.45);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.pwa-guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+
+.pwa-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: #d1d5db;
+  line-height: 1.45;
+}
+
+.pwa-step-row strong {
+  color: #ffffff;
+}
+
+.step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.kbd-badge {
+  display: inline-block;
+  background: #19221a;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 4px;
+  padding: 0 5px;
+  font-size: 11px;
+  color: #4ade80;
+  font-weight: 800;
+}
+
+/* BOX DE NOTIFICAÇÃO PUSH */
+.notif-optin-box {
+  background: linear-gradient(180deg, #101611 0%, #0a0e0a 100%);
+  border: 1px dashed rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.notif-optin-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.notif-optin-header strong {
+  display: block;
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.notif-optin-header span {
+  display: block;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+.notif-optin-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.notif-time-select {
+  flex: 1;
+  min-width: 170px;
+  background: #080c08;
+  border: 1px solid #273427;
+  color: #f3f4f6;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.notif-time-select:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+.btn-activate-notifs {
+  background: linear-gradient(135deg, #172418 0%, #101910 100%);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-activate-notifs:hover {
+  background: #22c55e;
+  color: #000000;
+  border-color: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+}
+
+.notif-optin-footer {
+  font-size: 10px;
+  color: #6b7280;
+  margin-top: 8px;
+  line-height: 1.35;
+}
+

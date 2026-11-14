@@ -2523,48 +2523,64 @@
               <div class="pwa-guide-box">
                 <div class="pwa-guide-header">
                   <div class="pwa-guide-title">
-                    <span>📲</span> INSTALAR EN PANTALLA DE INICIO
+                    <span class="pwa-guide-ico">📲</span>
+                    <div>
+                      <strong>Instalar en Pantalla de Inicio</strong>
+                      <span>Acceso directo rápido • Modo pantalla completa</span>
+                    </div>
                   </div>
-                  <span style="font-size:10px; color:var(--primary-green); font-weight:800; background:rgba(34,197,94,0.15); padding:2px 6px; border-radius:4px;">RECOMENDADO</span>
-                </div>
-                <div class="pwa-guide-sub">
-                  Guarda la aplicación directamente en la pantalla de inicio de tu celular para no perder ningún día de entrenamiento y activar tus alertas tácticas.
+                  <span class="pwa-guide-tag">RECOMENDADO</span>
                 </div>
 
                 <div class="pwa-guide-tabs">
                   <button type="button" class="pwa-guide-tab-btn active" id="tabGuideIos" onclick="App.showInstallTab('ios')">
-                    🍏 iPhone (iOS Safari)
+                    <span>🍏</span> iPhone (iOS Safari)
                   </button>
                   <button type="button" class="pwa-guide-tab-btn" id="tabGuideAndroid" onclick="App.showInstallTab('android')">
-                    🤖 Android (Chrome)
+                    <span>🤖</span> Android (Chrome)
                   </button>
                 </div>
 
                 <div class="pwa-guide-steps" id="pwaStepsIos">
-                  <ol>
-                    <li>Toca el botón <strong>Compartir</strong> (icono de cuadrado con flecha hacia arriba <code>⎙</code>) en la barra inferior de Safari.</li>
-                    <li>Desplázate hacia abajo en el menú y selecciona <strong>"Agregar a pantalla de inicio"</strong> (icono <code>➕</code>).</li>
-                    <li>Toca <strong>"Agregar"</strong> en la esquina superior derecha. ¡Listo!</li>
-                  </ol>
+                  <div class="pwa-step-row">
+                    <span class="step-num">1</span>
+                    <span>Toca el botón <strong>Compartir</strong> (icono de cuadrado con flecha <span class="kbd-badge">⎙</span>) en la barra de Safari.</span>
+                  </div>
+                  <div class="pwa-step-row">
+                    <span class="step-num">2</span>
+                    <span>Desplázate hacia abajo y pulsa <strong>"Agregar a pantalla de inicio"</strong> (<span class="kbd-badge">➕</span>).</span>
+                  </div>
+                  <div class="pwa-step-row">
+                    <span class="step-num">3</span>
+                    <span>Toca <strong>"Agregar"</strong> en la esquina superior derecha. ¡Listo!</span>
+                  </div>
                 </div>
 
                 <div class="pwa-guide-steps" id="pwaStepsAndroid" style="display:none;">
-                  <ol>
-                    <li>Toca los <strong>tres puntos</strong> (<code>⋮</code>) en la esquina superior derecha de Chrome.</li>
-                    <li>Selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</li>
-                    <li>Confirma la instalación y ábrela como una app nativa desde tu pantalla.</li>
-                  </ol>
+                  <div class="pwa-step-row">
+                    <span class="step-num">1</span>
+                    <span>Toca los <strong>tres puntos</strong> (<span class="kbd-badge">⋮</span>) en la esquina superior de Chrome.</span>
+                  </div>
+                  <div class="pwa-step-row">
+                    <span class="step-num">2</span>
+                    <span>Selecciona <strong>"Instalar aplicación"</strong> o "Añadir a pantalla principal".</span>
+                  </div>
+                  <div class="pwa-step-row">
+                    <span class="step-num">3</span>
+                    <span>Confirma y ábrela como app nativa directamente desde tu pantalla.</span>
+                  </div>
                 </div>
 
                 <!-- ALERTA TÁCTICA / PUSH NOTIFICATIONS -->
                 <div class="notif-optin-box">
-                  <div class="notif-optin-title">
-                    <span>🔔</span> RECORDATORIO DIARIO DE MISIÓN
+                  <div class="notif-optin-header">
+                    <span style="font-size:16px;">🔔</span>
+                    <div>
+                      <strong>Recordatorio Diario de Entrenamiento</strong>
+                      <span>Alerta táctica en tu celular para no perder la racha</span>
+                    </div>
                   </div>
-                  <div class="notif-optin-desc">
-                    Elige el horario en el que deseas entrenar. Con la app instalada en tu pantalla de inicio o en segundo plano, tu navegador te recordará la sesión.
-                  </div>
-                  <div style="display:flex; gap:8px; align-items:center; margin-top:4px; flex-wrap:wrap;">
+                  <div class="notif-optin-controls">
                     <select id="onbReminderSelect" class="notif-time-select" onchange="App.setReminderHour(this.value)">
                       <option value="07:00">🌅 07:00 - Amanecer Táctico</option>
                       <option value="12:30">☀️ 12:30 - Pausa Operativa</option>
@@ -2572,11 +2588,11 @@
                       <option value="20:30">🌙 20:30 - Misión Nocturna</option>
                     </select>
                     <button type="button" class="btn-activate-notifs" id="btnSubscribePush" onclick="App.subscribeWebPush(this)">
-                      🔔 ACTIVAR RECORDATORIOS WEB PUSH
+                      <span>🔔 ACTIVAR RECORDATORIO</span>
                     </button>
                   </div>
-                  <div style="font-size:10px; color:#a1a1aa; line-height:1.3; margin-top:4px;">
-                    ℹ️ Web Push militar activo: recibirás tu aviso diario incluso con la pantalla apagada o la aplicación cerrada.
+                  <div class="notif-optin-footer">
+                    ℹ️ Recibirás tu aviso diario en segundo plano para cumplir los 21 días.
                   </div>
                 </div>
               </div>
