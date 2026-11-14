@@ -1,27 +1,21 @@
 {
-  "version": 2,
   "cleanUrls": true,
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/vsl$",
-      "dest": "/vsl.html"
+      "source": "/vsl",
+      "destination": "/vsl.html"
     },
     {
-      "src": "^/quiz$",
-      "dest": "/index.html"
+      "source": "/quiz",
+      "destination": "/index.html"
     },
     {
-      "src": "^/app/?$",
-      "dest": "/app/index.html"
+      "source": "/app",
+      "destination": "/app/index.html"
     },
     {
-      "src": "^/app/(.*)",
-      "dest": "/app/$1"
-    },
-    {
-      "src": "^/(.*)",
-      "dest": "/$1"
+      "source": "/app/:path*",
+      "destination": "/app/:path*"
     }
   ]
 }
-

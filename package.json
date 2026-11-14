@@ -4,6 +4,7 @@
   "description": "Funil Desafio de Calistenia Militar - Quiz e VSL com Player Local Independente",
   "main": "app/index.html",
   "scripts": {
+    "build": "echo 'Build static'",
     "start": "node server.js",
     "dev": "node server.js",
     "app": "node server.js",

@@ -1,0 +1,9 @@
+# Ignorar scripts locais de servidor e automação para Vercel não tentar rodar como Serverless Function
+server.js
+generate_pdf.js
+generate_abdomen_pdf.js
+generate_batidos_pdf.js
+*.bat
+*.log
+node_modules
+supabase
