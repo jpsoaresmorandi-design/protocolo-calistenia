@@ -87,19 +87,19 @@
       <div id="pwaBannerContainer"></div>
 
       <!-- Card Resumen de Peso Táctico en la Home -->
-      <div class="home-weight-summary-card" onclick="App.setTab('evolucion')" style="background:var(--bg-surface); border:1px solid rgba(34,197,94,0.25); border-radius:var(--radius-md); padding:10px 14px; margin-bottom:12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span style="font-size:22px;">⚖️</span>
-          <div>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <strong style="color:#fff; font-size:13px;">Evolución de Peso:</strong>
-              <span style="color:#22c55e; font-weight:800; font-size:13px;">${curW} kg</span>
-              <span style="font-size:11px; color:#a1a1aa;">(${dSign} kg)</span>
+      <div class="home-weight-summary-card" onclick="App.setTab('evolucion')" style="background:var(--bg-surface); border:1px solid rgba(34,197,94,0.25); border-radius:var(--radius-md); padding:10px 12px; margin-bottom:12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
+          <span style="font-size:20px; flex-shrink:0;">⚖️</span>
+          <div style="min-width:0; overflow:hidden;">
+            <div style="display:flex; align-items:center; gap:5px; flex-wrap:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              <strong style="color:#fff; font-size:12px; white-space:nowrap;">Peso:</strong>
+              <span style="color:#22c55e; font-weight:800; font-size:12.5px; white-space:nowrap;">${curW} kg</span>
+              <span style="font-size:10.5px; color:#a1a1aa; white-space:nowrap;">(${dSign} kg)</span>
             </div>
-            <div style="color:#71717a; font-size:11px;">Meta fijada: ${p.targetWeight} kg • Toca para ver curva gráfica</div>
+            <div style="color:#71717a; font-size:10.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Meta: ${p.targetWeight} kg • Curva gráfica</div>
           </div>
         </div>
-        <span style="color:var(--primary-green); font-size:11px; font-weight:800; background:rgba(34,197,94,0.12); padding:4px 8px; border-radius:4px;">VER GRÁFICO ›</span>
+        <span style="color:var(--primary-green); font-size:10.5px; font-weight:800; background:rgba(34,197,94,0.12); padding:4px 7px; border-radius:4px; white-space:nowrap; flex-shrink:0;">VER ›</span>
       </div>
 
       <!-- Meta Semanal de Consistencia -->
@@ -227,6 +227,8 @@
           </div>
         `).join('')}
       </div>
+
+      <div style="height: calc(85px + env(safe-area-inset-bottom, 20px)); width: 100%;"></div>
     `;
   }
 
@@ -582,6 +584,8 @@
           </div>
         `).join('')}
       </div>
+
+      <div style="height: calc(85px + env(safe-area-inset-bottom, 20px)); width: 100%;"></div>
     `;
   }
 

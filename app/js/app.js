@@ -219,18 +219,16 @@
           </div>
           <div class="user-meta">
             <span class="user-rank-name">${rankInfo.current.icon} ${rankInfo.current.name}</span>
-            <span class="user-name">${state.profile.name} • "${state.profile.nickname || 'Recluta'}"</span>
+            <span class="user-name" title="${state.profile.name}">${state.profile.name}</span>
           </div>
         </div>
 
         <div class="header-stats">
           <div class="stat-pill points" title="Puntos Tácticos XP">
-            <span>⚡</span>
-            <span>${state.progress.points}</span>
+            <span style="display:inline-flex; align-items:center; gap:2px; white-space:nowrap;">⚡ ${state.progress.points}</span>
           </div>
           <div class="stat-pill" title="Racha de Días Consecutivos">
-            <span>🔥</span>
-            <span>${state.progress.streak}</span>
+            <span style="display:inline-flex; align-items:center; gap:2px; white-space:nowrap;">🔥 ${state.progress.streak}</span>
           </div>
           <button class="btn-icon-header" onclick="App.setTab('perfil')" title="Mi Perfil">👤</button>
         </div>

@@ -63,9 +63,13 @@ img, video, canvas, svg {
   height: auto;
 }
 
-p, span, h1, h2, h3, h4, h5, h6, div {
+p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
-  word-break: break-word;
+}
+
+/* Previne quebra de palavras esquisitas em botões, badges, abas e estatísticas */
+button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
+  word-break: keep-all;
 }
 
 /* App Viewport Container */
@@ -140,29 +144,45 @@ p, span, h1, h2, h3, h4, h5, h6, div {
 }
 
 .user-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: #fff;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
 }
 
 .header-stats {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .stat-pill {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 4px !important;
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  padding: 5px 10px;
+  padding: 4px 8px !important;
   border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px !important;
+  font-weight: 800 !important;
   color: #fff;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  flex-shrink: 0;
+}
+
+.stat-pill span {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  display: inline !important;
+  font-size: 11px !important;
 }
 
 .stat-pill.points {
@@ -173,14 +193,15 @@ p, span, h1, h2, h3, h4, h5, h6, div {
   background: none;
   border: none;
   color: var(--text-muted);
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border-radius: var(--radius-full);
   transition: color 0.2s, background 0.2s;
+  flex-shrink: 0;
 }
 
 .btn-icon-header:hover {
@@ -191,7 +212,7 @@ p, span, h1, h2, h3, h4, h5, h6, div {
 /* --- Main Content Area (Safe-Area & Generous Bottom Clearance) --- */
 .app-content {
   flex: 1 1 auto;
-  padding: 16px 16px max(120px, calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + 32px)) 16px;
+  padding: 14px 14px calc(90px + env(safe-area-inset-bottom)) 14px !important;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
@@ -206,16 +227,16 @@ p, span, h1, h2, h3, h4, h5, h6, div {
   transform: translateX(-50%);
   width: 100%;
   max-width: 480px;
-  height: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
-  background: rgba(18, 21, 19, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border-subtle);
-  display: flex;
+  height: calc(56px + env(safe-area-inset-bottom));
+  background: rgba(10, 13, 10, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
   align-items: center;
-  justify-content: space-around;
-  padding: 0 8px env(safe-area-inset-bottom) 8px;
-  z-index: 60;
+  padding: 2px 2px env(safe-area-inset-bottom) 2px !important;
+  z-index: 100;
   box-sizing: border-box;
 }
 
@@ -226,42 +247,54 @@ p, span, h1, h2, h3, h4, h5, h6, div {
 }
 
 .nav-tab-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 2px !important;
   background: none;
   border: none;
-  color: var(--text-dim);
+  color: #71717a;
   cursor: pointer;
-  padding: 6px 12px;
-  border-radius: var(--radius-md);
-  transition: all 0.2s ease;
-  flex: 1;
+  padding: 4px 1px !important;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap !important;
 }
 
 .nav-tab-btn svg {
-  width: 22px;
-  height: 22px;
+  width: 20px !important;
+  height: 20px !important;
   stroke-width: 2;
   transition: transform 0.2s, stroke 0.2s;
+  flex-shrink: 0;
 }
 
 .nav-tab-btn span {
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  letter-spacing: -0.15px !important;
+  text-align: center;
+  margin-top: 2px;
+  text-transform: none !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .nav-tab-btn.active {
-  color: var(--primary-green);
+  color: #22c55e !important;
 }
 
 .nav-tab-btn.active svg {
-  transform: scale(1.1);
-  stroke: var(--primary-green);
+  transform: scale(1.08);
+  stroke: #22c55e !important;
 }
 
 /* --- PWA Install Banner --- */
@@ -3308,10 +3341,10 @@ p, span, h1, h2, h3, h4, h5, h6, div {
   grid-template-columns: repeat(5, 1fr);
   align-items: center;
   gap: 0;
-  padding: 6px 4px 8px;
-  background: rgba(10, 12, 10, 0.94);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  padding: 2px 2px env(safe-area-inset-bottom) 2px;
+  background: rgba(10, 13, 10, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -3326,46 +3359,51 @@ p, span, h1, h2, h3, h4, h5, h6, div {
 }
 
 .center-vip-button {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: linear-gradient(145deg, #181d18, #0c0e0c);
-  border: 1.5px solid rgba(234, 179, 8, 0.45);
+  background: linear-gradient(145deg, #182419, #0d120d);
+  border: 1.5px solid #22c55e;
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: -14px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.8), 0 0 14px rgba(234, 179, 8, 0.25);
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  top: -11px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), 0 0 10px rgba(34, 197, 94, 0.35);
+  transition: all 0.2s ease;
 }
 
 .center-vip-button svg {
-  width: 22px;
-  height: 22px;
-  color: #eab308;
+  width: 18px;
+  height: 18px;
+  color: #22c55e;
   display: block;
 }
 
 .center-vip-badge {
   position: absolute;
-  top: -6px;
-  background: linear-gradient(135deg, #eab308, #ca8a04);
+  top: -5px;
+  background: #22c55e;
   color: #000;
-  font-size: 8px;
+  font-size: 7.5px;
   font-weight: 900;
-  letter-spacing: 0.6px;
-  padding: 1px 6px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(234, 179, 8, 0.5);
+  letter-spacing: 0.5px;
+  padding: 1px 4px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .center-vip-label {
-  font-size: 9.5px;
-  font-weight: 800;
-  color: #a1a1aa;
-  margin-top: 28px;
-  letter-spacing: 0.2px;
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  color: #71717a;
+  margin-top: 24px;
+  letter-spacing: -0.2px;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: none !important;
 }
 
 .nav-tab-center-vip.active .center-vip-button {

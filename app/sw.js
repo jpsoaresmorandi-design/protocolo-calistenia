@@ -1,4 +1,4 @@
-const CACHE_NAME = 'protocolo-calistenia-v10';
+const CACHE_NAME = 'protocolo-calistenia-v12';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
