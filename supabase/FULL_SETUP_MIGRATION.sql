@@ -238,3 +238,4 @@ CREATE POLICY "Apenas service_role pode gerenciar payment_events"
 -- ==============================================================================
 -- FIM DO SCRIPT: BANCO DE DADOS CONFIGURADO COM SUCESSO!
 -- ==============================================================================
+
