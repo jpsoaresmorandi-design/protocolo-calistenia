@@ -838,7 +838,28 @@ function initCardTouch(step){
   grid.addEventListener('touchcancel',()=>{active=false;clr();},{passive:true});
 }
 
+// Rastreamento de passos personalizados do Quiz no Meta Pixel
+var firedQuizEvents = {};
+
+function trackQuizStep(stepIdx) {
+  var quizNum = stepIdx + 1;
+  var eventName = 'Quiz_' + quizNum;
+  if (!firedQuizEvents[quizNum]) {
+    firedQuizEvents[quizNum] = true;
+    if (window.fbq) {
+      try {
+        fbq('trackCustom', eventName, {
+          step: quizNum,
+          step_index: stepIdx
+        });
+        console.log('[Meta Pixel] Disparado evento personalizado: ' + eventName);
+      } catch(err) {}
+    }
+  }
+}
+
 function afterRender(step){
+  trackQuizStep(state.step);
   if (step && step.type === 'ruler') initRuler(step);
   if (step && (step.type === 'grid-img' || step.type === 'grid-multi')) initCardTouch(step);
   if (step && step.type === 'processing') initProcessing(step);
@@ -846,6 +867,12 @@ function afterRender(step){
 }
 
 function gotoVsl(){
+  if (window.fbq) {
+    try {
+      fbq('trackCustom', 'Quiz_Concluido', { total_steps: TOTAL });
+      fbq('track', 'Lead');
+    } catch(err) {}
+  }
   const qs = (window.__funnelQSString && window.__funnelQSString()) || '';
   window.location.href = VSL_URL + (qs ? '?' + qs : '');
 }
