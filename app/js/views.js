@@ -1960,15 +1960,15 @@
     return `
       <div class="view-comunidad-feed">
         <!-- Top Header Compacto da Hermandad -->
-        <div class="comm-feed-topbar" style="margin-bottom:10px; padding:0 2px;">
+        <div class="comm-feed-topbar" style="margin-bottom:12px; padding:2px 2px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap:6px;">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#22c55e" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <strong style="font-size:14px; color:#fff; letter-spacing:0.3px;">HERMANDAD TÁCTICA</strong>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">👥</span>
+              <strong style="font-size:15px; font-weight:900; color:#fff; letter-spacing:0.5px;">HERMANDAD TÁCTICA</strong>
             </div>
-            <span style="font-size:9px; font-weight:800; color:#4ade80; background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.35); padding:2px 7px; border-radius:4px; letter-spacing:0.5px;">CANAL ABIERTO</span>
+            <span style="font-size:9.5px; font-weight:800; color:#22c55e; background:rgba(34,197,94,0.14); border:1px solid rgba(34,197,94,0.35); padding:2px 8px; border-radius:4px; letter-spacing:0.5px;">● CANAL ACTIVO</span>
           </div>
-          <div style="font-size:11px; color:#71717a; margin-top:2px;">Reporta tu misión del día, aclara dudas y comparte tus victorias.</div>
+          <div style="font-size:11.5px; color:#9ca3af; line-height:1.4; margin-top:2px;">Reporta tu misión del día, aclara dudas y comparte tus victorias.</div>
         </div>
 
         <!-- Inputs ocultos para adjuntar foto en publicación -->
@@ -2685,72 +2685,74 @@
   
   function renderAuthModal(mode = 'login') {
     return `
-      <div class="edit-profile-modal-box auth-modal-tactical" style="max-width:400px;">
+      <div class="edit-profile-modal-box auth-modal-tactical" style="max-width:420px;">
         <div class="edit-modal-header">
           <div style="display:flex; align-items:center; gap:8px;">
             <span style="font-size:18px;">🪖</span>
-            <span style="font-size:13px; font-weight:800; color:#fff; text-transform:uppercase;">Cuenta Militar & Respaldo</span>
+            <span style="font-size:13px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Cuenta Militar & Respaldo</span>
           </div>
-          <button class="btn-close-modal" onclick="App.closeAuthModal()">✕</button>
+          <button class="btn-close-modal" onclick="App.closeAuthModal()" title="Cerrar ventana">✕</button>
         </div>
 
-        <!-- Tabs de Alternância Tática -->
-        <div class="auth-tabs-nav">
-          <button type="button" class="auth-tab-pill ${mode === 'login' ? 'active' : ''}" onclick="App.setAuthModalMode('login')">
-            INGRESAR
-          </button>
-          <button type="button" class="auth-tab-pill ${mode === 'register' ? 'active' : ''}" onclick="App.setAuthModalMode('register')">
-            ACTIVAR CUENTA
-          </button>
-          <button type="button" class="auth-tab-pill ${mode === 'recover' ? 'active' : ''}" onclick="App.setAuthModalMode('recover')">
-            RECUPERAR
-          </button>
-        </div>
-
-        ${mode === 'recover' ? `
-          <div style="font-size:12px; color:#a1a1aa; margin-bottom:14px; line-height:1.5;">
-            Ingresa el correo electrónico utilizado en tu compra del Protocolo. Te enviaremos un enlace de acceso para restablecer tu contraseña.
-          </div>
-          <form onsubmit="App.handlePasswordRecoverySubmit(event)">
-            <div class="form-group" style="margin-bottom:14px;">
-              <label style="font-size:11px; color:#fff; font-weight:700;">Correo Electrónico de Compra:</label>
-              <input type="email" id="authEmailInput" required placeholder="tu@correo.com" class="comment-input" style="width:100%; margin-top:4px;">
-            </div>
-            <button type="submit" class="btn-start-mission" style="width:100%;" id="btnRecoverSubmit">
-              ENVIAR ENLACE DE RECUPERACIÓN
+        <div class="auth-modal-body">
+          <!-- Tabs de Alternância Tática -->
+          <div class="auth-tabs-nav">
+            <button type="button" class="auth-tab-pill ${mode === 'login' ? 'active' : ''}" onclick="App.setAuthModalMode('login')">
+              INGRESAR
             </button>
-          </form>
-        ` : `
-          <div style="font-size:12px; color:#a1a1aa; margin-bottom:14px; line-height:1.5;">
-            ${mode === 'register' 
-              ? 'Activa tu acceso con el mismo correo registrado en tu compra para sincronizar tus 21 días y membresías.'
-              : 'Ingresa a tu Centro de Mando para sincronizar tu progreso de 21 días, recetas y rango militar.'}
+            <button type="button" class="auth-tab-pill ${mode === 'register' ? 'active' : ''}" onclick="App.setAuthModalMode('register')">
+              ACTIVAR CUENTA
+            </button>
+            <button type="button" class="auth-tab-pill ${mode === 'recover' ? 'active' : ''}" onclick="App.setAuthModalMode('recover')">
+              RECUPERAR
+            </button>
           </div>
-          <form onsubmit="App.handleAuthSubmit(event, '${mode}')">
-            ${mode === 'register' ? `
+
+          ${mode === 'recover' ? `
+            <div style="font-size:12px; color:#a1a1aa; margin-bottom:14px; line-height:1.5;">
+              Ingresa el correo electrónico utilizado en tu compra del Protocolo. Te enviaremos un enlace de acceso para restablecer tu contraseña.
+            </div>
+            <form onsubmit="App.handlePasswordRecoverySubmit(event)">
+              <div class="form-group" style="margin-bottom:14px;">
+                <label style="font-size:11px; color:#fff; font-weight:700;">Correo Electrónico de Compra:</label>
+                <input type="email" id="authEmailInput" required placeholder="tu@correo.com" class="comment-input" style="width:100%; margin-top:4px;">
+              </div>
+              <button type="submit" class="btn-start-mission" style="width:100%;" id="btnRecoverSubmit">
+                ENVIAR ENLACE DE RECUPERACIÓN
+              </button>
+            </form>
+          ` : `
+            <div style="font-size:12px; color:#a1a1aa; margin-bottom:14px; line-height:1.5;">
+              ${mode === 'register' 
+                ? 'Activa tu acceso con el mismo correo registrado en tu compra para sincronizar tus 21 días y membresías.'
+                : 'Ingresa a tu Centro de Mando para sincronizar tu progreso de 21 días, recetas y rango militar.'}
+            </div>
+            <form onsubmit="App.handleAuthSubmit(event, '${mode}')">
+              ${mode === 'register' ? `
+                <div class="form-group" style="margin-bottom:10px;">
+                  <label style="font-size:11px; color:#fff; font-weight:700;">Nombre del Soldado:</label>
+                  <input type="text" id="authNameInput" required placeholder="Tu nombre o apodo militar" class="comment-input" style="width:100%; margin-top:4px;">
+                </div>
+              ` : ''}
               <div class="form-group" style="margin-bottom:10px;">
-                <label style="font-size:11px; color:#fff; font-weight:700;">Nombre del Soldado:</label>
-                <input type="text" id="authNameInput" required placeholder="Tu nombre o apodo militar" class="comment-input" style="width:100%; margin-top:4px;">
+                <label style="font-size:11px; color:#fff; font-weight:700;">Correo Electrónico:</label>
+                <input type="email" id="authEmailInput" required placeholder="tu@correo.com" class="comment-input" style="width:100%; margin-top:4px;">
               </div>
-            ` : ''}
-            <div class="form-group" style="margin-bottom:10px;">
-              <label style="font-size:11px; color:#fff; font-weight:700;">Correo Electrónico:</label>
-              <input type="email" id="authEmailInput" required placeholder="tu@correo.com" class="comment-input" style="width:100%; margin-top:4px;">
-            </div>
-            <div class="form-group" style="margin-bottom:14px;">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <label style="font-size:11px; color:#fff; font-weight:700;">Contraseña:</label>
-                ${mode === 'login' ? `
-                  <a href="javascript:void(0)" onclick="App.setAuthModalMode('recover')" style="font-size:10.5px; color:#22c55e; text-decoration:none;">¿Olvidaste tu contraseña?</a>
-                ` : ''}
+              <div class="form-group" style="margin-bottom:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <label style="font-size:11px; color:#fff; font-weight:700;">Contraseña:</label>
+                  ${mode === 'login' ? `
+                    <a href="javascript:void(0)" onclick="App.setAuthModalMode('recover')" style="font-size:10.5px; color:#22c55e; text-decoration:none;">¿Olvidaste tu contraseña?</a>
+                  ` : ''}
+                </div>
+                <input type="password" id="authPasswordInput" required minlength="6" placeholder="Mínimo 6 caracteres" class="comment-input" style="width:100%; margin-top:4px;">
               </div>
-              <input type="password" id="authPasswordInput" required minlength="6" placeholder="Mínimo 6 caracteres" class="comment-input" style="width:100%; margin-top:4px;">
-            </div>
-            <button type="submit" class="btn-start-mission" style="width:100%;" id="btnAuthSubmit">
-              ${mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL'}
-            </button>
-          </form>
-        `}
+              <button type="submit" class="btn-start-mission" style="width:100%;" id="btnAuthSubmit">
+                ${mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL'}
+              </button>
+            </form>
+          `}
+        </div>
       </div>
     `;
   }
