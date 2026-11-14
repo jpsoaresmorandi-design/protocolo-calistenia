@@ -200,6 +200,15 @@
       const root = document.getElementById('appRoot');
       if (!root) return;
 
+      // 0. VERIFICAÇÃO DE LOGIN OBRIGATÓRIO (Bloqueia qualquer acesso sem autenticação do Supabase)
+      const isAuth = window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
+      const requireAuth = Boolean(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.auth && window.PROTOCOLO_CONFIG.auth.requireAuth);
+
+      if (requireAuth && !isAuth) {
+        root.innerHTML = Views.renderLoginScreen ? Views.renderLoginScreen(currentAuthMode || 'login') : '';
+        return;
+      }
+
       // CASO 1: Si el usuario aún no completó la configuración inicial, renderiza el ONBOARDING TÁCTICO
       if (!state.onboarding || !state.onboarding.completed) {
         if (!window.OnboardingDraft) initOnboardingDraft();
@@ -1389,6 +1398,14 @@
 
     function setAuthModalMode(mode) {
       currentAuthMode = mode;
+      const isAuth = window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
+      const requireAuth = Boolean(window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.auth && window.PROTOCOLO_CONFIG.auth.requireAuth);
+
+      if (requireAuth && !isAuth) {
+        renderApp(ProtocoloStore.getState());
+        return;
+      }
+
       const modal = document.getElementById('settingsModal');
       if (!modal) return;
       modal.innerHTML = Views.renderAuthModal(mode);

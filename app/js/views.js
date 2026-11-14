@@ -2684,6 +2684,7 @@
 
   
   function renderAuthModal(mode = 'login') {
+    const isAuth = typeof window !== 'undefined' && window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
     return `
       <div class="edit-profile-modal-box auth-modal-tactical" style="max-width:420px;">
         <div class="edit-modal-header">
@@ -2691,7 +2692,7 @@
             <span style="font-size:18px;">🪖</span>
             <span style="font-size:13px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.5px;">Cuenta Militar & Respaldo</span>
           </div>
-          <button class="btn-close-modal" onclick="App.closeAuthModal()" title="Cerrar ventana">✕</button>
+          ${isAuth ? `<button class="btn-close-modal" onclick="App.closeAuthModal()" title="Cerrar ventana">✕</button>` : ''}
         </div>
 
         <div class="auth-modal-body">
@@ -2753,6 +2754,42 @@
             </form>
           `}
         </div>
+      </div>
+    `;
+  }
+
+  function renderLoginScreen(mode = 'login') {
+    return `
+      <div class="login-fullscreen-wrap" style="min-height:100vh; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 16px; background:radial-gradient(circle at 50% 15%, rgba(34,197,94,0.14), transparent 60%), #0a0c0a; box-sizing:border-box;">
+        
+        <!-- Top Tactical Branding -->
+        <div style="text-align:center; margin-bottom:20px; max-width:400px; width:100%;">
+          <div style="display:inline-flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:14px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35); font-size:28px; margin-bottom:12px; box-shadow:0 0 24px rgba(34,197,94,0.25);">
+            🪖
+          </div>
+          <h1 style="font-size:20px; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:1px; margin:0 0 4px 0;">
+            Protocolo de Calistenia
+          </h1>
+          <div style="font-size:11px; font-weight:800; color:#22c55e; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px;">
+            Centro de Comando Táctico
+          </div>
+          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1); border-radius:999px; padding:4px 12px; font-size:10.5px; color:#a1a1aa;">
+            <span style="color:#22c55e;">🔒</span> Acceso Restringido a Miembros Activos
+          </div>
+        </div>
+
+        <!-- Auth Card Component -->
+        <div style="width:100%; max-width:400px;">
+          ${renderAuthModal(mode)}
+        </div>
+
+        <!-- Link de Compra / VSL -->
+        <div style="margin-top:20px; text-align:center;">
+          <a href="../vsl.html" style="font-size:12px; color:#a1a1aa; text-decoration:none;">
+            ¿Aún no eres miembro? <strong style="color:#22c55e;">Desbloquea el Protocolo Militar aquí ›</strong>
+          </a>
+        </div>
+
       </div>
     `;
   }
@@ -3311,6 +3348,7 @@
   }
 
   window.Views = {
+    renderLoginScreen,
     renderAuthModal,
     renderBadgeInspectModal,
     getMedalsList,

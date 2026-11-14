@@ -66,7 +66,7 @@
       // Controle central de login obrigatório
       // false: permite modo convidado/demonstração
       // true: exige login para acessar as áreas protegidas
-      requireAuth: false
+      requireAuth: true
     },
     features: {
       // Funcionalidades Base (Incluídas no Protocolo de 21 Dias)
