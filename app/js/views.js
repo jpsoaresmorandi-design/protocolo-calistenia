@@ -2948,6 +2948,10 @@
   // MODAL: ARSENAL TÁCTICO & MANUAIS ADQUIRIDOS (ORDER BUMP & OFICIAL)
   // ==========================================
   function renderArsenalModal(state) {
+    const s = state || (window.ProtocoloStore && window.ProtocoloStore.getState()) || {};
+    const hasAbdomen = Boolean(s.entitlements && s.entitlements.hasAbdomenWorkout);
+    const hasBatidos = Boolean(s.entitlements && s.entitlements.hasBatidosAnabolicos);
+
     return `
       <div class="edit-profile-modal-box" style="max-width:440px; max-height:85vh; display:flex; flex-direction:column;">
         <div class="edit-modal-header">
@@ -2987,53 +2991,79 @@
             </div>
           </div>
 
-          <!-- 2. FINISHER ABDOMEN DE ACERO EN 7 MINUTOS -->
-          <div class="arsenal-item-card" style="border-color:rgba(234, 179, 8, 0.35);">
+          <!-- 2. FINISHER ABDOMEN DE ACERO EN 7 MINUTOS (ORDER BUMP) -->
+          <div class="arsenal-item-card" style="border-color:${hasAbdomen ? 'rgba(34,197,94,0.35)' : 'rgba(234, 179, 8, 0.35)'};">
             <div class="arsenal-item-header">
               <div class="arsenal-item-title-row">
                 <span class="arsenal-item-ico">⚡</span>
                 <div>
                   <strong>Finisher Abdomen de Acero (7 Min)</strong>
-                  <span style="font-size:11px; color:#eab308; display:block;">Rutina Táctica Diaria de Core</span>
+                  <span style="font-size:11px; color:${hasAbdomen ? '#22c55e' : '#eab308'}; display:block;">
+                    ${hasAbdomen ? '✓ Módulo Táctico Activo' : 'Order Bump • Core Blindado'}
+                  </span>
                 </div>
               </div>
-              <span class="arsenal-item-badge orderbump">MÓDULO EXTRA</span>
+              <span class="arsenal-item-badge ${hasAbdomen ? 'included' : 'orderbump'}" style="${hasAbdomen ? 'background:rgba(34,197,94,0.15); color:#22c55e; border-color:rgba(34,197,94,0.4);' : ''}">
+                ${hasAbdomen ? '✓ DESBLOQUEADO' : '🔒 BLOQUEADO'}
+              </span>
             </div>
             <p class="arsenal-item-desc">
-              Micro-rutina de 7 minutos con 6 ejercicios de alta tensión isométrica para quemar grasa abdominal y endurecer el core profundo sin abdominales tradicionales.
+              Micro-rutina de 7 minutos con 6 ejercicios de alta tensión isométrica para quemar grasa abdominal y endurecer el core profundo sin impacto lumbar.
             </p>
             <div class="arsenal-actions-row">
-              <button type="button" class="btn-arsenal-play" onclick="App.openAbdomenWorkoutModal()">
-                <span>⏱️</span> INICIAR RUTINA GUIADA (7 MIN)
-              </button>
-              <a href="../Finisher_Abdomen_7Minutos.pdf" download="Finisher_Abdomen_7Minutos.pdf" class="btn-arsenal-download" target="_blank">
-                <span>📥</span> PDF OFICIAL
-              </a>
+              ${hasAbdomen ? `
+                <button type="button" class="btn-arsenal-play" onclick="App.openAbdomenWorkoutModal()">
+                  <span>⏱️</span> INICIAR RUTINA GUIADA (7 MIN)
+                </button>
+                <a href="../Finisher_Abdomen_7Minutos.pdf" download="Finisher_Abdomen_7Minutos.pdf" class="btn-arsenal-download" target="_blank">
+                  <span>📥</span> PDF OFICIAL
+                </a>
+              ` : `
+                <button type="button" class="btn-arsenal-play" style="background:#eab308; color:#000; font-weight:900;" onclick="App.openHotmartCheckout('bump_abdomen')">
+                  <span>🔥</span> DESBLOQUEAR AHORA ($6.90 USD)
+                </button>
+                <button type="button" class="btn-arsenal-download" style="background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.12); color:#a1a1aa;" onclick="App.openAbdomenWorkoutModal()">
+                  <span>🔒</span> DETALLES
+                </button>
+              `}
             </div>
           </div>
 
-          <!-- 3. 12 BATIDOS ANABÓLICOS MILITARES -->
-          <div class="arsenal-item-card" style="border-color:rgba(34, 197, 94, 0.35);">
+          <!-- 3. 12 BATIDOS ANABÓLICOS MILITARES (ORDER BUMP) -->
+          <div class="arsenal-item-card" style="border-color:${hasBatidos ? 'rgba(34,197,94,0.35)' : 'rgba(34, 197, 94, 0.35)'};">
             <div class="arsenal-item-header">
               <div class="arsenal-item-title-row">
                 <span class="arsenal-item-ico">🥤</span>
                 <div>
                   <strong>12 Batidos Anabólicos Militares</strong>
-                  <span style="font-size:11px; color:#22c55e; display:block;">Recetario Proteico • 3 Minutos</span>
+                  <span style="font-size:11px; color:#22c55e; display:block;">
+                    ${hasBatidos ? '✓ Recetario Táctico Activo' : 'Order Bump • Preparación 3 Min'}
+                  </span>
                 </div>
               </div>
-              <span class="arsenal-item-badge orderbump">RECETARIO</span>
+              <span class="arsenal-item-badge ${hasBatidos ? 'included' : 'orderbump'}" style="${hasBatidos ? 'background:rgba(34,197,94,0.15); color:#22c55e; border-color:rgba(34,197,94,0.4);' : ''}">
+                ${hasBatidos ? '✓ DESBLOQUEADO' : '🔒 BLOQUEADO'}
+              </span>
             </div>
             <p class="arsenal-item-desc">
               12 fórmulas líquidas hiperproteicas de absorción rápida con ingredientes accesibles de supermercado para ganar músculo y regenerar fibra sin suplementos caros.
             </p>
             <div class="arsenal-actions-row">
-              <button type="button" class="btn-arsenal-play" style="background:#22c55e; color:#000;" onclick="App.openBatidosModal()">
-                <span>🥤</span> VER 12 RECETAS INTERACTIVAS
-              </button>
-              <a href="../12_Batidos_Anabolicos_Militares.pdf" download="12_Batidos_Anabolicos_Militares.pdf" class="btn-arsenal-download" target="_blank">
-                <span>📥</span> PDF OFICIAL
-              </a>
+              ${hasBatidos ? `
+                <button type="button" class="btn-arsenal-play" style="background:#22c55e; color:#000;" onclick="App.openBatidosModal()">
+                  <span>🥤</span> VER 12 RECETAS INTERACTIVAS
+                </button>
+                <a href="../12_Batidos_Anabolicos_Militares.pdf" download="12_Batidos_Anabolicos_Militares.pdf" class="btn-arsenal-download" target="_blank">
+                  <span>📥</span> PDF OFICIAL
+                </a>
+              ` : `
+                <button type="button" class="btn-arsenal-play" style="background:#22c55e; color:#000; font-weight:900;" onclick="App.openHotmartCheckout('bump_batidos')">
+                  <span>🔥</span> DESBLOQUEAR AHORA ($4.90 USD)
+                </button>
+                <button type="button" class="btn-arsenal-download" style="background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.12); color:#a1a1aa;" onclick="App.openBatidosModal()">
+                  <span>🔒</span> DETALLES
+                </button>
+              `}
             </div>
           </div>
 
@@ -3071,6 +3101,56 @@
   // MODAL: 12 BATIDOS ANABÓLICOS MILITARES (INTERATIVO)
   // ==========================================
   function renderBatidosModal() {
+    const s = (window.ProtocoloStore && window.ProtocoloStore.getState()) || {};
+    const isUnlocked = Boolean(s.entitlements && s.entitlements.hasBatidosAnabolicos);
+
+    if (!isUnlocked) {
+      return `
+        <div class="edit-profile-modal-box" style="max-width:440px; max-height:85vh; display:flex; flex-direction:column;">
+          <div class="edit-modal-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:20px;">🔒</span>
+              <div>
+                <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">12 Batidos Anabólicos Militares</strong>
+                <span style="color:#22c55e; font-size:11px;">Módulo Opcional • Preparación 3 Minutos</span>
+              </div>
+            </div>
+            <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
+          </div>
+
+          <div style="text-align:center; padding:16px 8px 12px; overflow-y:auto; flex:1;">
+            <div style="font-size:46px; line-height:1; margin-bottom:12px;">🥤⚡</div>
+            <h3 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:6px;">Desbloquea las 12 Fórmulas Hiperproteicas</h3>
+            <p style="font-size:12px; color:#a1a1aa; line-height:1.5; margin-bottom:16px;">
+              Este recetario especial no está incluido en el plan básico. Nutre tu masa muscular y acelera tu recuperación con fórmulas naturales sin gastar en suplementos caros.
+            </p>
+            <div style="background:rgba(34,197,94,0.08); border:1px dashed rgba(34,197,94,0.35); border-radius:10px; padding:12px; text-align:left; margin-bottom:16px;">
+              <div style="font-size:11.5px; color:#e4e4e7; line-height:1.6;">
+                <strong style="color:#22c55e; display:block; margin-bottom:4px;">Lo que recibes al desbloquear:</strong>
+                <div>✓ 25g a 52g de proteína natural por preparación</div>
+                <div>✓ Listos en menos de 3 minutos con ingredientes comunes</div>
+                <div>✓ Desglose exacto de macros y calorías por batido</div>
+                <div>✓ Momentos operativos: Pre, Post-Misión y Nocturno</div>
+                <div>✓ Incluye descarga del PDF oficial descargable</div>
+              </div>
+            </div>
+            <button class="btn-start-mission" style="width:100%; font-size:13px; font-weight:900; padding:14px; background:#22c55e; color:#000; box-shadow:0 0 20px rgba(34,197,94,0.4);" onclick="App.openHotmartCheckout('bump_batidos')">
+              DESBLOQUEAR 12 RECETAS AHORA ($4.90 USD) ›
+            </button>
+            <div style="margin-top:14px;">
+              <button type="button" onclick="App.toggleEntitlement('hasBatidosAnabolicos')" style="background:none; border:none; color:#71717a; font-size:10px; cursor:pointer; text-decoration:underline;">
+                (Simular compra / Probar desbloqueo en este dispositivo)
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:8px;">
+            ← VOLVER AL ARSENAL
+          </button>
+        </div>
+      `;
+    }
+
     const batidos = [
       { id: 1, name: 'Fuerza Titán (Chocolate y Avena)', prot: '38g', cal: '420 kcal', time: '3 min', ing: '250ml leche/bebida vegetal, 40g avena molida, 1 plátano, 1 cda mantequilla de maní, 1 cda cacao puro, canela.', prep: 'Licuar a máxima potencia 45 segundos con 3 cubos de hielo. Ideal post-misión.' },
       { id: 2, name: 'Termogénico Café Militar', prot: '32g', cal: '230 kcal', time: '2 min', ing: '1 taza café solo frío, 200ml leche vegetal, 3 claras pasteurizadas o 1 scoop proteína, hielo y canela.', prep: 'Batir enérgicamente y tomar 30 minutos antes de entrenar para encender el metabolismo.' },
@@ -3093,7 +3173,7 @@
             <span style="font-size:20px;">🥤</span>
             <div>
               <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">12 Batidos Anabólicos Militares</strong>
-              <span style="color:#22c55e; font-size:11px;">Fórmulas Rápidas de 3 Minutos • Sin Suplementos Caros</span>
+              <span style="color:#22c55e; font-size:11px;">✓ Acceso Desbloqueado • Fórmulas de 3 Minutos</span>
             </div>
           </div>
           <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
@@ -3131,6 +3211,56 @@
   // MODAL: FINISHER ABDOMEN DE ACERO (7 MINUTOS)
   // ==========================================
   function renderAbdomenWorkoutModal() {
+    const s = (window.ProtocoloStore && window.ProtocoloStore.getState()) || {};
+    const isUnlocked = Boolean(s.entitlements && s.entitlements.hasAbdomenWorkout);
+
+    if (!isUnlocked) {
+      return `
+        <div class="edit-profile-modal-box" style="max-width:440px; max-height:85vh; display:flex; flex-direction:column;">
+          <div class="edit-modal-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:20px;">🔒</span>
+              <div>
+                <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">Finisher Abdomen de Acero</strong>
+                <span style="color:#eab308; font-size:11px;">Módulo Opcional • Rutina 7 Minutos</span>
+              </div>
+            </div>
+            <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
+          </div>
+
+          <div style="text-align:center; padding:16px 8px 12px; overflow-y:auto; flex:1;">
+            <div style="font-size:46px; line-height:1; margin-bottom:12px;">⚡🔥</div>
+            <h3 style="font-size:18px; font-weight:900; color:#fff; margin-bottom:6px;">Desbloquea el Finisher de Core</h3>
+            <p style="font-size:12px; color:#a1a1aa; line-height:1.5; margin-bottom:16px;">
+              Este bloque táctico de alta intensidad comprime el transverso abdominal, quema grasa visceral y tonifica tu zona media en exactamente 7 minutos diarios.
+            </p>
+            <div style="background:rgba(234,179,8,0.08); border:1px dashed rgba(234,179,8,0.35); border-radius:10px; padding:12px; text-align:left; margin-bottom:16px;">
+              <div style="font-size:11.5px; color:#e4e4e7; line-height:1.6;">
+                <strong style="color:#eab308; display:block; margin-bottom:4px;">Lo que incluye este módulo:</strong>
+                <div>✓ 6 ejercicios de alta tensión isométrica</div>
+                <div>✓ 0 impacto en columna ni zona lumbar</div>
+                <div>✓ Temporizador táctico guiado paso a paso</div>
+                <div>✓ Audio de intervalos de combate incluido</div>
+                <div>✓ Incluye descarga del PDF oficial de combate</div>
+              </div>
+            </div>
+            <button class="btn-start-mission" style="width:100%; font-size:13px; font-weight:900; padding:14px; background:#eab308; color:#000; box-shadow:0 0 20px rgba(234,179,8,0.4);" onclick="App.openHotmartCheckout('bump_abdomen')">
+              DESBLOQUEAR MI ACCESO AHORA ($6.90 USD) ›
+            </button>
+            <div style="margin-top:14px;">
+              <button type="button" onclick="App.toggleEntitlement('hasAbdomenWorkout')" style="background:none; border:none; color:#71717a; font-size:10px; cursor:pointer; text-decoration:underline;">
+                (Simular compra / Probar desbloqueo en este dispositivo)
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:8px;">
+            ← VOLVER AL ARSENAL
+          </button>
+        </div>
+      `;
+    }
+
     const exercises = [
       { name: '1. Hollow Body Rock Militar', dur: '45 seg', rest: '15 seg', desc: 'Acostado boca arriba, eleva hombros y piernas en forma de arco tenso. Balancéate sin perder la rigidez del abdomen.' },
       { name: '2. Elevaciones de Piernas a 90°', dur: '45 seg', rest: '15 seg', desc: 'Manos bajo los glúteos, eleva las piernas rectas y baja controlado sin tocar el suelo. Foco en abdomen bajo.' },
@@ -3147,7 +3277,7 @@
             <span style="font-size:20px;">⚡</span>
             <div>
               <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">Finisher Abdomen de Acero</strong>
-              <span style="color:#eab308; font-size:11px;">Rutina Táctica de 7 Minutos • Core Blindado</span>
+              <span style="color:#eab308; font-size:11px;">✓ Acceso Desbloqueado • Rutina 7 Minutos</span>
             </div>
           </div>
           <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
@@ -3172,6 +3302,12 @@
             </div>
           `).join('')}
         </div>
+
+        <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:12px;">
+          ← VOLVER AL ARSENAL
+        </button>
+      </div>
+    `;
 
         <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:12px;">
           ← VOLVER AL ARSENAL

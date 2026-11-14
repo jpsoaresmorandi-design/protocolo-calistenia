@@ -1029,7 +1029,14 @@
 
   function openHotmartCheckout(type = 'vip') {
     const hotmartCfg = (window.PROTOCOLO_CONFIG && window.PROTOCOLO_CONFIG.hotmart) || {};
-    const baseCheckoutUrl = type === 'entry' ? hotmartCfg.entryCheckoutUrl : hotmartCfg.vipCheckoutUrl;
+    let baseCheckoutUrl = hotmartCfg.vipCheckoutUrl;
+    if (type === 'entry') {
+      baseCheckoutUrl = hotmartCfg.entryCheckoutUrl;
+    } else if (type === 'bump_abdomen') {
+      baseCheckoutUrl = hotmartCfg.bumpAbdomenUrl || hotmartCfg.entryCheckoutUrl;
+    } else if (type === 'bump_batidos') {
+      baseCheckoutUrl = hotmartCfg.bumpBatidosUrl || hotmartCfg.entryCheckoutUrl;
+    }
 
     let finalUrl = baseCheckoutUrl || 'https://pay.hotmart.com';
     const user = (window.SupabaseClient && window.SupabaseClient.getUser()) || {};
@@ -1048,6 +1055,20 @@
     }
 
     window.open(finalUrl, '_blank');
+  }
+
+  function toggleEntitlement(key) {
+    ProtocoloStore.actions.toggleEntitlement(key);
+    const modal = document.getElementById('settingsModal');
+    if (modal && modal.classList.contains('show')) {
+      if (modal.innerHTML.includes('Finisher Abdomen')) {
+        modal.innerHTML = Views.renderAbdomenWorkoutModal();
+      } else if (modal.innerHTML.includes('Batidos Anab')) {
+        modal.innerHTML = Views.renderBatidosModal();
+      } else if (modal.innerHTML.includes('Arsenal de Documentos')) {
+        modal.innerHTML = Views.renderArsenalModal();
+      }
+    }
   }
 
   function handleCommunityCheckout() {
@@ -1525,6 +1546,7 @@
     handlePasswordRecoverySubmit,
     inspectMedal,
     openHotmartCheckout,
+    toggleEntitlement,
     syncProfileCloud,
     signOutCloud,
     reRender: () => renderApp(ProtocoloStore.getState())

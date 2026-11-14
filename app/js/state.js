@@ -320,6 +320,10 @@
     weightLog: [
       { date: new Date().toISOString().split('T')[0], kg: initialStartWeight, weight: initialStartWeight }
     ],
+    entitlements: {
+      hasAbdomenWorkout: false, // Order Bump #1: Finisher Abdomen de Acero (7 Min)
+      hasBatidosAnabolicos: false // Order Bump #2: 12 Batidos Anabólicos Militares (3 Min)
+    },
     settings: {
       soundEnabled: true,
       audioBeeps: true
@@ -403,6 +407,10 @@
             achievements: (parsed.progress && Array.isArray(parsed.progress.achievements)) ? parsed.progress.achievements : ['first_day_ready'],
             weeklyGoal: (parsed.progress && parsed.progress.weeklyGoal) ? parsed.progress.weeklyGoal : { targetDays: 5, currentDays: 0, weekNumber: 1 },
             weeklyCheckins: (parsed.progress && Array.isArray(parsed.progress.weeklyCheckins)) ? parsed.progress.weeklyCheckins : []
+          },
+          entitlements: {
+            ...defaultState.entitlements,
+            ...(parsed.entitlements || {})
           }
         };
       }
@@ -861,6 +869,19 @@
       } else {
         state.community.isVipMember = !state.community.isVipMember;
       }
+      saveState();
+    },
+
+    // --- Order Bumps (Finisher Abdomen & 12 Batidos) ---
+    setEntitlement(key, val) {
+      if (!state.entitlements) state.entitlements = {};
+      state.entitlements[key] = Boolean(val);
+      saveState();
+    },
+
+    toggleEntitlement(key) {
+      if (!state.entitlements) state.entitlements = {};
+      state.entitlements[key] = !state.entitlements[key];
       saveState();
     },
 
