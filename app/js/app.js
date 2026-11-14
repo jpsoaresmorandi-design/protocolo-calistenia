@@ -393,6 +393,39 @@
       modal.classList.add('show');
     }
 
+    function viewMealPhoto(mealId) {
+      const state = ProtocoloStore.getState();
+      const diary = (state.nutrition && state.nutrition.diary) || [];
+      const meal = diary.find(m => String(m.id) === String(mealId));
+      if (!meal || !meal.photoUrl) return;
+
+      const modal = document.getElementById('settingsModal');
+      if (!modal) return;
+
+      modal.innerHTML = `
+        <div class="edit-profile-modal-box" style="max-width:440px; padding:16px;">
+          <div class="edit-modal-header" style="margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">📸</span>
+              <strong style="color:#fff; font-size:14px; text-transform:uppercase;">${meal.title || 'Foto de Comida'}</strong>
+            </div>
+            <button class="btn-close-modal" onclick="App.closeEditProfileModal()">✕</button>
+          </div>
+          <div style="border-radius:10px; overflow:hidden; background:#000; margin-bottom:12px; border:1px solid rgba(255,255,255,0.1);">
+            <img src="${meal.photoUrl}" alt="${meal.title || 'Comida'}" style="width:100%; height:auto; display:block; max-height:60vh; object-fit:contain;">
+          </div>
+          <div style="display:flex; justify-content:space-around; background:rgba(0,0,0,0.5); padding:10px; border-radius:8px; border:1px solid rgba(34,197,94,0.2); margin-bottom:12px;">
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">CALORÍAS</div><strong style="color:#22c55e; font-size:14px;">${meal.calories || 0} kcal</strong></div>
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">PROTEÍNA</div><strong style="color:#38bdf8; font-size:14px;">${meal.protein || 0}g</strong></div>
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">CARBOS</div><strong style="color:#eab308; font-size:14px;">${meal.carbs || 0}g</strong></div>
+            <div style="text-align:center;"><div style="font-size:10px; color:#71717a;">GRASAS</div><strong style="color:#f43f5e; font-size:14px;">${meal.fat || 0}g</strong></div>
+          </div>
+          <button class="btn-secondary-full" onclick="App.closeEditProfileModal()">CERRAR VISOR</button>
+        </div>
+      `;
+      modal.classList.add('show');
+    }
+
     let selectedAvatarId = null;
     function selectAvatarPreset(avId) {
       selectedAvatarId = avId;
@@ -1491,6 +1524,7 @@
       closeArsenalModal,
       openBatidosModal,
       openAbdomenWorkoutModal,
+      viewMealPhoto,
       openEditProfileModal,
       closeEditProfileModal,
       openSettings: openEditProfileModal,

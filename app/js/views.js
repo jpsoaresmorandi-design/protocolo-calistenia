@@ -3308,12 +3308,6 @@
         </button>
       </div>
     `;
-
-        <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:12px;">
-          ← VOLVER AL ARSENAL
-        </button>
-      </div>
-    `;
   }
 
   window.Views = {

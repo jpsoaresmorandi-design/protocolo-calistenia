@@ -6083,3 +6083,66 @@ textarea {
   padding-top: 6px;
 }
 
+/* ============================================================
+   ACCESSIBILITY & RESPONSIVE POLISH (WCAG 2.2 AA & MULTI-SCREEN)
+   ============================================================ */
+
+/* 1. Indicadores de foco para navegação por teclado */
+:focus-visible {
+  outline: 2px solid var(--primary-green) !important;
+  outline-offset: 2px !important;
+}
+
+button:focus-visible, 
+a:focus-visible, 
+input:focus-visible, 
+select:focus-visible, 
+textarea:focus-visible {
+  outline: 2px solid var(--primary-green) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4) !important;
+}
+
+/* 2. Suporte a redução de movimento do sistema */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 3. Scrollbar tático moderno para Desktop / Notebook */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0c0a;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-green);
+}
+
+/* 4. Ajuste para telas ultra-estreitas (320px) */
+@media (max-width: 330px) {
+  .nav-tab-btn span {
+    font-size: 8.5px !important;
+    letter-spacing: -0.5px !important;
+  }
+  .nav-tab-btn svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .app-header {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+}
+
+
