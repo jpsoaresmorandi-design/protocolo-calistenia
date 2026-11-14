@@ -1461,31 +1461,22 @@
       `;
     }
 
-    if (cleanLogs.length === 1) {
-      const pt = cleanLogs[0];
-      return `
-        ${metricsHeaderHtml}
-        <div class="weight-single-point-box" style="background:#070907; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:16px 12px; text-align:center;">
-          <svg viewBox="0 0 340 85" style="width:100%; height:85px; overflow:visible;">
-            <line x1="20" y1="42" x2="320" y2="42" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <circle cx="170" cy="42" r="6" fill="#22c55e" stroke="#050705" stroke-width="2.5" style="filter: drop-shadow(0 0 6px rgba(34,197,94,0.6));" />
-            <text x="170" y="26" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">${pt.kg} kg</text>
-            <text x="170" y="68" fill="#a1a1aa" font-size="9" text-anchor="middle">Primer pesaje: ${pt.date}</text>
-          </svg>
-          <div style="font-size:11.5px; color:#22c55e; font-weight:700; margin-top:4px;">
-            📍 Registra más un pesaje para ver tu curva gráfica de evolución.
-          </div>
-        </div>
-      `;
+    // Se houver apenas 1 pesagem, conecta o Peso Inicial à medição atual para traçar a curva real
+    let plotPoints = [...cleanLogs];
+    if (plotPoints.length === 1) {
+      plotPoints = [
+        { date: 'Inicial', kg: initialW },
+        plotPoints[0]
+      ];
     }
 
-    const weights = cleanLogs.map(l => l.kg);
+    const weights = plotPoints.map(l => l.kg);
     const minW = Math.min(...weights, targetW) - 1.5;
     const maxW = Math.max(...weights, initialW, targetW) + 1.5;
     const rangeW = (maxW - minW) || 1;
 
     const width = 340;
-    const height = 130;
+    const height = 135;
     const padL = 36;
     const padR = 16;
     const padT = 20;
@@ -1494,8 +1485,8 @@
     const plotWidth = width - padL - padR;
     const plotHeight = height - padT - padB;
 
-    const coordPoints = cleanLogs.map((l, idx) => {
-      const x = padL + (idx / (cleanLogs.length - 1)) * plotWidth;
+    const coordPoints = plotPoints.map((l, idx) => {
+      const x = padL + (idx / (plotPoints.length - 1)) * plotWidth;
       const y = padT + (1 - (l.kg - minW) / rangeW) * plotHeight;
       return { x, y, kg: l.kg, date: l.date };
     });
@@ -1512,7 +1503,7 @@
         <svg viewBox="0 0 ${width} ${height}" style="width:100%; height:auto; display:block;" class="weight-svg-chart">
           <defs>
             <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#22c55e" stop-opacity="0.32" />
+              <stop offset="0%" stop-color="#22c55e" stop-opacity="0.35" />
               <stop offset="100%" stop-color="#22c55e" stop-opacity="0.0" />
             </linearGradient>
           </defs>
@@ -1531,11 +1522,12 @@
           <text x="${padL - 6}" y="${padT + 4}" fill="#71717a" font-size="8.5" font-weight="600" text-anchor="end">${maxW.toFixed(0)}</text>
           <text x="${padL - 6}" y="${padT + plotHeight}" fill="#71717a" font-size="8.5" font-weight="600" text-anchor="end">${minW.toFixed(0)}</text>
 
-          <!-- Puntos con Tooltip al tocar -->
+          <!-- Puntos con Valores y Tooltips -->
           ${coordPoints.map((pt, i) => `
             <g class="weight-point-group" tabindex="0">
-              <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="4" fill="#22c55e" stroke="#050705" stroke-width="2" style="cursor:pointer;" />
-              <text x="${pt.x.toFixed(1)}" y="${height - 6}" fill="#71717a" font-size="7.5" text-anchor="middle">${pt.date.substring(5)}</text>
+              <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="4.5" fill="#22c55e" stroke="#050705" stroke-width="2" style="cursor:pointer;" />
+              <text x="${pt.x.toFixed(1)}" y="${(pt.y - 6).toFixed(1)}" fill="#fff" font-size="8.5" font-weight="800" text-anchor="middle">${pt.kg}</text>
+              <text x="${pt.x.toFixed(1)}" y="${height - 6}" fill="#71717a" font-size="7.5" text-anchor="middle">${pt.date.length > 5 ? pt.date.substring(5) : pt.date}</text>
               <title>${pt.date}: ${pt.kg} kg</title>
             </g>
           `).join('')}

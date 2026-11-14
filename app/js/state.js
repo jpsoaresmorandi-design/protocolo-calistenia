@@ -15,6 +15,20 @@
 
   const STORAGE_KEY = 'protocolo_calistenia_state_v1';
 
+  function getUserScopedStorageKey() {
+    try {
+      const rawUser = localStorage.getItem('protocolo_supabase_user') || localStorage.getItem('protocolo_current_user');
+      if (rawUser) {
+        const u = JSON.parse(rawUser);
+        const uid = u.id || u.email;
+        if (uid) {
+          return 'protocolo_state_' + String(uid).toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+        }
+      }
+    } catch (e) {}
+    return STORAGE_KEY;
+  }
+
   // ============================================================
   // CONFIGURAÇÃO CENTRAL DE PREÇO, MOEDA E RECURSOS VIP
   // Altere aqui para trocar a moeda ou valor em todo o aplicativo
@@ -336,7 +350,11 @@
 
   function loadState() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const scopedKey = getUserScopedStorageKey();
+      let saved = localStorage.getItem(scopedKey);
+      if (!saved && scopedKey !== STORAGE_KEY) {
+        saved = localStorage.getItem(STORAGE_KEY);
+      }
       if (saved) {
         const parsed = JSON.parse(saved);
         return {
@@ -425,7 +443,8 @@
 
   function saveState() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      const scopedKey = getUserScopedStorageKey();
+      localStorage.setItem(scopedKey, JSON.stringify(state));
     } catch (e) {
       console.warn('Erro ao salvar state:', e);
     }
@@ -790,15 +809,14 @@
       const rounded = Math.round(w * 10) / 10;
       const today = new Date().toISOString().split('T')[0];
       if (!Array.isArray(state.weightLog)) state.weightLog = [];
-      const existing = state.weightLog.find(item => item.date === today);
-      if (existing) {
-        existing.kg = rounded;
-        existing.weight = rounded;
+      const timeStr = new Date().toLocaleTimeString().slice(0, 5);
+      
+      const lastEntry = state.weightLog[state.weightLog.length - 1];
+      if (lastEntry && lastEntry.date === today && lastEntry.kg === rounded) {
+        // Já possui essa exata medição
       } else {
-        state.weightLog.push({ date: today, kg: rounded, weight: rounded });
+        state.weightLog.push({ date: today, time: timeStr, kg: rounded, weight: rounded });
       }
-      // Ordena por data cronológica
-      state.weightLog.sort((a, b) => a.date.localeCompare(b.date));
       state.profile.currentWeight = rounded;
       state.progress.points += 25;
       
@@ -990,6 +1008,49 @@
     setOrderBumpStatus: (abdomen, batidos) => {
       if (typeof abdomen === 'boolean') state.hasAbdomenWorkout = abdomen;
       if (typeof batidos === 'boolean') state.hasBatidosAnabolicos = batidos;
+      saveState();
+    },
+    reloadUserState: () => {
+      state = loadState();
+      notify();
+    },
+    resetToGuest: () => {
+      state = JSON.parse(JSON.stringify(defaultState));
+      notify();
+    },
+    hydrateFromCloud: (p) => {
+      if (!p) return;
+      if (p.full_name) state.profile.name = p.full_name;
+      if (p.nickname) state.profile.nickname = p.nickname;
+      if (p.avatar_id) state.profile.avatar = p.avatar_id;
+      if (p.gender) state.profile.gender = p.gender;
+      if (p.age) state.profile.age = Number(p.age);
+      if (p.height_cm) state.profile.height = Number(p.height_cm);
+      if (p.start_weight) state.profile.startWeight = Number(p.start_weight);
+      if (p.target_weight) state.profile.targetWeight = Number(p.target_weight);
+      if (p.current_weight) state.profile.currentWeight = Number(p.current_weight);
+      if (p.fitness_goal) state.profile.goal = p.fitness_goal;
+      if (p.experience_level) state.profile.experienceLevel = p.experience_level;
+      if (p.time_availability) state.profile.timeAvailability = p.time_availability;
+      if (p.joint_protection_active !== undefined) state.profile.jointProtection = Boolean(p.joint_protection_active);
+      if (p.joint_regions) state.profile.jointRegions = p.joint_regions;
+
+      if (p.current_day) state.progress.currentDay = Number(p.current_day);
+      if (Array.isArray(p.completed_days)) state.progress.completedDays = p.completed_days;
+      if (p.points_xp !== undefined) state.progress.points = Number(p.points_xp);
+      if (p.streak_days !== undefined) state.progress.streak = Number(p.streak_days);
+
+      if (Array.isArray(p.weight_history) && p.weight_history.length > 0) {
+        state.weightLog = p.weight_history;
+      }
+
+      if (p.is_vip !== undefined) {
+        state.community.isVipMember = Boolean(p.is_vip);
+        state.entitlements.isVip = Boolean(p.is_vip);
+      }
+      if (p.has_orderbump_abdomen !== undefined) state.hasAbdomenWorkout = Boolean(p.has_orderbump_abdomen);
+      if (p.has_orderbump_batidos !== undefined) state.hasBatidosAnabolicos = Boolean(p.has_orderbump_batidos);
+
       saveState();
     },
     getState: () => state,

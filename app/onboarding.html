@@ -474,7 +474,9 @@
         }
 
         // 2. Garante persistência da sessão e do perfil local militar (funciona 100% mesmo se Supabase offline)
+        var userId = (supaResult && supaResult.user && supaResult.user.id) || ('usr_' + btoa(email).replace(/[^a-zA-Z0-9]/g, ''));
         var userSession = {
+          id: userId,
           email: email,
           name: name,
           isPaidUser: true,
@@ -486,13 +488,15 @@
         try {
           localStorage.setItem('protocolo_current_user', JSON.stringify(userSession));
           localStorage.setItem('protocolo_auth_remember', 'true');
+          localStorage.setItem('protocolo_supabase_user', JSON.stringify({ id: userId, email: email, name: name }));
           
-          // Atualiza perfil no store local
-          var localState = JSON.parse(localStorage.getItem('protocolo_calistenia_state_v1') || '{}');
+          var scopedKey = 'protocolo_state_' + String(userId || email).toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+          var localState = JSON.parse(localStorage.getItem(scopedKey) || localStorage.getItem('protocolo_calistenia_state_v1') || '{}');
           if (!localState.profile) localState.profile = {};
           localState.profile.name = name;
           localState.profile.email = email;
           localState.profile.isUnlocked = true;
+          localStorage.setItem(scopedKey, JSON.stringify(localState));
           localStorage.setItem('protocolo_calistenia_state_v1', JSON.stringify(localState));
         } catch(storageErr) {
           console.warn('Erro ao salvar no localStorage:', storageErr);

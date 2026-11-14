@@ -181,6 +181,18 @@
         if (checkHotmartRedirect()) return;
         initOnboardingDraft();
         ProtocoloStore.subscribe(renderApp);
+
+        const isAuth = window.SupabaseClient && typeof window.SupabaseClient.isAuthenticated === 'function' && window.SupabaseClient.isAuthenticated();
+        if (isAuth && window.SupabaseClient.pullProfile) {
+          window.SupabaseClient.pullProfile().then(function(res) {
+            if (res && res.success && res.data) {
+              if (window.ProtocoloStore && window.ProtocoloStore.hydrateFromCloud) {
+                window.ProtocoloStore.hydrateFromCloud(res.data);
+              }
+            }
+          }).catch(function() {});
+        }
+
         renderApp(ProtocoloStore.getState());
         renderPwaBanner();
       } catch (err) {
@@ -1483,6 +1495,11 @@
         closeAuthModal();
         showToast('☁️ ¡Sesión militar iniciada con éxito!', 'success');
         
+        // Recarrega o estado local para o usuário autenticado
+        if (window.ProtocoloStore && window.ProtocoloStore.reloadUserState) {
+          window.ProtocoloStore.reloadUserState();
+        }
+
         // Sincroniza permissões e entitlements vindos do banco de dados (Hotmart / Supabase)
         try {
           const profileData = await window.SupabaseClient.pullProfile();
@@ -1491,6 +1508,9 @@
           // REGRA DE SEGURANÇA ESTRITA: Exige compra aprovada no Supabase (has_base_access = true)
           if (!p || p.has_base_access !== true) {
             window.SupabaseClient.signOut();
+            if (window.ProtocoloStore && window.ProtocoloStore.resetToGuest) {
+              window.ProtocoloStore.resetToGuest();
+            }
             alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada a este correo electrónico.\n\nPara acceder al Centro de Mando, adquiere tu membresía oficial en el checkout.');
             if (submitBtn) {
               submitBtn.innerText = mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL';
@@ -1499,18 +1519,13 @@
             return;
           }
 
-          if (ProtocoloStore.setOrderBumpStatus) {
-            ProtocoloStore.setOrderBumpStatus(Boolean(p.has_orderbump_abdomen), Boolean(p.has_orderbump_batidos));
-          }
-          if (ProtocoloStore.setVipStatus && p.is_vip !== undefined) {
-            ProtocoloStore.setVipStatus(Boolean(p.is_vip));
+          if (window.ProtocoloStore && window.ProtocoloStore.hydrateFromCloud) {
+            window.ProtocoloStore.hydrateFromCloud(p);
           }
         } catch (pullErr) {
           console.warn('Aviso ao sincronizar permissões:', pullErr);
         }
 
-        // Sincronizar dados atuais
-        await syncProfileCloud();
         renderApp(ProtocoloStore.getState());
       } else {
         if (submitBtn) {
@@ -1538,9 +1553,17 @@
     function signOutCloud() {
       if (window.SupabaseClient) {
         window.SupabaseClient.signOut();
-        showToast('Sesión en la nube cerrada.', 'info');
-        renderApp(ProtocoloStore.getState());
       }
+      try {
+        localStorage.removeItem('protocolo_current_user');
+        localStorage.removeItem('protocolo_auth_remember');
+        localStorage.removeItem('protocolo_supabase_user');
+      } catch (e) {}
+      if (window.ProtocoloStore && window.ProtocoloStore.resetToGuest) {
+        window.ProtocoloStore.resetToGuest();
+      }
+      showToast('Sesión en la nube cerrada.', 'info');
+      renderApp(ProtocoloStore.getState());
     }
 
     window.App = {

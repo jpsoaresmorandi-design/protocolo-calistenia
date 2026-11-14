@@ -3407,12 +3407,13 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
   align-items: center;
   justify-content: flex-end;
   height: 100%;
-  padding-bottom: 2px;
+  padding-bottom: 3px !important;
+  overflow: visible !important;
 }
 
 .center-vip-button {
-  width: 36px;
-  height: 36px;
+  width: 34px !important;
+  height: 34px !important;
   border-radius: 50%;
   background: linear-gradient(145deg, #182419, #0d120d);
   border: 1.5px solid #22c55e;
@@ -3420,14 +3421,14 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: -11px;
+  top: -10px !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.8), 0 0 10px rgba(34, 197, 94, 0.35);
   transition: all 0.2s ease;
 }
 
 .center-vip-button svg {
-  width: 18px;
-  height: 18px;
+  width: 17px !important;
+  height: 17px !important;
   color: #22c55e;
   display: block;
 }
@@ -3437,28 +3438,29 @@ button, a, .stat-pill, .badge, .nav-tab-btn, .pill, .chip, .user-name {
   top: -5px;
   background: #22c55e;
   color: #000;
-  font-size: 7.5px;
+  font-size: 7px !important;
   font-weight: 900;
-  letter-spacing: 0.5px;
-  padding: 1px 4px;
-  border-radius: 6px;
+  letter-spacing: 0.4px;
+  padding: 1px 3px !important;
+  border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .center-vip-label {
-  font-size: 10px !important;
-  font-weight: 600 !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
   color: #71717a;
-  margin-top: 24px;
-  letter-spacing: -0.3px !important;
+  margin-top: 20px !important;
+  letter-spacing: -0.2px !important;
   white-space: nowrap !important;
   word-break: normal !important;
   overflow-wrap: normal !important;
-  overflow: hidden !important;
-  text-overflow: clip !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
   text-transform: none !important;
   display: block !important;
   text-align: center !important;
+  width: 100% !important;
 }
 
 .nav-tab-center-vip.active .center-vip-button {

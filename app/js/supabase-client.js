@@ -27,7 +27,7 @@
 
   function getStoredUser() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY_USER);
+      const raw = localStorage.getItem(STORAGE_KEY_USER) || localStorage.getItem('protocolo_current_user');
       if (raw) return JSON.parse(raw);
     } catch (e) {}
     return null;
@@ -62,7 +62,7 @@
     },
 
     getUser() {
-      return currentUser;
+      return currentUser || getStoredUser();
     },
 
     setCredentials(url, anonKey) {
@@ -157,8 +157,12 @@
 
     signOut() {
       this.setAuthSession(null, null);
+      currentUser = null;
       try {
         localStorage.removeItem('protocolo_current_user');
+        localStorage.removeItem('protocolo_auth_remember');
+        localStorage.removeItem(STORAGE_KEY_USER);
+        localStorage.removeItem(STORAGE_KEY_CONFIG);
       } catch (e) {}
       return { success: true };
     },
@@ -166,36 +170,40 @@
     // --- SINCRONIZACIÓN DE PERFIL Y PROGRESO ---
     async syncProfile(profile, progress, weightLog) {
       if (!this.isConfigured() || !this.isAuthenticated()) return { success: false, offline: true };
+      const user = this.getUser();
+      if (!user) return { success: false, offline: true };
       try {
+        const payload = {
+          email: user.email,
+          full_name: profile.name,
+          nickname: profile.nickname,
+          avatar_id: profile.avatar,
+          gender: profile.gender,
+          age: profile.age,
+          height_cm: profile.height,
+          start_weight: profile.startWeight,
+          target_weight: profile.targetWeight,
+          current_weight: profile.currentWeight,
+          fitness_goal: profile.goal,
+          experience_level: profile.experienceLevel,
+          time_availability: profile.timeAvailability,
+          joint_protection_active: profile.jointProtection,
+          joint_regions: profile.jointRegions,
+          current_day: progress.currentDay,
+          completed_days: progress.completedDays,
+          points_xp: progress.points,
+          streak_days: progress.streak,
+          weight_history: weightLog || []
+        };
+        if (user.id) payload.id = user.id;
+
         const resp = await fetch(`${config.url}/rest/v1/profiles`, {
           method: 'POST',
           headers: {
             ...this.getHeaders(),
             'Prefer': 'resolution=merge-duplicates,return=representation'
           },
-          body: JSON.stringify({
-            id: currentUser.id,
-            email: currentUser.email,
-            full_name: profile.name,
-            nickname: profile.nickname,
-            avatar_id: profile.avatar,
-            gender: profile.gender,
-            age: profile.age,
-            height_cm: profile.height,
-            start_weight: profile.startWeight,
-            target_weight: profile.targetWeight,
-            current_weight: profile.currentWeight,
-            fitness_goal: profile.goal,
-            experience_level: profile.experienceLevel,
-            time_availability: profile.timeAvailability,
-            joint_protection_active: profile.jointProtection,
-            joint_regions: profile.jointRegions,
-            current_day: progress.currentDay,
-            completed_days: progress.completedDays,
-            points_xp: progress.points,
-            streak_days: progress.streak,
-            weight_history: weightLog || []
-          })
+          body: JSON.stringify(payload)
         });
         return { success: resp.ok };
       } catch (e) {
@@ -205,8 +213,19 @@
 
     async pullProfile() {
       if (!this.isConfigured() || !this.isAuthenticated()) return { success: false, offline: true };
+      const user = this.getUser();
+      if (!user) return { success: false, offline: true };
       try {
-        const resp = await fetch(`${config.url}/rest/v1/profiles?id=eq.${currentUser.id}&select=*`, {
+        let url = `${config.url}/rest/v1/profiles?`;
+        if (user.id) {
+          url += `id=eq.${user.id}&`;
+        } else if (user.email) {
+          url += `email=eq.${encodeURIComponent(user.email)}&`;
+        } else {
+          return { success: false };
+        }
+        url += 'select=*';
+        const resp = await fetch(url, {
           method: 'GET',
           headers: this.getHeaders()
         });
