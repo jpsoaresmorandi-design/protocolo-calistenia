@@ -365,6 +365,34 @@
     if (modal) modal.classList.remove('show');
   }
 
+  // --- MODAL: ARSENAL TÁCTICO & MÓDULOS DE ORDER BUMP ---
+  function openArsenalModal() {
+    const state = ProtocoloStore.getState();
+    const modal = document.getElementById('settingsModal');
+    if (!modal) return;
+    modal.innerHTML = Views.renderArsenalModal(state);
+    modal.classList.add('show');
+  }
+
+  function closeArsenalModal() {
+    const modal = document.getElementById('settingsModal');
+    if (modal) modal.classList.remove('show');
+  }
+
+  function openBatidosModal() {
+    const modal = document.getElementById('settingsModal');
+    if (!modal) return;
+    modal.innerHTML = Views.renderBatidosModal();
+    modal.classList.add('show');
+  }
+
+  function openAbdomenWorkoutModal() {
+    const modal = document.getElementById('settingsModal');
+    if (!modal) return;
+    modal.innerHTML = Views.renderAbdomenWorkoutModal();
+    modal.classList.add('show');
+  }
+
   let selectedAvatarId = null;
   function selectAvatarPreset(avId) {
     selectedAvatarId = avId;
@@ -1413,6 +1441,10 @@
     init: initApp,
     setTab,
     installPwa,
+    openArsenalModal,
+    closeArsenalModal,
+    openBatidosModal,
+    openAbdomenWorkoutModal,
     openEditProfileModal,
     closeEditProfileModal,
     openSettings: openEditProfileModal,

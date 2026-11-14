@@ -102,6 +102,18 @@
         <span style="color:var(--primary-green); font-size:10.5px; font-weight:800; background:rgba(34,197,94,0.12); padding:4px 7px; border-radius:4px; white-space:nowrap; flex-shrink:0;">VER ›</span>
       </div>
 
+      <!-- Atajo Rápido al Arsenal Tático & PDFs -->
+      <div class="home-arsenal-shortcut-card" onclick="App.openArsenalModal()" style="background:linear-gradient(145deg, #111712 0%, #0b0f0b 100%); border:1px solid rgba(34,197,94,0.25); border-radius:var(--radius-md); padding:10px 12px; margin-bottom:12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
+          <span style="font-size:20px; flex-shrink:0;">📦</span>
+          <div style="min-width:0; overflow:hidden;">
+            <strong style="color:#fff; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;">Arsenal Tático: Manuais & PDFs</strong>
+            <span style="color:#a1a1aa; font-size:10.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block;">Manual 21D, Abdomen 7M y 12 Batidos</span>
+          </div>
+        </div>
+        <span style="color:#22c55e; font-size:10.5px; font-weight:800; background:rgba(34,197,94,0.12); padding:4px 7px; border-radius:4px; white-space:nowrap; flex-shrink:0;">ABRIR ›</span>
+      </div>
+
       <!-- Meta Semanal de Consistencia -->
       <div class="home-weekly-goal-card" style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-sm); padding:10px 14px; margin-bottom:14px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -1798,6 +1810,40 @@
           </div>
         </div>
 
+        <!-- Arsenal Tático: Manuais, PDFs y Módulos Adicionales -->
+        <div class="profile-section-card" style="border: 1px solid rgba(34, 197, 94, 0.35); background: linear-gradient(145deg, #101511 0%, #0a0d0a 100%); margin-bottom:16px;">
+          <div class="profile-section-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:22px;">📦</span>
+              <div>
+                <h3 style="margin:0; font-size:14px; color:#fff;">Arsenal Tático: Manuais & Módulos</h3>
+                <span style="font-size:11px; color:#9ca3af;">Tus PDFs oficiales, rutinas extras y módulos adquiridos</span>
+              </div>
+            </div>
+            <button type="button" class="btn-arsenal-play" onclick="App.openArsenalModal()" style="padding:6px 10px; font-size:10.5px;">
+              ABRIR ARSENAL ›
+            </button>
+          </div>
+          
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-top:14px;">
+            <div onclick="App.openArsenalModal()" style="background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px 6px; text-align:center; cursor:pointer;">
+              <div style="font-size:20px; margin-bottom:4px;">📄</div>
+              <strong style="font-size:10.5px; color:#fff; display:block;">Manual 21D</strong>
+              <span style="font-size:9px; color:#22c55e; font-weight:800;">INCLUIDO</span>
+            </div>
+            <div onclick="App.openAbdomenWorkoutModal()" style="background:rgba(0,0,0,0.4); border:1px solid rgba(234,179,8,0.25); border-radius:8px; padding:10px 6px; text-align:center; cursor:pointer;">
+              <div style="font-size:20px; margin-bottom:4px;">⚡</div>
+              <strong style="font-size:10.5px; color:#fff; display:block;">Abdomen 7M</strong>
+              <span style="font-size:9px; color:#eab308; font-weight:800;">MÓDULO</span>
+            </div>
+            <div onclick="App.openBatidosModal()" style="background:rgba(0,0,0,0.4); border:1px solid rgba(234,179,8,0.25); border-radius:8px; padding:10px 6px; text-align:center; cursor:pointer;">
+              <div style="font-size:20px; margin-bottom:4px;">🥤</div>
+              <strong style="font-size:10.5px; color:#fff; display:block;">12 Batidos</strong>
+              <span style="font-size:9px; color:#eab308; font-weight:800;">RECETAS</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Estado de Membresías y Accesos -->
         <div class="profile-section-card">
           <div class="profile-section-header">
@@ -2879,6 +2925,242 @@
     `;
   }
 
+  // ==========================================
+  // MODAL: ARSENAL TÁCTICO & MANUAIS ADQUIRIDOS (ORDER BUMP & OFICIAL)
+  // ==========================================
+  function renderArsenalModal(state) {
+    return `
+      <div class="edit-profile-modal-box" style="max-width:440px; max-height:85vh; display:flex; flex-direction:column;">
+        <div class="edit-modal-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">📦</span>
+            <div>
+              <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">Arsenal Tático Militar</strong>
+              <span style="color:#a1a1aa; font-size:11px;">Descarga tus PDFs oficiales y activa tus módulos</span>
+            </div>
+          </div>
+          <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
+        </div>
+
+        <div style="overflow-y:auto; padding:14px 4px 10px; flex:1;">
+          <!-- 1. MANUAL OFICIAL 21 DÍAS (PDF) -->
+          <div class="arsenal-item-card">
+            <div class="arsenal-item-header">
+              <div class="arsenal-item-title-row">
+                <span class="arsenal-item-ico">📄</span>
+                <div>
+                  <strong>Manual Oficial: Protocolo 21 Días</strong>
+                  <span style="font-size:11px; color:#71717a; display:block;">Documento Táctico • 6 Páginas • PDF</span>
+                </div>
+              </div>
+              <span class="arsenal-item-badge included">INCLUIDO</span>
+            </div>
+            <p class="arsenal-item-desc">
+              Guía maestra oficial con los 21 días de entrenamiento, descansos programados, técnica de ejercicios y nutrición militar paso a paso.
+            </p>
+            <div class="arsenal-actions-row">
+              <a href="../Manual_Oficial_Protocolo_Calistenia.pdf" download="Manual_Oficial_Protocolo_Calistenia.pdf" class="btn-arsenal-download" target="_blank">
+                <span>📥</span> DESCARGAR PDF (789 KB)
+              </a>
+              <a href="../Manual_Oficial_Protocolo_Calistenia.pdf" target="_blank" class="btn-arsenal-download" style="background:transparent; border-color:rgba(255,255,255,0.15); color:#d1d5db;">
+                <span>👁️</span> LEER ONLINE
+              </a>
+            </div>
+          </div>
+
+          <!-- 2. FINISHER ABDOMEN DE ACERO EN 7 MINUTOS -->
+          <div class="arsenal-item-card" style="border-color:rgba(234, 179, 8, 0.35);">
+            <div class="arsenal-item-header">
+              <div class="arsenal-item-title-row">
+                <span class="arsenal-item-ico">⚡</span>
+                <div>
+                  <strong>Finisher Abdomen de Acero (7 Min)</strong>
+                  <span style="font-size:11px; color:#eab308; display:block;">Rutina Táctica Diaria de Core</span>
+                </div>
+              </div>
+              <span class="arsenal-item-badge orderbump">MÓDULO EXTRA</span>
+            </div>
+            <p class="arsenal-item-desc">
+              Micro-rutina de 7 minutos con 6 ejercicios de alta tensión isométrica para quemar grasa abdominal y endurecer el core profundo sin abdominales tradicionales.
+            </p>
+            <div class="arsenal-actions-row">
+              <button type="button" class="btn-arsenal-play" onclick="App.openAbdomenWorkoutModal()">
+                <span>⏱️</span> INICIAR RUTINA GUIADA (7 MIN)
+              </button>
+              <a href="../Finisher_Abdomen_7Minutos.pdf" download="Finisher_Abdomen_7Minutos.pdf" class="btn-arsenal-download" target="_blank">
+                <span>📥</span> PDF OFICIAL
+              </a>
+            </div>
+          </div>
+
+          <!-- 3. 12 BATIDOS ANABÓLICOS MILITARES -->
+          <div class="arsenal-item-card" style="border-color:rgba(34, 197, 94, 0.35);">
+            <div class="arsenal-item-header">
+              <div class="arsenal-item-title-row">
+                <span class="arsenal-item-ico">🥤</span>
+                <div>
+                  <strong>12 Batidos Anabólicos Militares</strong>
+                  <span style="font-size:11px; color:#22c55e; display:block;">Recetario Proteico • 3 Minutos</span>
+                </div>
+              </div>
+              <span class="arsenal-item-badge orderbump">RECETARIO</span>
+            </div>
+            <p class="arsenal-item-desc">
+              12 fórmulas líquidas hiperproteicas de absorción rápida con ingredientes accesibles de supermercado para ganar músculo y regenerar fibra sin suplementos caros.
+            </p>
+            <div class="arsenal-actions-row">
+              <button type="button" class="btn-arsenal-play" style="background:#22c55e; color:#000;" onclick="App.openBatidosModal()">
+                <span>🥤</span> VER 12 RECETAS INTERACTIVAS
+              </button>
+              <a href="../12_Batidos_Anabolicos_Militares.pdf" download="12_Batidos_Anabolicos_Militares.pdf" class="btn-arsenal-download" target="_blank">
+                <span>📥</span> PDF OFICIAL
+              </a>
+            </div>
+          </div>
+
+          <!-- 4. APP ANDROID APK NATIVO -->
+          <div class="arsenal-item-card">
+            <div class="arsenal-item-header">
+              <div class="arsenal-item-title-row">
+                <span class="arsenal-item-ico">🤖</span>
+                <div>
+                  <strong>Aplicación Android (.APK Oficial)</strong>
+                  <span style="font-size:11px; color:#71717a; display:block;">Instalador Autónomo • 770 KB</span>
+                </div>
+              </div>
+              <span class="arsenal-item-badge included">INCLUIDO</span>
+            </div>
+            <p class="arsenal-item-desc">
+              Instala la aplicación directamente en cualquier celular Android sin depender del navegador web ni Play Store.
+            </p>
+            <div class="arsenal-actions-row">
+              <a href="../Protocolo_Calistenia_Militar.apk" download="Protocolo_Calistenia_Militar.apk" class="btn-arsenal-download">
+                <span>🤖</span> DESCARGAR APK ANDROID
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-secondary-full" onclick="App.closeArsenalModal()" style="margin-top:8px;">
+          CERRAR ARSENAL
+        </button>
+      </div>
+    `;
+  }
+
+  // ==========================================
+  // MODAL: 12 BATIDOS ANABÓLICOS MILITARES (INTERATIVO)
+  // ==========================================
+  function renderBatidosModal() {
+    const batidos = [
+      { id: 1, name: 'Fuerza Titán (Chocolate y Avena)', prot: '38g', cal: '420 kcal', time: '3 min', ing: '250ml leche/bebida vegetal, 40g avena molida, 1 plátano, 1 cda mantequilla de maní, 1 cda cacao puro, canela.', prep: 'Licuar a máxima potencia 45 segundos con 3 cubos de hielo. Ideal post-misión.' },
+      { id: 2, name: 'Termogénico Café Militar', prot: '32g', cal: '230 kcal', time: '2 min', ing: '1 taza café solo frío, 200ml leche vegetal, 3 claras pasteurizadas o 1 scoop proteína, hielo y canela.', prep: 'Batir enérgicamente y tomar 30 minutos antes de entrenar para encender el metabolismo.' },
+      { id: 3, name: 'Reconstructor Nocturno de Chía', prot: '36g', cal: '340 kcal', time: '3 min', ing: '200g queso batido 0% o yogur griego, 150ml leche, 1 cda semillas de chía, 50g frutos rojos.', prep: 'Batir y dejar reposar 5 min. Libera aminoácidos lentamente mientras duermes.' },
+      { id: 4, name: 'Operador Verde Digestivo', prot: '28g', cal: '210 kcal', time: '3 min', ing: '1 puñado espinacas frescas, 1/2 manzana verde, zumo de 1/2 limón, 250ml agua de coco, 30g proteína/claras.', prep: 'Licuar hasta textura fina. Desinflama el abdomen y alcaliniza el cuerpo.' },
+      { id: 5, name: 'Bomba Calórica de Crecimiento', prot: '52g', cal: '660 kcal', time: '3 min', ing: '300ml leche, 60g avena, 2 cdas mantequilla de maní, 1 plátano, 1 cda miel pura, 30g proteína.', prep: 'Para fases de volumen muscular militar. Máximo soporte anabólico.' },
+      { id: 6, name: 'Pectoral de Hierro y Plátano', prot: '31g', cal: '320 kcal', time: '2 min', ing: '250ml leche, 1 plátano maduro, 1 cda cacao amargo, 30g proteína o claras, pizca nuez moscada.', prep: 'Bebida densa rica en magnesio y potasio para recuperación de fibras pectorales.' },
+      { id: 7, name: 'Blindaje Articular Cúrcuma-Naranja', prot: '26g', cal: '210 kcal', time: '2 min', ing: 'Zumo de 2 naranjas, 1/2 cdta cúrcuma, pizca pimienta negra, 200ml agua, 30g colágeno o proteína.', prep: 'Antiinflamatorio natural para hombros, codos y rodillas tras semanas de flexiones.' },
+      { id: 8, name: 'Definición Máxima Frutos Rojos', prot: '33g', cal: '240 kcal', time: '2 min', ing: '100g mezcla arándanos/fresas congeladas, 200ml agua fría, 30g proteína vainilla, 1 cdta lino.', prep: 'Textura smoothie refrescante, bajísimo en azúcar y alto en antioxidantes.' },
+      { id: 9, name: 'Despertar Guerrero Matcha', prot: '27g', cal: '220 kcal', time: '3 min', ing: '1 cdta té matcha ceremonial, 250ml leche de almendras, 1/2 plátano, 25g proteína vainilla.', prep: 'Aporta L-teanina y cafeína limpia para enfoque mental militar sin nerviosismo.' },
+      { id: 10, name: 'Anti-Fatiga Remolacha y Bayas', prot: '29g', cal: '260 kcal', time: '3 min', ing: '1/2 remolacha cocida pequeña, 100g fresas, 200ml agua fría, 30g proteína.', prep: 'Dispara el óxido nítrico natural para bombeo muscular y resistencia prolongada.' },
+      { id: 11, name: 'Hidratante Táctico Agua de Coco', prot: '25g', cal: '180 kcal', time: '2 min', ing: '300ml agua de coco natural, zumo de 1 limón, pizca sal marina, 25g proteína aislada.', prep: 'Repone electrolitos de forma inmediata tras sesiones intensas de sudoración.' },
+      { id: 12, name: 'Élite Rápido 60 Segundos', prot: '32g', cal: '280 kcal', time: '1 min', ing: '250ml leche o agua, 40g avena instantánea, 1 cda miel, 30g proteína o claras pasteurizadas.', prep: 'Fórmula ultra-simplificada para cuando tienes prisa: agitar 30 segundos en shaker y listo.' }
+    ];
+
+    return `
+      <div class="edit-profile-modal-box" style="max-width:440px; max-height:85vh; display:flex; flex-direction:column;">
+        <div class="edit-modal-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">🥤</span>
+            <div>
+              <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">12 Batidos Anabólicos Militares</strong>
+              <span style="color:#22c55e; font-size:11px;">Fórmulas Rápidas de 3 Minutos • Sin Suplementos Caros</span>
+            </div>
+          </div>
+          <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
+        </div>
+
+        <div class="batidos-grid" style="margin-top:10px;">
+          ${batidos.map(b => `
+            <div class="batido-card">
+              <div class="batido-card-header">
+                <span class="batido-card-title">#${b.id} ${b.name}</span>
+                <span class="batido-pill" style="color:#eab308;">⏱️ ${b.time}</span>
+              </div>
+              <div class="batido-macros-pills">
+                <span class="batido-pill prot">🥩 ${b.prot} Proteína</span>
+                <span class="batido-pill">⚡ ${b.cal}</span>
+              </div>
+              <div class="batido-ingredients-list">
+                <strong>Ingredientes:</strong> ${b.ing}
+              </div>
+              <div class="batido-prep-instructions">
+                <strong>Preparación:</strong> ${b.prep}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:12px;">
+          ← VOLVER AL ARSENAL
+        </button>
+      </div>
+    `;
+  }
+
+  // ==========================================
+  // MODAL: FINISHER ABDOMEN DE ACERO (7 MINUTOS)
+  // ==========================================
+  function renderAbdomenWorkoutModal() {
+    const exercises = [
+      { name: '1. Hollow Body Rock Militar', dur: '45 seg', rest: '15 seg', desc: 'Acostado boca arriba, eleva hombros y piernas en forma de arco tenso. Balancéate sin perder la rigidez del abdomen.' },
+      { name: '2. Elevaciones de Piernas a 90°', dur: '45 seg', rest: '15 seg', desc: 'Manos bajo los glúteos, eleva las piernas rectas y baja controlado sin tocar el suelo. Foco en abdomen bajo.' },
+      { name: '3. Plancha Táctica con Toque de Hombros', dur: '45 seg', rest: '15 seg', desc: 'Posición de flexión alta, toca el hombro opuesto alternando sin balancear la cadera (anti-rotación pura).' },
+      { name: '4. Crunch Militar en V', dur: '45 seg', rest: '15 seg', desc: 'Flexiona tronco y rodillas al mismo tiempo para encontrarse en el centro. Exhala al comprimir el core.' },
+      { name: '5. Mountain Climbers Lentos de Control', dur: '45 seg', rest: '15 seg', desc: 'Lleva rodilla al pecho con pausa de 1 segundo en contracción máxima. Tensión constante.' },
+      { name: '6. Hollow Hold Isométrico al Fallo', dur: '60 seg', rest: 'Fin', desc: 'Aguanta la postura de canoa militar con la espalda baja pegada al suelo hasta la fatiga total.' }
+    ];
+
+    return `
+      <div class="edit-profile-modal-box" style="max-width:440px; max-height:85vh; display:flex; flex-direction:column;">
+        <div class="edit-modal-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">⚡</span>
+            <div>
+              <strong style="color:#fff; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; display:block;">Finisher Abdomen de Acero</strong>
+              <span style="color:#eab308; font-size:11px;">Rutina Táctica de 7 Minutos • Core Blindado</span>
+            </div>
+          </div>
+          <button class="btn-close-modal" onclick="App.closeArsenalModal()">✕</button>
+        </div>
+
+        <div style="background:rgba(234, 179, 8, 0.1); border:1px dashed rgba(234, 179, 8, 0.35); border-radius:8px; padding:10px 12px; margin-top:10px; margin-bottom:12px;">
+          <strong style="color:#eab308; font-size:11.5px; display:block;">🔥 Instrucciones Operativas:</strong>
+          <span style="color:#d1d5db; font-size:11px; line-height:1.4; display:block;">
+            Realiza este bloque al terminar tu misión del día o por la mañana en ayunas. Son 6 bloques de 45 segundos de trabajo por 15 segundos de pausa activa.
+          </span>
+        </div>
+
+        <div style="overflow-y:auto; flex:1; padding-right:4px;">
+          ${exercises.map(ex => `
+            <div style="background:#0d120e; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px 12px; margin-bottom:8px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <strong style="color:#fff; font-size:12px;">${ex.name}</strong>
+                <span style="background:rgba(34,197,94,0.15); color:#22c55e; font-size:9.5px; font-weight:800; padding:2px 6px; border-radius:4px;">${ex.dur}</span>
+              </div>
+              <p style="font-size:11px; color:#9ca3af; line-height:1.35; margin:0 0 4px 0;">${ex.desc}</p>
+              <div style="font-size:9.5px; color:#71717a;">Descanso: ${ex.rest}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <button class="btn-secondary-full" onclick="App.openArsenalModal()" style="margin-top:12px;">
+          ← VOLVER AL ARSENAL
+        </button>
+      </div>
+    `;
+  }
+
   window.Views = {
     renderAuthModal,
     renderBadgeInspectModal,
@@ -2892,6 +3174,9 @@
     renderComunidad,
     renderEditProfileModal,
     renderVipScannerOfferModal,
+    renderArsenalModal,
+    renderBatidosModal,
+    renderAbdomenWorkoutModal,
     getAvatarDisplay,
     AVATAR_PRESETS
   };

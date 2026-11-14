@@ -5827,3 +5827,191 @@ textarea {
   line-height: 1.35;
 }
 
+/* ============================================================
+   ARSENAL TÁCTICO: MANUAIS, PDFs & MÓDULOS DE ORDER BUMP
+   ============================================================ */
+.arsenal-item-card {
+  background: linear-gradient(145deg, #111712 0%, #0a0e0b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.arsenal-item-card:hover {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.arsenal-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.arsenal-item-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.arsenal-item-ico {
+  font-size: 24px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.arsenal-item-title-row strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.2px;
+}
+
+.arsenal-item-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.arsenal-item-badge.included {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.arsenal-item-badge.orderbump {
+  background: rgba(234, 179, 8, 0.15);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.arsenal-item-desc {
+  font-size: 11.5px;
+  color: #9ca3af;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.arsenal-actions-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-arsenal-download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #172418;
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  color: #22c55e;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-arsenal-download:hover {
+  background: #22c55e;
+  color: #000;
+}
+
+.btn-arsenal-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+  border: none;
+  color: #000;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s;
+  font-family: inherit;
+}
+
+.btn-arsenal-play:active {
+  transform: scale(0.96);
+}
+
+/* Modais de Batidos e Abdomen */
+.batidos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.batido-card {
+  background: #0d120e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.batido-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.batido-card-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.batido-macros-pills {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.batido-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #d1d5db;
+}
+
+.batido-pill.prot {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  font-weight: 800;
+}
+
+.batido-ingredients-list {
+  font-size: 11px;
+  color: #a1a1aa;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.batido-prep-instructions {
+  font-size: 10.5px;
+  color: #71717a;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-top: 6px;
+}
+
