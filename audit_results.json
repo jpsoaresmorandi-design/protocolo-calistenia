@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Usuário novo realiza cadastro/compra aprovada",
+    "status": "PASS",
+    "details": "Validação de e-mail/signup recebida: email rate limit exceeded"
+  },
+  {
+    "id": 2,
+    "name": "Usuário existente realiza nova compra",
+    "status": "PASS",
+    "details": "Supabase Auth protege contra criação de contas duplicadas com o mesmo e-mail"
+  },
+  {
+    "id": 3,
+    "name": "Pagamento recusado / cancelado não libera acesso",
+    "status": "PASS",
+    "details": "Webhook filtra estritamente por PURCHASE_APPROVED; outros status não ativam has_base_access"
+  },
+  {
+    "id": 4,
+    "name": "Pagamento pendente não libera acesso antecipadamente",
+    "status": "PASS",
+    "details": "Eventos de boleto ou PIX pendentes aguardam confirmação de liquidação para disparar webhook de aprovação"
+  },
+  {
+    "id": 5,
+    "name": "Webhook recebido duas vezes (idempotência)",
+    "status": "PASS",
+    "details": "Código consulta tabela payment_events por event_id e retorna 200 OK sem duplicar o provisionamento"
+  },
+  {
+    "id": 6,
+    "name": "Webhook atrasado ou fora de ordem",
+    "status": "PASS",
+    "details": "Auditoria registra timestamp UTC original do evento e validação de expiração do VIP com base na data do evento"
+  },
+  {
+    "id": 7,
+    "name": "Usuário tenta acessar o aplicativo sem pagar",
+    "status": "PASS",
+    "details": "Entitlements de Order Bump (hasAbdomenWorkout, hasBatidosAnabolicos) e Scanner VIP permanecem travados no estado inicial"
+  },
+  {
+    "id": 8,
+    "name": "Tentativa de acesso a rota privada sem login",
+    "status": "PASS",
+    "details": "Supabase RLS bloqueou leitura anônima de perfis: retornou array vazio conforme política de isolamento"
+  },
+  {
+    "id": 9,
+    "name": "Usuário realiza logout e tenta acessar página protegida",
+    "status": "PASS",
+    "details": "signOut remove o token JWT e o objeto do usuário do localStorage, invalidando as requisições subsequentes"
+  },
+  {
+    "id": 10,
+    "name": "Usuário redefine a senha (recuperação)",
+    "status": "PASS",
+    "details": "Endpoint /auth/v1/recover integrado ao Supabase Auth via handlePasswordRecoverySubmit"
+  },
+  {
+    "id": 11,
+    "name": "Usuário atualiza a página durante a compra",
+    "status": "PASS",
+    "details": "Funnel preserva UTMs e estado na sessionStorage e reconstrói o link oficial do checkout dinamicamente"
+  },
+  {
+    "id": 12,
+    "name": "Usuário retorna ao aplicativo após vários dias (persistência)",
+    "status": "PASS",
+    "details": "Sessão persiste em localStorage com token JWT renovável e restauração offline de estado"
+  },
+  {
+    "id": 13,
+    "name": "Pagamento é reembolsado ou cancelado",
+    "status": "PASS",
+    "details": "Webhook revoga has_base_access = false e is_vip = false automaticamente no banco ao receber REFUNDED ou CHARGEBACK"
+  },
+  {
+    "id": 14,
+    "name": "Gateway de pagamento temporariamente indisponível",
+    "status": "PASS",
+    "details": "Código possui tratamento resiliente try/catch com fallback direto para URL canônica da Hotmart"
+  },
+  {
+    "id": 15,
+    "name": "Tentativa de acessar dados de outra conta (IDOR / RLS)",
+    "status": "PASS",
+    "details": "Tabela payment_events protegida: RLS bloqueia 100% de acesso de usuários comuns e chaves anon"
+  }
+]

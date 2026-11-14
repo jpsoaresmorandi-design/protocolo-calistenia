@@ -987,6 +987,11 @@
         saveState();
       }
     },
+    setOrderBumpStatus: (abdomen, batidos) => {
+      if (typeof abdomen === 'boolean') state.hasAbdomenWorkout = abdomen;
+      if (typeof batidos === 'boolean') state.hasBatidosAnabolicos = batidos;
+      saveState();
+    },
     getState: () => state,
     actions,
     subscribe,

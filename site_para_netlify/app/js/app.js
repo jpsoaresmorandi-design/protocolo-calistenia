@@ -1432,6 +1432,23 @@
       if (res && res.success) {
         closeAuthModal();
         showToast('☁️ ¡Sesión militar iniciada con éxito!', 'success');
+        
+        // Sincroniza permissões e entitlements vindos do banco de dados (Hotmart / Supabase)
+        try {
+          const profileData = await window.SupabaseClient.pullProfile();
+          if (profileData && profileData.success && profileData.data) {
+            const p = profileData.data;
+            if (ProtocoloStore.setOrderBumpStatus) {
+              ProtocoloStore.setOrderBumpStatus(Boolean(p.has_orderbump_abdomen), Boolean(p.has_orderbump_batidos));
+            }
+            if (ProtocoloStore.setVipStatus && p.is_vip !== undefined) {
+              ProtocoloStore.setVipStatus(Boolean(p.is_vip));
+            }
+          }
+        } catch (pullErr) {
+          console.warn('Aviso ao sincronizar permissões:', pullErr);
+        }
+
         // Sincronizar dados atuais
         await syncProfileCloud();
         renderApp(ProtocoloStore.getState());

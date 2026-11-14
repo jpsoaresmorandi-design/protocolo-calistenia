@@ -24,6 +24,8 @@ interface WebhookNormalizedPayload {
   currency?: string;
   isBaseProduct: boolean; // Protocolo 21 Días Base ($9.90)
   isVipProduct: boolean;  // Assinatura VIP Recorrente ($4.90/mês)
+  isAbdomenBump?: boolean; // Order Bump Finisher Abdomen ($6.90)
+  isBatidosBump?: boolean; // Order Bump 12 Batidos Anabólicos ($4.90)
   vipDurationDays?: number; // padrão 30 dias para assinatura mensal
 }
 
@@ -130,6 +132,15 @@ serve(async (req) => {
           has_base_access: true
         };
 
+        if (normalized.isAbdomenBump) {
+          profileUpdate.has_orderbump_abdomen = true;
+          console.log(`Order Bump Abdomen liberado para usuário ${userId}`);
+        }
+        if (normalized.isBatidosBump) {
+          profileUpdate.has_orderbump_batidos = true;
+          console.log(`Order Bump Batidos liberado para usuário ${userId}`);
+        }
+
         if (normalized.isVipProduct) {
           const days = normalized.vipDurationDays || 30;
           const vipUntilDate = new Date();
@@ -149,6 +160,12 @@ serve(async (req) => {
         }
         if (normalized.isBaseProduct && (normalized.eventType === 'REFUNDED' || normalized.eventType === 'CHARGEBACK')) {
           profileUpdate.has_base_access = false;
+        }
+        if (normalized.isAbdomenBump) {
+          profileUpdate.has_orderbump_abdomen = false;
+        }
+        if (normalized.isBatidosBump) {
+          profileUpdate.has_orderbump_batidos = false;
         }
 
         await adminClient.from("profiles").upsert(profileUpdate);
@@ -213,8 +230,10 @@ function normalizeWebhookPayload(body: any, headers: Headers): WebhookNormalized
     const prodName = String(product.name || '').toLowerCase();
 
     // Distinção de Produto Base ($9.90) vs Assinatura VIP ($4.90) vs Order Bump
-    const isVip = isSub || prodName.includes('vip') || priceVal <= 5.50;
-    const isBase = !isSub || isOrderBump || prodName.includes('protocolo') || priceVal >= 8.00;
+    const isAbdomenBump = isOrderBump || prodName.includes('abdomen') || prodName.includes('finisher') || String(product.id) === '8970030';
+    const isBatidosBump = isOrderBump || prodName.includes('batidos') || prodName.includes('anabolico') || String(product.id) === '8970054';
+    const isVip = isSub || prodName.includes('vip') || (priceVal <= 5.50 && !isBatidosBump);
+    const isBase = (!isSub && !isAbdomenBump && !isBatidosBump) || prodName.includes('protocolo') || priceVal >= 8.00;
 
     let mappedEventType: WebhookNormalizedPayload['eventType'] = 'PURCHASE_APPROVED';
     if (rawEvent === 'SUBSCRIPTION_RENEWAL') mappedEventType = 'SUBSCRIPTION_RENEWED';
@@ -234,6 +253,8 @@ function normalizeWebhookPayload(body: any, headers: Headers): WebhookNormalized
       currency: purchase.price?.currency_value || purchase.price?.currency_code_from_transaction || 'USD',
       isBaseProduct: isBase,
       isVipProduct: isVip,
+      isAbdomenBump: isAbdomenBump,
+      isBatidosBump: isBatidosBump,
       vipDurationDays: 30
     };
   }
