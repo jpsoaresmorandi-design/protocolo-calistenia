@@ -1,4 +1,4 @@
-3/**
+/**
  * Main Application Controller, Router & PWA Service Worker Registration
  * Protocolo de Calistenia Militar - Centro de Comando Táctico
  */
