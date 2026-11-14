@@ -74,6 +74,7 @@
       document.body.appendChild(overlay);
     }
     overlay.style.display = 'flex';
+    document.body.classList.add('workout-player-active');
   }
 
   function closePlayer() {
@@ -84,6 +85,7 @@
       overlay.style.display = 'none';
       overlay.innerHTML = '';
     }
+    document.body.classList.remove('workout-player-active');
     currentWorkout = null;
     playerState = 'idle';
   }
@@ -204,6 +206,7 @@
   function completeWorkout() {
     playerState = 'completed';
     clearInterval(timerInterval);
+    document.body.classList.remove('workout-player-active');
     triggerVibrate([100, 60, 100, 60, 250]);
 
     if (currentWorkout.day) {
@@ -293,11 +296,11 @@
 
     overlay.innerHTML = `
       <div class="player-top-bar">
-        <div>
+        <div class="player-top-info">
           <span class="user-rank-name">${currentWorkout.title}</span>
-          <div style="font-size:11px; color:#71717a;">${isBlindajeRoutine ? 'MOVILIDAD' : `RONDA ${currentRound}/${currentWorkout.rounds}`} • EJERCICIO ${currentExerciseIdx + 1}/${currentWorkout.exercises.length}</div>
+          <div class="player-step-counter">${isBlindajeRoutine ? 'MOVILIDAD' : `RONDA ${currentRound}/${currentWorkout.rounds}`} • EJERCICIO ${currentExerciseIdx + 1}/${currentWorkout.exercises.length}</div>
         </div>
-        <button class="player-close-btn" onclick="WorkoutPlayer.close()">&times;</button>
+        <button class="player-close-btn" onclick="WorkoutPlayer.close()" title="Salir del entrenamiento" aria-label="Cerrar">&times;</button>
       </div>
 
       <div class="player-progress-bar">
@@ -305,49 +308,56 @@
       </div>
 
       <div class="player-center-stage">
-        <div class="player-phase-title">${ex.focus}</div>
-        <div class="player-ex-name">${activeName}</div>
-        
-        ${(currentWorkout.jointProtected || ex.isSafeVariantActive) ? `
-          <div class="joint-safe-active-banner">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>ARTICULACIÓN SEGURA ACTIVA</span>
+        <!-- Encabezado con Enfoque y Nombre del Ejercicio -->
+        <div class="player-header-card">
+          <div class="player-phase-title">${ex.focus || 'CALISTENIA MILITAR'}</div>
+          <h2 class="player-ex-name">${activeName}</h2>
+          
+          <div class="player-meta-badges">
+            <span class="player-pill-reps">🎯 ${ex.targetReps || ex.reps || 'Por tiempo'}</span>
+            ${ex.tempo ? `<span class="player-pill-tempo">⏱️ Tempo ${ex.tempo}</span>` : ''}
+            ${(currentWorkout.jointProtected || ex.isSafeVariantActive) ? `
+              <span class="player-pill-safe">🛡️ Articulación Segura</span>
+            ` : ''}
           </div>
-        ` : ''}
+        </div>
 
-        <!-- Animación Cinemática Táctica SVG (Silueta Humana Lateral en Bucle) -->
+        <!-- Escenario del Atleta 100% Libre de Textos Superpuestos -->
         <div class="player-athlete-frame">
-          <div id="exerciseAnimatorBox" class="exercise-animator-box" style="width:100%; height:100%; min-height:180px; display:flex; align-items:center; justify-content:center;"></div>
-          <div class="player-athlete-overlay">
-            <span class="player-athlete-reps">${ex.targetReps || ex.reps || ''}</span>
-          </div>
+          <div id="exerciseAnimatorBox" class="exercise-animator-box"></div>
         </div>
 
         ${ex.beginnerMod ? `
           <button class="player-mod-toggle ${isModifiedVersion ? 'active' : ''}" onclick="WorkoutPlayer.toggleMod()">
-            ${isModifiedVersion ? '🛡️ Modo Suave (Activo)' : '🛡️ Cambiar a Modificación Suave'}
+            ${isModifiedVersion ? '🛡️ Modo Suave Activo (Toca para versión estándar)' : '🛡️ Cambiar a Modificación Suave'}
           </button>
         ` : ''}
 
-        <div class="player-timer-circle" id="playerTimerCircle">
-          <div class="player-timer-digits" id="timerDigits">${formatTime(secondsRemaining)}</div>
-          <div class="player-timer-label">EN ACCIÓN</div>
+        <!-- Dock Integrado: Timer Centralizado y Controles Tácticos -->
+        <div class="player-dock-strip">
+          <button class="player-btn-secondary" onclick="WorkoutPlayer.prevExercise()" title="Anterior" aria-label="Anterior">‹</button>
+
+          <div class="player-timer-circle" id="playerTimerCircle">
+            <div class="player-timer-digits" id="timerDigits">${formatTime(secondsRemaining)}</div>
+            <div class="player-timer-label">EN ACCIÓN</div>
+          </div>
+
+          <button class="player-btn-primary" onclick="WorkoutPlayer.togglePause()" id="btnPlayPause" title="Pausar / Reanudar" aria-label="Play/Pausa">⏸</button>
+
+          <button class="player-btn-secondary" onclick="WorkoutPlayer.nextExercise()" title="Siguiente" aria-label="Siguiente">›</button>
         </div>
 
+        <!-- Indicación de Postura (Organizada, Sin Cortes de Palabras) -->
         <div class="player-cues-box">
-          <strong>Indicación de Postura:</strong>
-          ${activeCues.map(c => `<div>• ${c}</div>`).join('')}
-        </div>
-
-        <div class="player-controls">
-          <button class="player-btn-secondary" onclick="WorkoutPlayer.prevExercise()" title="Anterior">‹</button>
-          <button class="player-btn-primary" onclick="WorkoutPlayer.togglePause()" id="btnPlayPause">⏸</button>
-          <button class="player-btn-secondary" onclick="WorkoutPlayer.nextExercise()" title="Siguiente">›</button>
+          <div class="player-cues-title">🎯 INDICACIÓN DE POSTURA:</div>
+          <div class="player-cues-list">
+            ${activeCues.map(c => `<div class="player-cue-item">• ${c}</div>`).join('')}
+          </div>
         </div>
       </div>
     `;
 
-    // Iniciar Animación Cinemática Táctica en SVG si no hay video reproduciéndose
+    // Iniciar Animación Cinemática Táctica en SVG
     setTimeout(() => {
       const animBox = document.getElementById('exerciseAnimatorBox');
       if (animBox && typeof window !== 'undefined' && window.ExerciseAnimator) {
@@ -363,26 +373,31 @@
 
     overlay.innerHTML = `
       <div class="player-top-bar">
-        <span class="user-rank-name">PAUSA TÁCTICA</span>
-        <button class="player-close-btn" onclick="WorkoutPlayer.close()">&times;</button>
+        <div class="player-top-info">
+          <span class="user-rank-name">PAUSA TÁCTICA</span>
+          <div class="player-step-counter">RECUPERACIÓN Y RESPIRACIÓN</div>
+        </div>
+        <button class="player-close-btn" onclick="WorkoutPlayer.close()" title="Salir" aria-label="Cerrar">&times;</button>
       </div>
 
       <div class="player-center-stage">
-        <div class="player-phase-title" style="color:var(--tactical-gold);">RECUPERACIÓN Y RESPIRACIÓN</div>
-        <div class="player-ex-name" style="font-size:20px;">Toma aire e hidrátate</div>
+        <div class="player-header-card">
+          <div class="player-phase-title" style="color:var(--tactical-gold);">FASE DE DESCANSO</div>
+          <h2 class="player-ex-name" style="font-size:20px;">Toma aire e hidrátate</h2>
+        </div>
 
-        <div class="player-timer-circle rest-state" id="playerTimerCircle">
+        <div class="player-timer-circle rest-state" id="playerTimerCircle" style="margin: 24px auto;">
           <div class="player-timer-digits text-gold" id="timerDigits">${formatTime(secondsRemaining)}</div>
           <div class="player-timer-label">DESCANSO</div>
         </div>
 
-        <div class="card-tactical" style="width:100%; max-width:360px; margin-top:10px;">
-          <div style="font-size:11px; color:#71717a; text-transform:uppercase;">A continuación:</div>
-          <div style="font-size:14px; font-weight:700; color:#fff; margin-top:2px;">${nextExName}</div>
+        <div class="card-tactical" style="width:100%; max-width:400px; margin: 12px auto; text-align:center; background:#121612; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px;">
+          <div style="font-size:11px; color:#71717a; text-transform:uppercase; letter-spacing:1px; font-weight:700;">A continuación:</div>
+          <div style="font-size:16px; font-weight:800; color:#fff; margin-top:4px;">${nextExName}</div>
         </div>
 
-        <div class="player-controls">
-          <button class="btn-start-mission" style="font-size:13px; padding:12px 20px; width:auto;" onclick="WorkoutPlayer.skipRest()">
+        <div class="player-controls" style="margin-top:20px;">
+          <button class="btn-start-mission" style="font-size:13px; font-weight:800; padding:14px 28px; width:auto; border-radius:999px; box-shadow:0 4px 20px rgba(34,197,94,0.35);" onclick="WorkoutPlayer.skipRest()">
             SALTAR DESCANSO ›
           </button>
         </div>

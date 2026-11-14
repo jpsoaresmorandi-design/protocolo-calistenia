@@ -25,10 +25,10 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   experience_level TEXT DEFAULT 'principiante',
   time_availability TEXT DEFAULT 'estandar',
   
-  -- Controle de Acesso e VIP
-  is_vip BOOLEAN NOT NULL DEFAULT true,
+  -- Controle de Acesso e VIP (Estritamente bloqueado por padrão; liberado apenas por webhook pago)
+  is_vip BOOLEAN NOT NULL DEFAULT false,
   vip_until TIMESTAMPTZ DEFAULT NULL,
-  has_base_access BOOLEAN NOT NULL DEFAULT true,
+  has_base_access BOOLEAN NOT NULL DEFAULT false,
   
   -- Order Bumps Entitlements (Bloqueio / Desbloqueio de Produtos Adicionais)
   has_orderbump_abdomen BOOLEAN NOT NULL DEFAULT false,
@@ -81,10 +81,10 @@ BEGIN
   )
   VALUES (
     NEW.id,
-    COALESCE(NEW.raw_user_meta_data->>'full_name', 'Recluta Operacional'),
+    COALESCE(NEW.raw_user_meta_data->>'full_name', 'Recluta'),
     COALESCE(NEW.raw_user_meta_data->>'nickname', 'Operador-' || SUBSTRING(NEW.id::text, 1, 4)),
-    true,
-    true,
+    false, -- Estritamente falso: Somente webhook com pagamento aprovado pode liberar VIP
+    false, -- Estritamente falso: Somente webhook com pagamento aprovado pode liberar Base
     COALESCE((NEW.raw_user_meta_data->>'has_orderbump_abdomen')::boolean, false),
     COALESCE((NEW.raw_user_meta_data->>'has_orderbump_batidos')::boolean, false)
   )

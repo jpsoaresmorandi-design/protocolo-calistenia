@@ -42,8 +42,8 @@
     function initOnboardingDraft() {
       const s = ProtocoloStore.getState();
       window.OnboardingDraft = {
-        name: s.profile.name || 'Recluta Carlos',
-        nickname: s.profile.nickname || 'Vanguardia-01',
+        name: s.profile.name || 'Recluta',
+        nickname: s.profile.nickname || 'Operador-01',
         gender: s.profile.gender || 'hombre',
         avatar: s.profile.avatar || 'tactical-helmet',
         age: s.profile.age || 28,
@@ -208,7 +208,7 @@
       }
     }
 
-    function renderApp(state) {
+    function renderApp(state = (window.ProtocoloStore ? window.ProtocoloStore.getState() : {})) {
       const root = document.getElementById('appRoot');
       if (!root) return;
 
@@ -515,16 +515,27 @@
     }
 
     function openVipScannerOfferModal() {
+      const modal = document.getElementById('settingsModal');
+      if (modal && window.Views && window.Views.renderVipScannerOfferModal) {
+        modal.innerHTML = Views.renderVipScannerOfferModal({ activeVipScannerModal: true });
+        modal.classList.add('show');
+        return;
+      }
       const s = ProtocoloStore.getState();
       s.activeVipScannerModal = true;
-      renderApp();
+      renderApp(s);
     }
 
     function closeVipScannerOfferModal(event) {
-      if (event && event.target && event.target !== event.currentTarget) return;
+      if (event && event.stopPropagation) event.stopPropagation();
+      const modal = document.getElementById('settingsModal');
+      if (modal) {
+        modal.classList.remove('show');
+        modal.innerHTML = '';
+      }
       const s = ProtocoloStore.getState();
       s.activeVipScannerModal = false;
-      renderApp();
+      renderApp(s);
     }
 
     function openNutriCamera(mealType) {
@@ -1485,10 +1496,6 @@
         res = await window.SupabaseClient.signUp(email, pass, { name });
       } else {
         res = await window.SupabaseClient.signIn(email, pass);
-        // Fallback amigável se a conta não existia ainda e foi criada na compra
-        if (!res.success && (res.error && res.error.includes('Invalid login credentials'))) {
-          res = await window.SupabaseClient.signUp(email, pass, { name });
-        }
       }
 
       if (res && res.success) {

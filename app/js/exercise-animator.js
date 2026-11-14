@@ -317,7 +317,7 @@
 
   function createSvgMarkup() {
     return `
-      <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" class="exercise-animator-svg" style="width:100%; height:100%; min-height:180px; display:block; background:radial-gradient(circle at 50% 50%, #181c24 0%, #0d0f14 100%); border-radius:12px;">
+      <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet" class="exercise-animator-svg" style="width:100%; height:100%; display:block; background:radial-gradient(circle at 50% 50%, #161c16 0%, #0a0d0a 100%);">
         <defs>
           <filter id="tacticalGreenGlow" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -329,7 +329,7 @@
         </defs>
 
         <!-- Piso Sutil -->
-        <line x1="20" y1="${FLOOR_Y}" x2="300" y2="${FLOOR_Y}" stroke="#27272a" stroke-width="2" stroke-dasharray="4 4" />
+        <line x1="20" y1="${FLOOR_Y}" x2="300" y2="${FLOOR_Y}" stroke="#223322" stroke-width="2" stroke-dasharray="4 4" />
 
         <!-- Suporte sutil (banco/cadeira se aplicável) -->
         <g id="animSupportElement" opacity="0"></g>
@@ -347,13 +347,13 @@
         <!-- Indicador de Pulso Isométrico -->
         <circle id="animTensionPulse" cx="160" cy="140" r="14" fill="none" stroke="#eab308" stroke-width="1.5" opacity="0" />
 
-        <!-- HUD: Fase e Repetições -->
+        <!-- HUD: Fase e Repetições (Discretos e fora da área de movimentação) -->
         <g class="anim-hud-layer">
-          <rect x="12" y="10" width="140" height="24" rx="5" fill="rgba(0,0,0,0.7)" stroke="rgba(34,197,94,0.3)" stroke-width="1" />
-          <text id="animPhaseLabel" x="82" y="26" text-anchor="middle" fill="#22c55e" font-size="10" font-weight="800" letter-spacing="0.5">INICIANDO</text>
+          <rect x="10" y="8" width="130" height="20" rx="4" fill="rgba(10,13,10,0.85)" stroke="rgba(34,197,94,0.4)" stroke-width="1" />
+          <text id="animPhaseLabel" x="75" y="22" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="800" letter-spacing="0.5">INICIANDO</text>
 
-          <rect x="220" y="10" width="88" height="24" rx="5" fill="rgba(0,0,0,0.7)" stroke="rgba(234,179,8,0.3)" stroke-width="1" />
-          <text id="animRepsLabel" x="264" y="26" text-anchor="middle" fill="#eab308" font-size="10" font-weight="700">REP 1 / 2</text>
+          <rect x="230" y="8" width="80" height="20" rx="4" fill="rgba(10,13,10,0.85)" stroke="rgba(234,179,8,0.4)" stroke-width="1" />
+          <text id="animRepsLabel" x="270" y="22" text-anchor="middle" fill="#eab308" font-size="9" font-weight="700">REP 1 / 2</text>
         </g>
       </svg>
     `;

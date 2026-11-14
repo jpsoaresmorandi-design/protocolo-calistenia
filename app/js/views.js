@@ -813,9 +813,9 @@
     };
 
     return `
-      <div class="recipe-modal-backdrop" onclick="App.closeVipScannerOfferModal(event)">
-        <div class="recipe-modal-card vip-scanner-offer-card" onclick="event.stopPropagation()">
-          <button class="recipe-modal-close" onclick="App.closeVipScannerOfferModal()">&times;</button>
+      <div class="recipe-modal-backdrop" onclick="App.closeVipScannerOfferModal(event)" style="z-index:100000; display:flex; align-items:center; justify-content:center; padding:16px;">
+        <div class="recipe-modal-card vip-scanner-offer-card" style="margin:auto; max-height:88vh; max-height:88svh; overflow-y:auto; border-radius:16px; border:1.5px solid rgba(34,197,94,0.35); box-shadow:0 16px 48px rgba(0,0,0,0.9);" onclick="event.stopPropagation()">
+          <button type="button" class="recipe-modal-close" onclick="App.closeVipScannerOfferModal(event)" style="width:40px; height:40px; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; background:rgba(0,0,0,0.8); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:50%; z-index:10;" aria-label="Cerrar">&times;</button>
 
           <div class="vip-scanner-modal-header">
             <span class="vip-exclusive-pill">🔒 EXCLUSIVO MIEMBROS VIP</span>
@@ -854,14 +854,14 @@
             <div class="vip-price-main">${cfg.formattedMonthly}</div>
             <div class="vip-price-sub">Aproximadamente solo ${cfg.approxDaily} • Cancela cuando quieras</div>
 
-            <button class="btn-unlock-vip-scanner" onclick="App.handleCommunityCheckout()">
+            <button class="btn-unlock-vip-scanner" onclick="App.openHotmartCheckout('vip')">
               DESBLOQUEAR SCANNER TÁCTICO (${cfg.formattedMonthlyShort})
             </button>
             <div class="vip-guarantee-note">🔒 Acceso Inmediato • Compra 100% Segura</div>
           </div>
 
           <div class="vip-free-fallback-note">
-            <button class="btn-continue-manual-free" onclick="App.closeVipScannerOfferModal()">
+            <button class="btn-continue-manual-free" onclick="App.closeVipScannerOfferModal(event)">
               Continuar con Registro Manual Gratuito
             </button>
           </div>

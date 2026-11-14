@@ -85,7 +85,7 @@
    * Motor de análisis inteligente con IA (Scanner Táctico)
    */
   async function analyzeFoodPhoto(file, preferredMealType = 'almuerzo') {
-    // 1. Verificación de Seguridad VIP: Scanner Táctico exclusivo para suscriptores
+    // 1. Verificación de Seguridad VIP Estricta: Scanner Táctico exclusivo para suscriptores
     if (!window.ProtocoloStore || !window.ProtocoloStore.isVip()) {
       isProcessing = false;
       if (window.App && window.App.showAnalysisLoading) window.App.showAnalysisLoading(false);
@@ -102,23 +102,31 @@
       const compressed = await compressImage(file);
       let aiResult = null;
 
-      // Intenta consultar la Edge Function de Supabase conectada al Scanner Táctico
+      // Consulta a Edge Function de Supabase protegida por autenticação VIP no backend
       if (window.SupabaseClient && window.SupabaseClient.isConfigured()) {
         const response = await window.SupabaseClient.analyzeFood(compressed.base64Data, 'image/jpeg');
-        if (response.vipRequired || response.status === 403) {
+        if (!response.success || response.vipRequired || response.status === 403) {
           isProcessing = false;
           if (window.App && window.App.showAnalysisLoading) window.App.showAnalysisLoading(false);
-          if (window.App && window.App.openVipScannerOfferModal) window.App.openVipScannerOfferModal();
+          if (response.vipRequired || response.status === 403) {
+            if (window.App && window.App.openVipScannerOfferModal) window.App.openVipScannerOfferModal();
+          } else {
+            alert('Aviso del Scanner Táctico: ' + (response.error || 'Acceso VIP requerido en el servidor.'));
+          }
           return;
         }
         if (response.success && response.data) {
           aiResult = response.data;
         }
+      } else {
+        isProcessing = false;
+        if (window.App && window.App.showAnalysisLoading) window.App.showAnalysisLoading(false);
+        if (window.App && window.App.openVipScannerOfferModal) window.App.openVipScannerOfferModal();
+        return;
       }
 
-      // Si no hay Supabase configurado o está offline, usa el motor híbrido local de visión calisténica
       if (!aiResult) {
-        aiResult = generateIntelligentEstimation(preferredMealType);
+        throw new Error('No se recibió la segmentación nutricional del servidor.');
       }
 
       // Ancla los alimentos reconocidos con la base TACO/USDA para precisión científica de macros

@@ -106,8 +106,8 @@
   let initialStartWeight = 78;
   let initialGoal = 'perder-peso';
   let initialAge = 28;
-  let initialName = 'Recluta Carlos';
-  let initialNickname = 'Vanguardia-01';
+  let initialName = 'Recluta';
+  let initialNickname = 'Operador-01';
 
   try {
     const funnelQuiz = JSON.parse(localStorage.getItem('calistenia_state') || '{}');
@@ -282,12 +282,12 @@
     },
     progress: {
       currentDay: 1,
-      completedDays: [], // Ex: [1, 2] -> o dia 3 estará liberado
-      points: 150,
-      streak: 1,
+      completedDays: [],
+      points: 0,
+      streak: 0,
       lastActiveDate: new Date().toISOString().split('T')[0],
       currentPhase: 1,
-      achievements: ['first_day_ready'],
+      achievements: [],
       weeklyGoal: { targetDays: 5, currentDays: 0, weekNumber: 1 },
       weeklyCheckins: []
     },
@@ -305,27 +305,7 @@
       waterGlasses: 0,
       lastWaterDate: new Date().toISOString().split('T')[0],
       shoppingChecked: [],
-      meals: [
-        {
-          id: 'meal_demo_1',
-          date: new Date().toISOString().split('T')[0],
-          time: '08:30',
-          type: 'desayuno',
-          title: 'Desayuno Proteico de Avena y Claras',
-          photoUrl: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop&q=80',
-          confidence: 0.95,
-          calories: 380,
-          protein: 34.0,
-          carbs: 42.0,
-          fats: 8.5,
-          items: [
-            { id: 'it_1', name: 'Huevos enteros de campo', grams: 100, calories: 143, protein: 12.6, carbs: 0.7, fats: 9.5, foodId: 'huevo_entero' },
-            { id: 'it_2', name: 'Claras de huevo', grams: 120, calories: 62, protein: 13.2, carbs: 0.8, fats: 0.2, foodId: 'clara_huevo' },
-            { id: 'it_3', name: 'Avena en hojuelas cruda', grams: 45, calories: 175, protein: 7.6, carbs: 29.8, fats: 3.1, foodId: 'avena_hojuelas' }
-          ],
-          notes: 'Excelente relación de leucina y carbohidratos complejos para el entrenamiento.'
-        }
-      ]
+      meals: []
     },
     evolutionPhotos: {
       day1: null, // base64 string
@@ -990,14 +970,12 @@
   window.ProtocoloStore = {
     config: PROTOCOLO_CONFIG,
     isVip: () => {
-      if (PROTOCOLO_CONFIG.scanner.localTestMode) return true;
-      return Boolean(state && state.community && state.community.isVipMember);
+      return Boolean(state && ((state.entitlements && state.entitlements.isVip) || (state.community && state.community.isVipMember)));
     },
     hasFeatureAccess: (featureKey) => {
       const feat = PROTOCOLO_CONFIG.features[featureKey];
       if (!feat || feat.tier !== 'vip') return true;
-      if (PROTOCOLO_CONFIG.scanner.localTestMode) return true;
-      return Boolean(state && state.community && state.community.isVipMember);
+      return Boolean(state && ((state.entitlements && state.entitlements.isVip) || (state.community && state.community.isVipMember)));
     },
     setVipStatus: (val) => {
       if (state && state.community) {

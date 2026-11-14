@@ -471,6 +471,22 @@
           if (!supaResult.success && supaResult.error && supaResult.error.includes('already registered')) {
             supaResult = await window.SupabaseClient.signIn(email, pass);
           }
+
+          if (!supaResult || !supaResult.success) {
+            throw new Error(supaResult ? supaResult.error : 'No se pudo autenticar con el servidor.');
+          }
+
+          // Validação estrita de compra no Supabase
+          if (typeof window.SupabaseClient.pullProfile === 'function') {
+            var profileCheck = await window.SupabaseClient.pullProfile();
+            var p = (profileCheck && profileCheck.success && profileCheck.data) || null;
+            if (p && p.has_base_access !== true) {
+              btn.disabled = false;
+              btn.innerHTML = '<span>🪖 ACTIVAR MI CUENTA Y COMENZAR</span>';
+              alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada al correo ' + email + ' en Hotmart.\n\nPor favor verifica que estés utilizando el mismo correo que registraste en la compra.');
+              return;
+            }
+          }
         }
 
         // 2. Garante persistência da sessão e do perfil local militar (funciona 100% mesmo se Supabase offline)
