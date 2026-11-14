@@ -7,3 +7,4 @@ generate_batidos_pdf.js
 *.log
 node_modules
 supabase
+
