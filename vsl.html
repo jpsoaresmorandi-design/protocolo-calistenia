@@ -1146,6 +1146,10 @@ body {
   });
 
   // Progresso do vídeo, pitch e fakeBar
+  // Rastreamento de retenção de vídeo personalizada para o Meta Pixel
+  var videoMilestones = [10, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100];
+  var firedMilestones = {};
+
   video.addEventListener('timeupdate', function() {
     var current = video.currentTime;
     var duration = video.duration || 590;
@@ -1153,12 +1157,46 @@ body {
     var pct = Math.min(100, (current / duration) * 100);
     fakeBarFill.style.width = pct + '%';
 
+    // Disparo de eventos personalizados de retenção (10, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100)
+    for (var i = 0; i < videoMilestones.length; i++) {
+      var milestone = videoMilestones[i];
+      if (pct >= milestone && !firedMilestones[milestone]) {
+        firedMilestones[milestone] = true;
+        if (window.fbq) {
+          try {
+            fbq('trackCustom', 'Video_' + milestone, {
+              percent: milestone,
+              currentTime: Math.floor(current),
+              duration: Math.floor(duration)
+            });
+            console.log('[Meta Pixel] Disparado evento personalizado: Video_' + milestone);
+          } catch(err) {}
+        }
+      }
+    }
+
     if (Math.floor(current) % 2 === 0 && current > 5) {
       try { localStorage.setItem(STORAGE_KEY, Math.floor(current)); } catch(e) {}
     }
 
     if (current >= PITCH_SECONDS || forceCTA) {
       unlockPitch();
+    }
+  });
+
+  video.addEventListener('ended', function() {
+    if (!firedMilestones[100]) {
+      firedMilestones[100] = true;
+      if (window.fbq) {
+        try {
+          fbq('trackCustom', 'Video_100', {
+            percent: 100,
+            currentTime: Math.floor(video.duration || 590),
+            duration: Math.floor(video.duration || 590)
+          });
+          console.log('[Meta Pixel] Disparado evento personalizado: Video_100');
+        } catch(err) {}
+      }
     }
   });
 
