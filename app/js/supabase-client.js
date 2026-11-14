@@ -46,7 +46,15 @@
     },
 
     isAuthenticated() {
-      return Boolean(config.token && currentUser);
+      if (Boolean(config.token && currentUser)) return true;
+      try {
+        const raw = localStorage.getItem('protocolo_current_user');
+        if (raw) {
+          const u = JSON.parse(raw);
+          if (u && (u.isPaidUser || u.has_base_access) && u.email) return true;
+        }
+      } catch (e) {}
+      return false;
     },
 
     getConfig() {
@@ -149,6 +157,9 @@
 
     signOut() {
       this.setAuthSession(null, null);
+      try {
+        localStorage.removeItem('protocolo_current_user');
+      } catch (e) {}
       return { success: true };
     },
 

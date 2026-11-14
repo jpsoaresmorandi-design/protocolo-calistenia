@@ -478,6 +478,7 @@
           email: email,
           name: name,
           isPaidUser: true,
+          has_base_access: true,
           activatedAt: new Date().toISOString(),
           token: (supaResult && supaResult.token) || ('local_tok_' + Date.now())
         };
