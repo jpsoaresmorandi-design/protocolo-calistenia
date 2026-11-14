@@ -8,6 +8,38 @@
 (function() {
   'use strict';
 
+  // Helpers de Limpieza Visual para Nombres y Repeticiones (Evita desbordes en móvil)
+  function formatCleanExName(name) {
+    if (!name) return 'Ejercicio';
+    return name
+      .replace(/\(Pausa.*?\)/gi, '')
+      .replace(/con Bloqueo Pélvico/gi, '')
+      .replace(/a Ritmo Constante/gi, '')
+      .replace(/Tácticas de Pecho/gi, 'de Pecho')
+      .replace(/con Tempo Táctico/gi, 'Tempo Táctico')
+      .trim();
+  }
+
+  function formatCleanFocus(focus) {
+    if (!focus) return 'Core Militar';
+    const parts = focus.split(',').map(s => s.trim());
+    return parts.slice(0, 2).join(' • ');
+  }
+
+  function formatCleanTargetReps(reps) {
+    if (!reps) return '3 rondas';
+    let r = reps.replace(/\(.*?\)/g, '').trim();
+    r = r.replace(/(\d+)\s+a\s+(\d+)/gi, '$1-$2');
+    if (r.toLowerCase().includes('isometría')) return 'Isometría';
+    if (r.toLowerCase().includes('ritmo')) return 'Ritmo Cont.';
+    if (r.toLowerCase().includes('fluido') || r.toLowerCase().includes('fluidez')) return 'Fluidez';
+    if (r.toLowerCase().includes('transiciones')) return r.replace(/transiciones/gi, 'trans.');
+    r = r.replace(/por pierna|por lado/gi, '/lado');
+    r = r.replace(/repeticiones/gi, 'reps');
+    if (r.length > 15) r = r.substring(0, 14) + '…';
+    return r;
+  }
+
   // ==========================================
   // 1. VISTA: MISIONES (Bloqueo Progresivo)
   // ==========================================
@@ -224,20 +256,27 @@
       </div>
 
       <div class="exercise-list">
-        ${plan.exercises.map((ex, idx) => `
-          <div class="exercise-item-card ${!isUnlocked ? 'dimmed-preview' : ''}">
-            <div class="ex-thumb-box">
-              <img src="${ex.image || (state.profile.gender === 'mujer' ? 'assets/fem-goal-toned.jpg' : 'assets/male-goal-shredded.jpg')}" alt="${ex.name}" class="ex-thumb-img" loading="lazy">
-              <span class="ex-thumb-tag">#${idx + 1}</span>
+        ${plan.exercises.map((ex, idx) => {
+          const rawName = (state.profile.jointProtection && ex.beginnerMod) ? ex.beginnerMod.name : ex.name;
+          const cleanName = formatCleanExName(rawName);
+          const cleanFocus = formatCleanFocus(ex.focus);
+          const cleanReps = formatCleanTargetReps(ex.targetReps);
+
+          return `
+            <div class="exercise-item-card ${!isUnlocked ? 'dimmed-preview' : ''}">
+              <div class="ex-thumb-box">
+                <img src="${ex.image || (state.profile.gender === 'mujer' ? 'assets/fem-goal-toned.jpg' : 'assets/male-goal-shredded.jpg')}" alt="${cleanName}" class="ex-thumb-img" loading="lazy">
+                <span class="ex-thumb-tag">#${idx + 1}</span>
+              </div>
+              <div class="ex-info">
+                <div class="ex-name" title="${rawName}">${cleanName}</div>
+                <div class="ex-muscle">${cleanFocus}</div>
+                ${ex.jointProtected ? '<span class="joint-warning-pill">🛡️ Protegida</span>' : ''}
+              </div>
+              <div class="ex-target">${cleanReps}</div>
             </div>
-            <div class="ex-info">
-              <div class="ex-name">${state.profile.jointProtection && ex.beginnerMod ? ex.beginnerMod.name : ex.name}</div>
-              <div class="ex-muscle">${ex.focus}</div>
-              ${ex.jointProtected ? '<span class="joint-warning-pill">🛡️ Articulación Protegida</span>' : ''}
-            </div>
-            <div class="ex-target">${ex.targetReps}</div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
 
       <div style="height: calc(85px + env(safe-area-inset-bottom, 20px)); width: 100%;"></div>
@@ -1955,22 +1994,22 @@
             <button onclick="App.removeAttachedCommunityPhoto()" style="position:absolute; top:6px; right:6px; background:rgba(0,0,0,0.75); color:#fff; border:none; border-radius:50%; width:24px; height:24px; font-weight:bold; cursor:pointer;">&times;</button>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; width:100%;">
-            <div style="display:flex; align-items:center; gap:6px; min-width:0; flex:1;">
-              <select id="commPostTag" class="composer-select" style="max-width:130px; font-size:10.5px; background:#050705; border:1px solid rgba(255,255,255,0.1); color:#d1d5db; padding:6px 6px; border-radius:6px; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; width:100%; box-sizing:border-box;">
+            <div style="display:flex; align-items:center; gap:5px; min-width:0; flex-shrink:1;">
+              <select id="commPostTag" class="composer-select" style="max-width:105px; font-size:10px; font-weight:700; background:#070a07; border:1px solid rgba(255,255,255,0.12); color:#d1d5db; padding:6px 4px; border-radius:6px; -webkit-appearance:none; appearance:none;">
                 <option value="misiones">🎯 Misión</option>
-                <option value="nutricion">🥗 Nutrición</option>
-                <option value="motivacion">🔥 Victoria</option>
+                <option value="nutricion">🥗 Dieta</option>
+                <option value="motivacion">🔥 Logro</option>
                 <option value="blindaje">🛡️ Salud</option>
               </select>
 
-              <button class="btn-attach-photo" type="button" onclick="App.triggerCommunityPhotoUpload()" style="padding:6px 8px; font-size:10.5px; white-space:nowrap; flex-shrink:0; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:#d1d5db; border-radius:6px; cursor:pointer;">
+              <button class="btn-attach-photo" type="button" onclick="App.triggerCommunityPhotoUpload()" style="padding:6px 8px; font-size:10px; font-weight:700; white-space:nowrap; flex-shrink:0; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:#d1d5db; border-radius:6px; cursor:pointer;">
                 <span>📷 FOTO</span>
               </button>
             </div>
 
-            <button class="btn-publish-post" onclick="App.submitCommunityPost()" style="background:#22c55e; color:#000; border:none; font-size:10.5px; font-weight:900; padding:7px 11px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0;">
-              PUBLICAR <span style="background:rgba(0,0,0,0.2); font-size:9px; padding:1px 4px; border-radius:4px; margin-left:2px;">+30 XP</span>
+            <button class="btn-publish-post" onclick="App.submitCommunityPost()" style="background:#22c55e; color:#000; border:none; font-size:10.5px; font-weight:900; padding:6px 10px; border-radius:6px; cursor:pointer; white-space:nowrap; flex-shrink:0;">
+              PUBLICAR <span style="background:rgba(0,0,0,0.2); font-size:9px; padding:1px 3px; border-radius:3px; margin-left:2px;">+30XP</span>
             </button>
           </div>
         </div>
