@@ -1486,14 +1486,24 @@
         // Sincroniza permissões e entitlements vindos do banco de dados (Hotmart / Supabase)
         try {
           const profileData = await window.SupabaseClient.pullProfile();
-          if (profileData && profileData.success && profileData.data) {
-            const p = profileData.data;
-            if (ProtocoloStore.setOrderBumpStatus) {
-              ProtocoloStore.setOrderBumpStatus(Boolean(p.has_orderbump_abdomen), Boolean(p.has_orderbump_batidos));
+          const p = (profileData && profileData.success && profileData.data) || null;
+
+          // REGRA DE SEGURANÇA ESTRITA: Exige compra aprovada no Supabase (has_base_access = true)
+          if (!p || p.has_base_access !== true) {
+            window.SupabaseClient.signOut();
+            alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada a este correo electrónico.\n\nPara acceder al Centro de Mando, adquiere tu membresía oficial en el checkout.');
+            if (submitBtn) {
+              submitBtn.innerText = mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL';
+              submitBtn.disabled = false;
             }
-            if (ProtocoloStore.setVipStatus && p.is_vip !== undefined) {
-              ProtocoloStore.setVipStatus(Boolean(p.is_vip));
-            }
+            return;
+          }
+
+          if (ProtocoloStore.setOrderBumpStatus) {
+            ProtocoloStore.setOrderBumpStatus(Boolean(p.has_orderbump_abdomen), Boolean(p.has_orderbump_batidos));
+          }
+          if (ProtocoloStore.setVipStatus && p.is_vip !== undefined) {
+            ProtocoloStore.setVipStatus(Boolean(p.is_vip));
           }
         } catch (pullErr) {
           console.warn('Aviso ao sincronizar permissões:', pullErr);
