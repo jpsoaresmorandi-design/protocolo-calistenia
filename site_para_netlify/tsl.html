@@ -384,18 +384,49 @@
       }
     }
 
-    .wyg-image {
+    .wyg-image-duo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 28px 20px;
+      background: radial-gradient(circle at center, #111827 0%, #030712 100%);
       border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
       overflow: hidden;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-      border: 1px solid var(--border);
-      background: #000;
     }
 
-    .wyg-image img {
+    .wyg-phone-wrap {
+      width: 48%;
+      max-width: 210px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(16, 185, 129, 0.35);
+      background: #000;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .wyg-phone-left {
+      transform: rotate(-3deg) translateY(6px);
+    }
+
+    .wyg-phone-right {
+      transform: rotate(3deg) translateY(-6px);
+    }
+
+    .wyg-phone-wrap:hover {
+      transform: rotate(0deg) translateY(-4px) scale(1.04);
+      border-color: var(--primary);
+      z-index: 2;
+    }
+
+    .wyg-phone-wrap img {
       width: 100%;
       height: auto;
       display: block;
+      image-rendering: -webkit-optimize-contrast;
     }
 
     .wyg-label {
@@ -513,16 +544,30 @@
 
     .bonus-card-img {
       width: 100%;
-      height: 180px;
+      height: 220px;
       overflow: hidden;
-      background: #000;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
     }
 
     .bonus-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
+      image-rendering: -webkit-optimize-contrast;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.45));
+      transition: transform 0.3s ease;
+    }
+
+    .bonus-card:hover .bonus-card-img img {
+      transform: scale(1.05);
     }
 
     .bonus-card-body {
@@ -694,16 +739,25 @@
 
     .price-card-img {
       width: 100%;
-      height: 160px;
-      background: #000;
+      height: 190px;
+      background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
     }
 
     .price-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
       display: block;
+      image-rendering: -webkit-optimize-contrast;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
     }
 
     .price-body {
@@ -990,7 +1044,7 @@
     </div>
 
     <div class="carousel-container">
-      <!-- Fila 1 (Marquee: Pantallas reales de la App) -->
+      <!-- Fila 1 (Marquee: Pantallas reales de la App en 768x1376 HD) -->
       <div class="carousel-row marquee">
         <div class="carousel-item"><img src="app_ui_workout_timer.jpg" alt="Cronómetro y Player de Entrenamiento" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_exercise_3d.jpg" alt="Ejecución Biomecánica 3D y Series" loading="lazy"></div>
@@ -998,7 +1052,6 @@
         <div class="carousel-item"><img src="app_ui_biometrics_scanner.jpg" alt="Escáner Biométrico y Grasa Visceral" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_meal_nutrition.jpg" alt="Plan Nutricional y Macros Diarios" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_military_ranks.jpg" alt="Rangos Militares y Medallas XP" loading="lazy"></div>
-        <div class="carousel-item"><img src="app_screen_misiones_diarias.jpg" alt="Calendario de Misiones Diarias" loading="lazy"></div>
         <!-- Duplicados para loop infinito suave -->
         <div class="carousel-item"><img src="app_ui_workout_timer.jpg" alt="Cronómetro y Player de Entrenamiento" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_exercise_3d.jpg" alt="Ejecución Biomecánica 3D y Series" loading="lazy"></div>
@@ -1006,17 +1059,15 @@
         <div class="carousel-item"><img src="app_ui_biometrics_scanner.jpg" alt="Escáner Biométrico y Grasa Visceral" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_meal_nutrition.jpg" alt="Plan Nutricional y Macros Diarios" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_military_ranks.jpg" alt="Rangos Militares y Medallas XP" loading="lazy"></div>
-        <div class="carousel-item"><img src="app_screen_misiones_diarias.jpg" alt="Calendario de Misiones Diarias" loading="lazy"></div>
       </div>
 
-      <!-- Fila 2 (Marquee Inverso: Pantallas reales de la App) -->
+      <!-- Fila 2 (Marquee Inverso: Pantallas reales de la App en 768x1376 HD) -->
       <div class="carousel-row marquee-reverse">
         <div class="carousel-item"><img src="app_ui_biometrics_scanner.jpg" alt="Escáner Biométrico y Grasa Visceral" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_meal_nutrition.jpg" alt="Plan Nutricional y Macros Diarios" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_military_ranks.jpg" alt="Rangos Militares y Medallas XP" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_exercise_3d.jpg" alt="Ejecución Biomecánica 3D y Series" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_workout_timer.jpg" alt="Cronómetro y Player de Entrenamiento" loading="lazy"></div>
-        <div class="carousel-item"><img src="app_screen_misiones_diarias.jpg" alt="Calendario de Misiones Diarias" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_phase_roadmap.jpg" alt="Roadmap de Fases de 21 Días" loading="lazy"></div>
         <!-- Duplicados -->
         <div class="carousel-item"><img src="app_ui_biometrics_scanner.jpg" alt="Escáner Biométrico y Grasa Visceral" loading="lazy"></div>
@@ -1024,7 +1075,6 @@
         <div class="carousel-item"><img src="app_ui_military_ranks.jpg" alt="Rangos Militares y Medallas XP" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_exercise_3d.jpg" alt="Ejecución Biomecánica 3D y Series" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_workout_timer.jpg" alt="Cronómetro y Player de Entrenamiento" loading="lazy"></div>
-        <div class="carousel-item"><img src="app_screen_misiones_diarias.jpg" alt="Calendario de Misiones Diarias" loading="lazy"></div>
         <div class="carousel-item"><img src="app_ui_phase_roadmap.jpg" alt="Roadmap de Fases de 21 Días" loading="lazy"></div>
       </div>
     </div>
@@ -1081,8 +1131,13 @@
       <h2 class="section-title">LO QUE RECIBES CON TU COMPRA</h2>
 
       <div class="wyg-layout">
-        <div class="wyg-image">
-          <img src="app_screen_showcase_4phones.jpg" alt="Ecosistema de la App Militar">
+        <div class="wyg-image-duo">
+          <div class="wyg-phone-wrap wyg-phone-left">
+            <img src="app_ui_phase_roadmap.jpg" alt="Roadmap de Fases Tácticas">
+          </div>
+          <div class="wyg-phone-wrap wyg-phone-right">
+            <img src="app_ui_workout_timer.jpg" alt="Player de Entrenamiento y Cronómetro">
+          </div>
         </div>
         <div class="wyg-content">
           <div class="wyg-label">ITEM 01</div>
@@ -1162,7 +1217,7 @@
       <!-- BONUS #4 -->
       <div class="bonus-card">
         <div class="bonus-card-img">
-          <img src="escaner_nutricional_vip_cover.jpg" alt="App Móvil Android APK + PWA">
+          <img src="cover_app_android_apk.jpg" alt="Aplicación Android APK + Acceso Web Ilimitado">
         </div>
         <div class="bonus-card-body">
           <div class="bonus-tag">BONUS #4</div>
@@ -1205,7 +1260,7 @@
             </div>
           </div>
           <div class="price-card-img">
-            <img src="app_screen_workout_timer.jpg" alt="Pack Básico">
+            <img src="app_ui_workout_timer.jpg" alt="Pack Básico">
           </div>
           <div class="price-body">
             <ul class="price-features">
