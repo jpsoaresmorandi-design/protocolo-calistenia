@@ -15,6 +15,10 @@
       "destination": "/vsl.html"
     },
     {
+      "source": "/tsl",
+      "destination": "/tsl.html"
+    },
+    {
       "source": "/quiz",
       "destination": "/index.html"
     }

@@ -874,7 +874,9 @@ function gotoVsl(){
     } catch(err) {}
   }
   const qs = (window.__funnelQSString && window.__funnelQSString()) || '';
-  window.location.href = VSL_URL + (qs ? '?' + qs : '');
+  const currentParams = new URLSearchParams(window.location.search);
+  const targetPage = currentParams.get('dest') === 'vsl' ? 'vsl.html' : 'tsl.html';
+  window.location.href = targetPage + (qs ? '?' + qs : '');
 }
 
 function initProcessing(step){
