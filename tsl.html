@@ -543,7 +543,7 @@
 
     .bonus-arrow {
       text-align: center;
-      margin-top: 36px;
+      margin-top: 24px;
       animation: bounce 1.8s infinite;
     }
 
@@ -551,6 +551,54 @@
       width: 36px;
       height: 36px;
       color: var(--primary);
+    }
+
+    .bonus-pricing-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .bonus-val-old {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      text-decoration: line-through;
+      font-weight: 600;
+    }
+
+    .bonus-val-free {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .bonus-anchor-box {
+      max-width: 720px;
+      margin: 32px auto 10px;
+      background: #fff;
+      border: 2px dashed var(--primary);
+      border-radius: 14px;
+      padding: 20px 24px;
+      text-align: center;
+      box-shadow: 0 4px 18px rgba(22, 163, 74, 0.1);
+    }
+
+    .bonus-anchor-badge {
+      display: inline-block;
+      background: rgba(220, 38, 38, 0.1);
+      color: var(--destructive);
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 8px;
     }
 
     @keyframes bounce {
@@ -1046,53 +1094,82 @@
     <div class="bonuses-header container">
       <p class="pre-title">AND THAT'S NOT ALL...</p>
       <h2>¡Aún hay más!</h2>
-      <p class="sub">Al ordenar hoy también recibirás <strong>4 bónus exclusivos completamente GRATIS</strong>:</p>
+      <p class="sub">Al ordenar hoy el <strong>Pack Completo</strong>, te llevas estos <strong>4 Bónus Exclusivos 100% GRATIS</strong>:</p>
     </div>
 
     <div class="bonus-grid container">
+      <!-- BONUS #1 -->
       <div class="bonus-card">
         <div class="bonus-card-img">
-          <img src="banner_topo_calistenia.jpg" alt="Manual Oficial en PDF">
+          <img src="cover_manual_tactico.jpg" alt="Manual Táctico Oficial en PDF">
         </div>
         <div class="bonus-card-body">
           <div class="bonus-tag">BONUS #1</div>
-          <h3>Manual Táctico Oficial en PDF</h3>
-          <p>Guía de alta definición imprimible con progresiones de fuerza, tablas de repeticiones y fundamentos militares.</p>
+          <h3>Manual Táctico Oficial en PDF (Edición Imprimible HD)</h3>
+          <p>La guía de combate completa con ilustraciones biomecánicas, progresiones paso a paso y tablas de control para entrenar sin conexión.</p>
+          <div class="bonus-pricing-row">
+            <span class="bonus-val-old">Valor: $27.00 USD</span>
+            <span class="bonus-val-free">HOY: $0 (GRATIS)</span>
+          </div>
         </div>
       </div>
 
+      <!-- BONUS #2 -->
       <div class="bonus-card">
         <div class="bonus-card-img">
           <img src="cover_finisher_abdomen.jpg" alt="Finisher Abdomen Blindado">
         </div>
         <div class="bonus-card-body">
           <div class="bonus-tag">BONUS #2</div>
-          <h3>Finisher Militar de Abdomen (5 Minutos)</h3>
-          <p>Circuitos de choque al final de cada sesión para quemar la grasa acumulada en la parte baja del abdomen.</p>
+          <h3>Finisher Militar de Abdomen (Protocolo de 5 Minutos)</h3>
+          <p>Circuitos de choque isométrico de 5 minutos al final del entreno para atacar la grasa visceral rebelde y esculpir los abdominales.</p>
+          <div class="bonus-pricing-row">
+            <span class="bonus-val-old">Valor: $37.00 USD</span>
+            <span class="bonus-val-free">HOY: $0 (GRATIS)</span>
+          </div>
         </div>
       </div>
 
+      <!-- BONUS #3 -->
       <div class="bonus-card">
         <div class="bonus-card-img">
-          <img src="cover_batidos_anabolicos.jpg" alt="12 Batidos Anabólicos">
+          <img src="cover_batidos_anabolicos.jpg" alt="12 Batidos Anabólicos Caseros">
         </div>
         <div class="bonus-card-body">
           <div class="bonus-tag">BONUS #3</div>
-          <h3>12 Batidos Anabólicos Caseros</h3>
-          <p>Recetas hipercalóricas y saciantes hechas con ingredientes económicos de supermercado para nutrir tu masa magra.</p>
+          <h3>12 Batidos Anabólicos y Quema-Grasa Caseros</h3>
+          <p>Recetas rápidas de batidos saciantes con ingredientes accesibles de cualquier supermercado para nutrir tu músculo sin gastar en suplementos caros.</p>
+          <div class="bonus-pricing-row">
+            <span class="bonus-val-old">Valor: $29.00 USD</span>
+            <span class="bonus-val-free">HOY: $0 (GRATIS)</span>
+          </div>
         </div>
       </div>
 
+      <!-- BONUS #4 -->
       <div class="bonus-card">
         <div class="bonus-card-img">
-          <img src="escaner_nutricional_vip_cover.jpg" alt="Aplicación Android APK">
+          <img src="escaner_nutricional_vip_cover.jpg" alt="App Móvil Android APK + PWA">
         </div>
         <div class="bonus-card-body">
           <div class="bonus-tag">BONUS #4</div>
-          <h3>App Android APK + Versión Web</h3>
-          <p>Instala la App oficial directamente en tu móvil sin tiendas de aplicaciones ni suscripciones mensuales.</p>
+          <h3>Aplicación Android (APK) + Acceso Web Ilimitado</h3>
+          <p>Instala la App oficial directamente en tu teléfono sin tiendas de aplicaciones ni pagos mensuales. Acceso completo de por vida.</p>
+          <div class="bonus-pricing-row">
+            <span class="bonus-val-old">Valor: $34.00 USD</span>
+            <span class="bonus-val-free">HOY: $0 (GRATIS)</span>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- CAIXA DE ANCORAGEM RESUMO -->
+    <div class="bonus-anchor-box container">
+      <div class="bonus-anchor-badge">VALOR TOTAL DE LOS BÓNUS: $127.00 USD</div>
+      <p style="font-size: 1.05rem; color: #1e293b; line-height: 1.5;">
+        Si compraras estos 4 bónus por separado en nuestra plataforma oficial pagarías exactamente <strong>$127.00 USD</strong>.<br>
+        <strong style="color: var(--primary);">Hoy te los llevas TODOS 100% GRATIS</strong> al activar tu Pack Completo abajo:
+      </p>
     </div>
 
     <div class="bonus-arrow">
