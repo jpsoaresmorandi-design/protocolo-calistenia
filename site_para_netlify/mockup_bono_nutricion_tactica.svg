@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="nutriBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="nutriGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="50%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="goldN" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#a16207"/>
+    </linearGradient>
+    <filter id="nutriShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="8" dy="20" stdDeviation="22" flood-color="#000" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#nutriBg)"/>
+  <path d="M0 150 H800 M0 450 H800 M200 0 V600 M600 0 V600" stroke="rgba(16,185,129,0.05)" stroke-width="1"/>
+
+  <!-- 3D Tactical Guide Binder -->
+  <g filter="url(#nutriShadow)" transform="translate(200, 45)">
+    <!-- Spine -->
+    <rect x="0" y="0" width="30" height="510" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <line x1="4" y1="50" x2="26" y2="50" stroke="url(#nutriGreen)" stroke-width="2"/>
+    <line x1="4" y1="460" x2="26" y2="460" stroke="url(#nutriGreen)" stroke-width="2"/>
+
+    <!-- Front Cover -->
+    <rect x="30" y="0" width="370" height="510" rx="8" fill="#090e1a" stroke="#334155" stroke-width="2"/>
+    
+    <!-- Metallic Gold Corners -->
+    <polygon points="30,0 66,0 30,36" fill="url(#goldN)"/>
+    <polygon points="400,0 364,0 400,36" fill="url(#goldN)"/>
+    <polygon points="30,510 66,510 30,474" fill="url(#goldN)"/>
+    <polygon points="400,510 364,510 400,474" fill="url(#goldN)"/>
+
+    <!-- Inner Border -->
+    <rect x="48" y="18" width="334" height="474" rx="4" fill="none" stroke="rgba(16,185,129,0.3)" stroke-width="1.5"/>
+
+    <!-- Header Badge -->
+    <g transform="translate(215, 65)">
+      <rect x="-70" y="-12" width="140" height="24" rx="12" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+      <text x="0" y="4" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="9" font-weight="800" fill="#10b981" letter-spacing="2">BONO EXCLUSIVO #1</text>
+    </g>
+
+    <!-- Center Icon: Tactical Nutrition Shield & Fork -->
+    <g transform="translate(215, 155)">
+      <circle cx="0" cy="0" r="44" fill="#0f172a" stroke="url(#nutriGreen)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="38" fill="none" stroke="rgba(234,179,8,0.3)" stroke-width="1" stroke-dasharray="4 2"/>
+      <!-- Apple / Leaf / Flame Graphic -->
+      <path d="M-12 10 Q 0 -18, 12 10 Q 18 20, 0 24 Q -18 20, -12 10 Z" fill="url(#nutriGreen)"/>
+      <path d="M0 -18 Q 8 -26, 12 -24" fill="none" stroke="#fef08a" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- Main Typography -->
+    <text x="215" y="240" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" font-weight="800" fill="#94a3b8" letter-spacing="3">ARSENAL NUTRICIONAL TÁCTICO</text>
+    <text x="215" y="275" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="22" font-weight="900" fill="#ffffff">GUÍA DE NUTRICIÓN</text>
+    <text x="215" y="302" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="18" font-weight="900" fill="url(#nutriGreen)" letter-spacing="1">TÁCTICA ACELERADA</text>
+
+    <line x1="115" y1="324" x2="315" y2="324" stroke="url(#goldN)" stroke-width="1.5"/>
+
+    <!-- Bullets -->
+    <text x="215" y="358" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">• DEFINE MÚSCULO SIN DIETAS</text>
+    <text x="215" y="382" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">• QUEMA GRASA VISCERAL SIN HAMBRE</text>
+    <text x="215" y="406" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">• TIMING DE NUTRIENTES DE FUERZAS ÉLITE</text>
+
+    <!-- Bottom Badge -->
+    <g transform="translate(215, 455)">
+      <rect x="-90" y="-12" width="180" height="24" rx="12" fill="url(#nutriGreen)"/>
+      <text x="0" y="4" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="900" fill="#022c22">VALOR: $29 USD (HOY $0)</text>
+    </g>
+  </g>
+</svg>

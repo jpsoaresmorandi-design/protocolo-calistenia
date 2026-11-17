@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <radialGradient id="comBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="comGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="neonC" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <filter id="comShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="8" dy="20" stdDeviation="22" flood-color="#000" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#comBg)"/>
+  <path d="M0 150 H800 M0 450 H800 M200 0 V600 M600 0 V600" stroke="rgba(234,179,8,0.05)" stroke-width="1"/>
+
+  <!-- Smartphone / Community App Feed -->
+  <g filter="url(#comShadow)" transform="translate(240, 45)">
+    <!-- Titanium Outer Frame -->
+    <rect x="0" y="0" width="320" height="510" rx="34" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+    <rect x="8" y="8" width="304" height="494" rx="28" fill="#030712"/>
+
+    <!-- Dynamic Island -->
+    <rect x="110" y="16" width="100" height="18" rx="9" fill="#000000"/>
+    <circle cx="192" cy="25" r="4" fill="#1e293b"/>
+
+    <!-- App Header inside Phone -->
+    <g transform="translate(24, 46)">
+      <text x="136" y="18" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="10" font-weight="800" fill="#eab308" letter-spacing="2">RED TÁCTICA PRIVADA</text>
+      <text x="136" y="38" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="15" font-weight="900" fill="#ffffff">COMUNIDAD DE RECLUTAS</text>
+      <text x="136" y="52" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#10b981">● +2,400 Miembros Activos</text>
+      
+      <line x1="16" y1="62" x2="256" y2="62" stroke="#1e293b" stroke-width="1"/>
+
+      <!-- Post Card 1 -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="272" height="96" rx="10" fill="#0f172a" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+        <circle cx="26" cy="24" r="14" fill="#1e293b"/>
+        <text x="26" y="28" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#10b981">CR</text>
+        <text x="50" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#ffffff">Carlos R. (Día 14)</text>
+        <text x="50" y="34" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">¡Bajé 3cm de cintura y completé mi primera serie de dominadas estrictas! 🔥</text>
+        <rect x="14" y="66" width="70" height="20" rx="4" fill="rgba(16,185,129,0.2)"/>
+        <text x="49" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="800" fill="#10b981">✓ 42 Aplausos</text>
+      </g>
+
+      <!-- Post Card 2 (Instructor Response) -->
+      <g transform="translate(0, 180)">
+        <rect x="0" y="0" width="272" height="96" rx="10" fill="#0f172a" stroke="rgba(234,179,8,0.3)" stroke-width="1"/>
+        <circle cx="26" cy="24" r="14" fill="#ca8a04"/>
+        <text x="26" y="28" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#000">IN</text>
+        <text x="50" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#eab308">Instructor Jefe Táctico</text>
+        <text x="50" y="34" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">Excelente forma Carlos. Mantén la tensión isométrica en la fase 2.</text>
+        <rect x="14" y="66" width="105" height="20" rx="4" fill="rgba(234,179,8,0.2)"/>
+        <text x="66" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="800" fill="#eab308">⭐ Soporte Oficial</text>
+      </g>
+
+      <!-- Value Tag -->
+      <g transform="translate(0, 290)">
+        <rect x="0" y="0" width="272" height="42" rx="8" fill="url(#comGold)"/>
+        <text x="136" y="26" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" font-weight="900" fill="#713f12">VALOR: $27 USD (HOY $0 GRATIS)</text>
+      </g>
+
+      <!-- Feature Checklist -->
+      <g transform="translate(10, 345)">
+        <text x="0" y="16" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">• ACOMPAÑAMIENTO DIARIO</text>
+        <text x="0" y="36" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">• RESOLUCIÓN DE DUDAS Y TÉCNICA</text>
+        <text x="0" y="56" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">• MOTIVACIÓN CON OTROS MIEMBROS</text>
+      </g>
+
+      <!-- Home Bar -->
+      <rect x="80" y="440" width="112" height="4" rx="2" fill="#475569"/>
+    </g>
+  </g>
+</svg>
