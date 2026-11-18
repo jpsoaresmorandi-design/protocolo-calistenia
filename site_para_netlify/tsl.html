@@ -1790,12 +1790,14 @@
       } catch (e) { }
 
       // 2. Checkout Hotmart Oficial com Repasse de UTMs
-      var CHECKOUT_URL = 'https://pay.hotmart.com/T108488175Q?checkoutMode=10';
+      var CHECKOUT_URL_BASIC = 'https://pay.hotmart.com/T108488175Q?checkoutMode=10';
+      var CHECKOUT_URL_COMPLETE = 'https://pay.hotmart.com/M108553772C?checkoutMode=10';
 
       function getFinalCheckoutUrl(plan) {
+        var base = (plan === 'complete' || plan === 'vip') ? CHECKOUT_URL_COMPLETE : CHECKOUT_URL_BASIC;
         try {
           var currentParams = new URLSearchParams(window.location.search);
-          var targetUrl = new URL(CHECKOUT_URL);
+          var targetUrl = new URL(base);
           currentParams.forEach(function (val, key) {
             if (key !== 'cta' && key !== 'pitch' && key !== 'test') {
               targetUrl.searchParams.set(key, val);
@@ -1806,7 +1808,7 @@
           }
           return targetUrl.toString();
         } catch (err) {
-          return CHECKOUT_URL;
+          return base;
         }
       }
 
