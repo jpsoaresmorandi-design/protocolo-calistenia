@@ -853,11 +853,19 @@
     }
 
     .price-features li {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: #334155;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
+      line-height: 1.4;
+    }
+
+    .pf-check,
+    .pf-cross,
+    .pf-bonus {
+      flex-shrink: 0;
+      margin-top: 1px;
     }
 
     .pf-check {
@@ -1582,23 +1590,20 @@
           </div>
           <div class="price-body">
             <ul class="price-features">
-              <li><span class="pf-check">✓</span> <strong>Protocolo 21 Días de Calistenia ($47 USD)</strong></li>
-              <li><span class="pf-check">✓</span> <strong>Acceso Ilimitado + App Instalable ($34 USD)</strong></li>
-              <li><span class="pf-check">✓</span> <strong>Bono #1: Nutrición Táctica Acelerada ($29 USD)</strong></li>
-              <li><span class="pf-check">✓</span> <strong>Bono #2: Rutina de Movilidad y Blindaje ($19 USD)</strong>
-              </li>
-              <li><span class="pf-check">✓</span> <strong>Bono #3: Comunidad de Reclutas y Soporte</strong></li>
-              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Finisher Militar de Abdomen de Acero (5
-                  Min)</span></li>
-              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Arsenal 12 Batidos Anabólicos
-                  Caseros</span></li>
-              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Certificado Oficial de Graduación
-                  Táctica</span></li>
-              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Calculadora Biomecánica & Escáner
-                  Táctico</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Protocolo 21 Días de Calistenia</strong> ($47 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Acceso Ilimitado + App Instalable</strong> ($34 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Bono #1: Nutrición Táctica Acelerada</strong> ($29 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Bono #2: Rutina de Movilidad y Blindaje</strong> ($19 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Bono #3: Comunidad de Reclutas y Soporte</strong> ($27 USD)</span></li>
+              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Finisher Abdomen de Acero ($14 USD)</span></li>
+              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Arsenal 12 Batidos Anabólicos ($17 USD)</span></li>
+              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Certificado Oficial de Graduación ($19 USD)</span></li>
+              <li><span class="pf-cross">✗</span> <span class="pf-line-through">Calculadora Biomecánica & Escáner ($29 USD)</span></li>
             </ul>
             <div class="price-amount-block">
+              <p class="price-was">Valor Total <s>$156.00 USD</s> por solo</p>
               <div class="price-amount">$9.90</div>
+              <span class="price-save">Ahorras $146.10 (94% OFF)</span>
             </div>
             <button type="button" class="cta-button" onclick="triggerCheckout(event, 'basic')">Comprar Pack Básico
               ($9.90 USD)</button>
@@ -1622,17 +1627,15 @@
           </div>
           <div class="price-body">
             <ul class="price-features">
-              <li><span class="pf-check">✓</span> <strong>Protocolo 21 Días de Calistenia ($47 USD)</strong></li>
-              <li><span class="pf-check">✓</span> <strong>Acceso Ilimitado + App Instalable ($34 USD)</strong></li>
-              <li><span class="pf-check">✓</span> <strong>Bono #1: Nutrición Táctica Acelerada ($29 USD)</strong></li>
-              <li><span class="pf-check">✓</span> <strong>Bono #2: Rutina de Movilidad y Blindaje ($19 USD)</strong>
-              </li>
-              <li><span class="pf-check">✓</span> <strong>Bono #3: Comunidad de Reclutas y Soporte</strong></li>
-              <li><span class="pf-bonus">🎁</span> <strong>UPGRADE VIP #1:</strong> Finisher Abdomen de Acero (5 Min)
-              </li>
-              <li><span class="pf-bonus">🎁</span> <strong>UPGRADE VIP #2:</strong> Arsenal 12 Batidos Anabólicos</li>
-              <li><span class="pf-bonus">🎖️</span> <strong>EXCLUSIVO:</strong> Certificado Oficial Táctico Militar</li>
-              <li><span class="pf-bonus">⚡</span> <strong>EXCLUSIVO:</strong> Calculadora Biomecánica & Escáner</li>
+              <li><span class="pf-check">✓</span> <span><strong>Protocolo 21 Días de Calistenia</strong> ($47 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Acceso Ilimitado + App Instalable</strong> ($34 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Bono #1: Nutrición Táctica Acelerada</strong> ($29 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Bono #2: Rutina de Movilidad y Blindaje</strong> ($19 USD)</span></li>
+              <li><span class="pf-check">✓</span> <span><strong>Bono #3: Comunidad de Reclutas y Soporte</strong> ($27 USD)</span></li>
+              <li><span class="pf-bonus">🎁</span> <span><strong>UPGRADE VIP #1:</strong> Finisher Abdomen de Acero ($14 USD)</span></li>
+              <li><span class="pf-bonus">🎁</span> <span><strong>UPGRADE VIP #2:</strong> Arsenal 12 Batidos Anabólicos ($17 USD)</span></li>
+              <li><span class="pf-bonus">🎖️</span> <span><strong>EXCLUSIVO:</strong> Certificado Oficial Táctico Militar ($19 USD)</span></li>
+              <li><span class="pf-bonus">⚡</span> <span><strong>EXCLUSIVO:</strong> Calculadora Biomecánica & Escáner ($29 USD)</span></li>
             </ul>
 
             <!-- VIP EXCLUSIVE UPGRADE BADGES (FINISHER + BATIDOS) -->
@@ -1652,9 +1655,9 @@
               </div>
             </div>
             <div class="price-amount-block">
-              <p class="price-was">Antes <s>$97.00</s> por solo</p>
+              <p class="price-was">Valor Total <s>$235.00 USD</s> por solo</p>
               <div class="price-amount">$17.90</div>
-              <span class="price-save">Ahorras $79.10 (82% OFF)</span>
+              <span class="price-save">Ahorras $217.10 (92% OFF)</span>
             </div>
             <button type="button" class="cta-button" onclick="triggerCheckout(event, 'complete')">Desbloquear Pack
               Completo ($17.90 USD)</button>
