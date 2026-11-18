@@ -585,7 +585,7 @@
 
     .bonus-card-img {
       width: 100%;
-      height: 225px;
+      aspect-ratio: 935 / 1024;
       overflow: hidden;
       position: relative;
       background: #050a07;
@@ -1447,25 +1447,26 @@
   <!-- ==================== 06. TODO LO QUE VAS A RECIBIR CON EL PROTOCOLO ==================== -->
   <section class="what-you-get" id="entregables" style="padding: 70px 0; background: #f8fafc; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
     <div class="container">
-      <div style="text-align: center; max-width: 780px; margin: 0 auto 40px;">
+      
+      <!-- PARTE A: APRESENTAÇÃO DO PRODUTO PRINCIPAL -->
+      <div style="text-align: center; max-width: 820px; margin: 0 auto 30px;">
         <p style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--primary); text-transform: uppercase; margin-bottom: 8px;">ENTREGA COMPLETA & ACCESO INMEDIATO</p>
         <h2 style="font-size: clamp(1.65rem, 3.4vw, 2.3rem); font-weight: 900; color: #0f172a; margin-bottom: 10px; line-height: 1.25;">Todo lo que vas a recibir con el protocolo</h2>
         <p style="font-size: 1.05rem; color: #64748b; line-height: 1.5;">El sistema táctico de entrenamiento, tecnología digital y arsenal de bónus exclusivos que se desbloquean hoy en tu cuenta:</p>
       </div>
 
-      <!-- GRID DE CARDS: ENTREGÁVEIS PRINCIPAIS + TODOS OS BÔNUS -->
-      <div class="bonus-grid">
+      <!-- IMAGEM PRINCIPAL DO PACOTE -->
+      <div style="max-width: 920px; margin: 0 auto 30px; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18); border: 1px solid rgba(16, 185, 129, 0.4); background: #050a07;">
+        <img src="bundle_protocolo_completo.jpg" alt="Todo lo que vas a recibir con el protocolo" style="width: 100%; height: auto; display: block; object-fit: contain;">
+      </div>
 
-        <!-- 1. PROTOCOLO CENTRAL 21 DÍAS -->
+      <!-- DESTAQUES DO PRODUTO PRINCIPAL & APLICATIVO -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 920px; margin: 0 auto 55px;">
         <div class="bonus-card" style="border: 1px solid rgba(16, 185, 129, 0.4);">
-          <div class="bonus-card-img">
-            <img src="app_ui_phase_roadmap.jpg" alt="Protocolo Central de 21 Días de Calistenia" style="object-position: center 20%;">
-            <span class="bonus-card-badge-floating">SISTEMA PRINCIPAL</span>
-            <div class="bonus-card-overlay"></div>
-          </div>
           <div class="bonus-card-body">
-            <h3>Protocolo Central de 21 Días de Calistenia</h3>
-            <p>Guía táctica paso a paso con progresiones biomecánicas de nivel cero a avanzado para quemar grasa profunda y tonificar en casa sin comprar equipo.</p>
+            <span style="font-size: 0.72rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: inline-block;">SISTEMA PRINCIPAL</span>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">Protocolo Central de 21 Días de Calistenia</h3>
+            <p style="font-size: 0.92rem; color: #94a3b8; line-height: 1.55; margin-bottom: 14px;">Guía táctica paso a paso con progresiones biomecánicas de nivel cero a avanzado para quemar grasa profunda y tonificar en casa sin comprar equipo.</p>
             <div class="bonus-pricing-row">
               <span class="bonus-val-old" style="text-decoration: none; color: #94a3b8; font-weight: 600;">Valor Real: $47.00 USD</span>
               <span class="bonus-val-free" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">INCLUIDO</span>
@@ -1473,27 +1474,33 @@
           </div>
         </div>
 
-        <!-- 2. APP OFICIAL INSTALABLE -->
         <div class="bonus-card" style="border: 1px solid rgba(16, 185, 129, 0.4);">
-          <div class="bonus-card-img">
-            <img src="app_screen_misiones_diarias.jpg" alt="Aplicación Móvil Oficial & Acceso Web" style="object-position: center 15%;">
-            <span class="bonus-card-badge-floating">TECNOLOGÍA OFICIAL</span>
-            <div class="bonus-card-overlay"></div>
-          </div>
           <div class="bonus-card-body">
-            <h3>Aplicación Móvil Oficial & Acceso Web 24/7</h3>
-            <p>Instala la App en 1 clic en cualquier smartphone (iOS/Android), tablet o PC. Sincronización en la nube, cronómetro inteligente de series y misiones diarias.</p>
+            <span style="font-size: 0.72rem; font-weight: 800; color: #10b981; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; display: inline-block;">TECNOLOGÍA OFICIAL</span>
+            <h3 style="font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">Aplicación Móvil Oficial & Acceso Web 24/7</h3>
+            <p style="font-size: 0.92rem; color: #94a3b8; line-height: 1.55; margin-bottom: 14px;">Instala la App en 1 clic en cualquier smartphone (iOS/Android), tablet o PC. Sincronización en la nube, cronómetro inteligente de series y misiones diarias.</p>
             <div class="bonus-pricing-row">
               <span class="bonus-val-old" style="text-decoration: none; color: #94a3b8; font-weight: 600;">Valor Real: $34.00 USD</span>
               <span class="bonus-val-free" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">INCLUIDO</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- 3. BONO #1: NUTRICIÓN TÁCTICA -->
+      <!-- PARTE B: APRESENTAÇÃO DOS TRÊS BÔNUS -->
+      <div style="text-align: center; max-width: 780px; margin: 0 auto 30px;">
+        <p style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--primary); text-transform: uppercase; margin-bottom: 8px;">REGALOS ESTRATÉGICOS EXCLUSIVOS</p>
+        <h3 style="font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 900; color: #0f172a; margin-bottom: 10px; line-height: 1.25;">3 Bonos Exclusivos Incluidos Hoy</h3>
+        <p style="font-size: 1rem; color: #64748b; line-height: 1.5;">Desbloqueas automáticamente estos 3 arsenales tácticos al adquirir tu acceso al Protocolo:</p>
+      </div>
+
+      <!-- GRID DOS 3 BÔNUS -->
+      <div class="bonus-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+
+        <!-- BONO #1: NUTRICIÓN TÁCTICA ACELERADA -->
         <div class="bonus-card">
           <div class="bonus-card-img">
-            <img src="escaner_nutricional_vip_cover.jpg" alt="Bono #1: Guía de Nutrición Táctica Acelerada">
+            <img src="bono_1_nutricion_tactica_acelerada.jpg" alt="Bono #1: Guía de Nutrición Táctica Acelerada">
             <span class="bonus-card-badge-floating">BONO #1 • 100% GRATIS</span>
             <div class="bonus-card-overlay"></div>
           </div>
@@ -1507,10 +1514,10 @@
           </div>
         </div>
 
-        <!-- 4. BONO #2: BLINDAJE ARTICULAR -->
+        <!-- BONO #2: RUTINA DE MOVILIDAD Y BLINDAJE ARTICULAR -->
         <div class="bonus-card">
           <div class="bonus-card-img">
-            <img src="anuncio_biometrico_grasa_visceral.jpg" alt="Bono #2: Rutina de Movilidad y Blindaje Articular" style="object-position: center 25%;">
+            <img src="bono_2_movilidad_blindaje_articular.jpg" alt="Bono #2: Rutina de Movilidad y Blindaje Articular">
             <span class="bonus-card-badge-floating">BONO #2 • 100% GRATIS</span>
             <div class="bonus-card-overlay"></div>
           </div>
@@ -1524,10 +1531,10 @@
           </div>
         </div>
 
-        <!-- 5. BONO #3: COMUNIDAD DE RECLUTAS -->
+        <!-- BONO #3: COMUNIDAD DE RECLUTAS Y SOPORTE CONTINUO -->
         <div class="bonus-card">
           <div class="bonus-card-img">
-            <img src="app_ui_military_ranks.jpg" alt="Bono #3: Comunidad de Reclutas y Soporte Continuo" style="object-position: center 20%;">
+            <img src="bono_3_comunidad_reclutas_soporte.jpg" alt="Bono #3: Comunidad de Reclutas y Soporte Continuo">
             <span class="bonus-card-badge-floating">BONO #3 • 100% GRATIS</span>
             <div class="bonus-card-overlay"></div>
           </div>
@@ -1543,7 +1550,7 @@
 
       </div>
 
-      <!-- CAIXA DE ANCORAGEM RESUMO (VALORIZAÇÃO DOS BÔNUS) -->
+      <!-- CAIXA DE ANCORAGEM RESUMO (VALORIZAÇÃO DOS BÔNUS) - PRESERVADA -->
       <div class="bonus-anchor-box" style="margin-top: 42px;">
         <div class="bonus-anchor-badge">VALOR TOTAL DE LOS BÓNUS: $109.00 USD</div>
         <p style="font-size: 1.12rem; color: #1e293b; line-height: 1.6; margin-top: 6px;">
