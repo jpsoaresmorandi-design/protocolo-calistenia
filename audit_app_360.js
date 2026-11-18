@@ -96,3 +96,4 @@ if (!appCss.includes(':focus-visible')) {
 
 console.log('\n--- RESUMO DE PROBLEMAS ENCONTRADOS ---');
 issues.forEach((iss, idx) => console.log(`${idx + 1}. ${iss}`));
+

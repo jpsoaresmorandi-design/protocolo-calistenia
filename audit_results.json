@@ -2,14 +2,14 @@
   {
     "id": 1,
     "name": "Usuário novo realiza cadastro/compra aprovada",
-    "status": "PASS",
-    "details": "Validação de e-mail/signup recebida: email rate limit exceeded"
+    "status": "FAIL",
+    "details": "fetch failed"
   },
   {
     "id": 2,
     "name": "Usuário existente realiza nova compra",
-    "status": "PASS",
-    "details": "Supabase Auth protege contra criação de contas duplicadas com o mesmo e-mail"
+    "status": "FAIL",
+    "details": "fetch failed"
   },
   {
     "id": 3,
@@ -44,8 +44,8 @@
   {
     "id": 8,
     "name": "Tentativa de acesso a rota privada sem login",
-    "status": "PASS",
-    "details": "Supabase RLS bloqueou leitura anônima de perfis: retornou array vazio conforme política de isolamento"
+    "status": "FAIL",
+    "details": "fetch failed"
   },
   {
     "id": 9,
@@ -85,8 +85,8 @@
   },
   {
     "id": 15,
-    "name": "Tentativa de acessar dados de outra conta (IDOR / RLS)",
-    "status": "PASS",
-    "details": "Tabela payment_events protegida: RLS bloqueia 100% de acesso de usuários comuns e chaves anon"
+    "name": "Tentativa de acessar dados de outra conta",
+    "status": "FAIL",
+    "details": "fetch failed"
   }
 ]

@@ -555,7 +555,7 @@ function generateBienvenidoHtml() {
 
     <div class="header-bar">
       <div class="header-tag">ARSENAL TÁCTICO COMPLETO</div>
-      <div class="header-badge">9 ENTREGABLES VIP</div>
+      <div class="header-badge">8 ENTREGABLES VIP</div>
     </div>
 
     <div>
@@ -606,16 +606,10 @@ function generateBienvenidoHtml() {
         <div class="arsenal-desc">Fórmulas naturales de rápida asimilación para acelerar la síntesis proteica, recuperación y volumen magro.</div>
       </div>
 
-      <div class="arsenal-item">
-        <div class="arsenal-tag gold">EXCLUSIVO VIP #1</div>
+      <div class="arsenal-item" style="grid-column: span 2;">
+        <div class="arsenal-tag gold">EXCLUSIVO VIP</div>
         <div class="arsenal-name">8. Certificado Oficial Táctico Militar</div>
         <div class="arsenal-desc">Acreditación con código único que certifica tu graduación tras superar con disciplina los 21 días de entrenamiento.</div>
-      </div>
-
-      <div class="arsenal-item">
-        <div class="arsenal-tag gold">EXCLUSIVO VIP #2</div>
-        <div class="arsenal-name">9. Calculadora Biomecánica & Escáner</div>
-        <div class="arsenal-desc">Diagnóstico preciso de porcentaje graso, gasto calórico y calibración semanal de cargas por peso corporal.</div>
       </div>
     </div>
 
@@ -1329,14 +1323,6 @@ async function run() {
       netlifyPdf: path.join(NETLIFY_DIR, 'Certificado_Oficial_Tactico_Militar.pdf'),
       generator: generateCertificadoHtml,
       landscape: true
-    },
-    {
-      name: 'Calculadora_Biomecanica_Escaner_VIP.pdf',
-      htmlFile: path.join(WORK_DIR, 'tmp_calculadora.html'),
-      pdfFile: path.join(WORK_DIR, 'Calculadora_Biomecanica_Escaner_VIP.pdf'),
-      netlifyPdf: path.join(NETLIFY_DIR, 'Calculadora_Biomecanica_Escaner_VIP.pdf'),
-      generator: generateCalculadoraHtml,
-      landscape: false
     }
   ];
 
