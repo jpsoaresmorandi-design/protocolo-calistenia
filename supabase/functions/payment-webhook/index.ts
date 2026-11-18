@@ -229,12 +229,17 @@ function normalizeWebhookPayload(body: any, headers: Headers): WebhookNormalized
     const isOrderBump = Boolean(purchase.order_bump?.is_order_bump);
     const prodName = String(product.name || '').toLowerCase();
 
-    // Distinção de Produto Base ($9.90) vs Assinatura VIP ($4.90) vs Order Bump
+    // Distinção de Produto Base ($9.90) vs Pack Completo ($17.90) vs Assinatura Scanner ($4.90/$5) vs Order Bumps
     const prodUcode = String(product.ucode || '').toUpperCase();
-    const isAbdomenBump = isOrderBump || prodName.includes('abdomen') || prodName.includes('finisher') || String(product.id) === '8970030';
-    const isBatidosBump = isOrderBump || prodName.includes('batidos') || prodName.includes('anabolico') || String(product.id) === '8970054';
-    const isVip = isSub || prodName.includes('vip') || prodName.includes('escaner') || prodName.includes('nutricional') || prodUcode.includes('K108494815B') || (priceVal <= 5.50 && !isBatidosBump);
-    const isBase = (!isSub && !isAbdomenBump && !isBatidosBump && !isVip) || prodName.includes('protocolo') || priceVal >= 8.00;
+    const isCompletePack = prodUcode === 'M108553772C' || prodName.includes('completo') || priceVal >= 16.00;
+
+    const isAbdomenBump = isCompletePack || isOrderBump || prodName.includes('abdomen') || prodName.includes('finisher') || String(product.id) === '8970030';
+    const isBatidosBump = isCompletePack || isOrderBump || prodName.includes('batidos') || prodName.includes('anabolico') || String(product.id) === '8970054';
+
+    // Assinatura VIP ($5 / mês): EXCLUSIVA DO SCANNER TÁCTICO DE ALIMENTOS
+    // Compradores do Pack Completo NÃO ganham o Scanner de graça; necessitam da assinatura ativa.
+    const isVip = !isCompletePack && (isSub || prodName.includes('escaner') || prodName.includes('assinatura') || prodUcode.includes('K108494815B') || (priceVal <= 5.50 && !isBatidosBump && !isAbdomenBump));
+    const isBase = isCompletePack || (!isSub && !isOrderBump && !isVip) || prodName.includes('protocolo') || priceVal >= 8.00;
 
     let mappedEventType: WebhookNormalizedPayload['eventType'] = 'PURCHASE_APPROVED';
     if (rawEvent === 'SUBSCRIPTION_RENEWAL') mappedEventType = 'SUBSCRIPTION_RENEWED';
