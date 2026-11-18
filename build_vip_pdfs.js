@@ -775,17 +775,9 @@ function generateCertificadoHtml() {
 
     .student-name-box {
       border-bottom: 2px solid #10b981;
-      padding-bottom: 4px;
+      height: 12mm;
       margin: 0 auto 6mm auto;
       max-width: 190mm;
-    }
-    .student-name-text {
-      font-size: 24px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     }
 
     .cert-statement {
@@ -887,9 +879,7 @@ function generateCertificadoHtml() {
     <div class="cert-body">
       <p class="cert-preamble">Por cuanto ha demostrado máxima disciplina, tenacidad física y superación táctica inquebrantable, se certifica formalmente que:</p>
       
-      <div class="student-name-box">
-        <div class="student-name-text">[ NOMBRE DEL GRADUADO ]</div>
-      </div>
+      <div class="student-name-box"></div>
 
       <p class="cert-statement">
         Ha completado satisfactoriamente el ciclo intensivo de <strong>21 Días del Protocolo de Calistenia Militar</strong>, dominando las progresiones biomecánicas de peso corporal, reacondicionamiento articular y nutrición táctica, alcanzando el grado de <span class="gold">SOLDADO DE ÉLITE OPERATIVO</span>.
