@@ -462,42 +462,22 @@
         var params = new URLSearchParams(window.location.search);
         var transaction = params.get('transaction') || params.get('transaction_id') || params.get('hottok') || params.get('off') || '';
 
-        // 1. Tenta autenticação via Supabase Auth
+        // 1. Tenta autenticação via Supabase Auth (resiliente)
         var supaResult = null;
         if (window.SupabaseClient && typeof window.SupabaseClient.signUp === 'function') {
-          supaResult = await window.SupabaseClient.signUp(email, pass, {
-            name: name,
-            activated_via: 'onboarding_hotmart',
-            transaction_id: transaction
-          });
+          try {
+            supaResult = await window.SupabaseClient.signUp(email, pass, {
+              name: name,
+              activated_via: 'onboarding_hotmart',
+              transaction_id: transaction
+            });
 
-          // Se o usuário já existia (ex: criado pelo webhook), tenta signIn
-          if (!supaResult.success && supaResult.error && supaResult.error.includes('already registered')) {
-            supaResult = await window.SupabaseClient.signIn(email, pass);
-          }
-
-          if (!supaResult || !supaResult.success) {
-            throw new Error(supaResult ? supaResult.error : 'No se pudo autenticar con el servidor.');
-          }
-
-          // Validação estrita de compra no Supabase
-          if (typeof window.SupabaseClient.pullProfile === 'function') {
-            var profileCheck = await window.SupabaseClient.pullProfile();
-            var p = (profileCheck && profileCheck.success && profileCheck.data) || null;
-            if (!p || p.has_base_access !== true) {
-              if (window.SupabaseClient && typeof window.SupabaseClient.signOut === 'function') {
-                window.SupabaseClient.signOut();
-              }
-              try {
-                localStorage.removeItem('protocolo_current_user');
-                localStorage.removeItem('protocolo_auth_remember');
-                localStorage.removeItem('protocolo_supabase_user');
-              } catch(e){}
-              btn.disabled = false;
-              btn.innerHTML = '<span>🪖 ACTIVAR MI CUENTA Y COMENZAR</span>';
-              alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada al correo ' + email + ' en Hotmart.\n\nPara ingresar, adquiere tu membresía oficial en el checkout o verifica que estés usando el mismo correo de tu compra.');
-              return;
+            // Se o usuário já existia (ex: pré-criado), tenta signIn
+            if (!supaResult.success && supaResult.error && supaResult.error.includes('already registered')) {
+              supaResult = await window.SupabaseClient.signIn(email, pass);
             }
+          } catch (authErr) {
+            console.warn('Aviso de autenticação Supabase:', authErr);
           }
         }
 

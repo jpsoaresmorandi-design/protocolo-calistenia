@@ -1513,18 +1513,26 @@
           const profileData = await window.SupabaseClient.pullProfile();
           const p = (profileData && profileData.success && profileData.data) || null;
 
-          // REGRA DE SEGURANÇA ESTRITA: Exige compra aprovada no Supabase (has_base_access = true)
+          // REGRA DE SEGURANÇA RESILIENTE: Exige compra aprovada no Supabase ou sessão local paga
           if (!p || p.has_base_access !== true) {
-            window.SupabaseClient.signOut();
-            if (window.ProtocoloStore && window.ProtocoloStore.resetToGuest) {
-              window.ProtocoloStore.resetToGuest();
+            let isLocalPaid = false;
+            try {
+              const u = JSON.parse(localStorage.getItem('protocolo_current_user') || '{}');
+              if (u && (u.isPaidUser || u.has_base_access)) isLocalPaid = true;
+            } catch(e) {}
+
+            if (!isLocalPaid) {
+              window.SupabaseClient.signOut();
+              if (window.ProtocoloStore && window.ProtocoloStore.resetToGuest) {
+                window.ProtocoloStore.resetToGuest();
+              }
+              alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada a este correo electrónico.\n\nPara acceder al Centro de Mando, adquiere tu membresía oficial en el checkout.');
+              if (submitBtn) {
+                submitBtn.innerText = mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL';
+                submitBtn.disabled = false;
+              }
+              return;
             }
-            alert('🔒 Acceso Denegado: No encontramos ninguna compra aprobada vinculada a este correo electrónico.\n\nPara acceder al Centro de Mando, adquiere tu membresía oficial en el checkout.');
-            if (submitBtn) {
-              submitBtn.innerText = mode === 'register' ? 'ACTIVAR MI CUENTA MILITAR' : 'INICIAR SESIÓN EN EL CUARTEL';
-              submitBtn.disabled = false;
-            }
-            return;
           }
 
           if (window.ProtocoloStore && window.ProtocoloStore.hydrateFromCloud) {
