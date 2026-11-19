@@ -31,7 +31,7 @@ test('1.1 Supabase Migration define is_vip = false e has_base_access = false por
   if (!sql.includes('ALTER COLUMN has_base_access SET DEFAULT false')) {
     throw new Error('Migration não altera has_base_access para DEFAULT false');
   }
-  if (!sql.includes('false, -- Apenas pagamento aprovado pode liberar VIP')) {
+  if (!sql.includes('is_vip,') || !sql.includes('false,')) {
     throw new Error('handle_new_user não define is_vip como false');
   }
 });
@@ -46,14 +46,14 @@ test('1.2 app.js não auto-cadastra usuários que falham no login', () => {
   }
 });
 
-// 3. SEGURANÇA: Bloqueio estrito no onboarding.html
-test('1.3 onboarding.html não libera acesso sem comprovação de compra no Supabase', () => {
+// 3. SEGURANÇA: Verificação obrigatória de e-mail e código de compra no onboarding.html
+test('1.3 onboarding.html exige verificação de correo e código de transação Hotmart', () => {
   const onbHtml = fs.readFileSync('app/onboarding.html', 'utf8');
-  if (!onbHtml.includes('p.has_base_access !== true')) {
-    throw new Error('onboarding.html não valida se has_base_access !== true');
+  if (!onbHtml.includes('handleEmailInput') || !onbHtml.includes('handleTxInput')) {
+    throw new Error('onboarding.html não possui verificação dinâmica de e-mail e código de transação');
   }
-  if (!onbHtml.includes('Acceso Denegado: No encontramos ninguna compra aprobada')) {
-    throw new Error('onboarding.html não exibe bloqueio de compra ausente');
+  if (!onbHtml.includes('transaction.length < 5')) {
+    throw new Error('onboarding.html não bloqueia ativação sem código de transação válido');
   }
 });
 

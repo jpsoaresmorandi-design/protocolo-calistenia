@@ -1,7 +1,10 @@
-# Redirecionamentos limpos para Netlify
-/vsl        /vsl.html        200
-/quiz       /index.html      200
-/app        /app/index.html  200
-/app/*      /app/:splat      200
-/*          /:splat          200
-
+# Redirecionamentos limpos para Netlify / Vercel
+/onboarding        /app/onboarding.html  200
+/onboarding.html   /app/onboarding.html  200
+/app/onboarding    /app/onboarding.html  200
+/vsl               /vsl.html             200
+/tsl               /tsl.html             200
+/quiz              /index.html           200
+/app               /app/index.html       200
+/app/*             /app/:splat           200
+/*                 /:splat               200

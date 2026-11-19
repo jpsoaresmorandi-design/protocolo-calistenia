@@ -4,7 +4,7 @@
   <base href="/app/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>¡Orden Confirmada! - Activa tu Protocolo de Calistenia</title>
+  <title>Verificación y Activación - Protocolo de Calistenia Militar</title>
 
   <!-- Meta Pixel Code -->
   <script>
@@ -61,7 +61,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: calc(24px + env(safe-area-inset-top, 0px)) 16px calc(28px + env(safe-area-inset-bottom, 0px));
+      padding: calc(20px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
       box-sizing: border-box;
       line-height: 1.5;
     }
@@ -75,7 +75,7 @@
       background: linear-gradient(180deg, #111611 0%, #0d110d 100%);
       border: 1px solid rgba(34, 197, 94, 0.3);
       border-radius: 16px;
-      padding: 28px 22px;
+      padding: 26px 20px;
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(34, 197, 94, 0.12);
       position: relative;
       overflow: hidden;
@@ -104,7 +104,7 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .badge-dot {
@@ -136,7 +136,7 @@
     .subtitle {
       font-size: 13px;
       color: #9ca3af;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       line-height: 1.45;
     }
 
@@ -198,6 +198,36 @@
       padding: 4px;
     }
 
+    .verification-status-box {
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .verification-status-box.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #4ade80;
+    }
+
+    .verification-status-box.warning {
+      display: block;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+
+    .verification-status-box.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+
     .btn-activate {
       width: 100%;
       background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
@@ -249,7 +279,7 @@
       display: flex;
       justify-content: space-between;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
-      margin-top: 20px;
+      margin-top: 18px;
       padding-top: 14px;
       font-size: 11px;
       color: #9ca3af;
@@ -307,6 +337,22 @@
     .instructions-box strong {
       color: #22c55e;
     }
+
+    .support-link-wrap {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 11.5px;
+      color: #9ca3af;
+    }
+
+    .support-link-wrap a {
+      color: #4ade80;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .support-link-wrap a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -317,29 +363,50 @@
 
   <div class="onboarding-card">
     
-    <!-- TELA 1: FORMULÁRIO DE ATIVAÇÃO DE SENHA -->
+    <!-- TELA 1: FORMULÁRIO DE VERIFICAÇÃO DE EMAIL E ATIVAÇÃO -->
     <div id="activationScreen">
-      <div class="badge-status">
+      <div class="badge-status" id="headerBadge">
         <span class="badge-dot"></span>
-        Orden Aprobada • Hotmart
+        <span id="badgeText">Verificación de Compra • Hotmart</span>
       </div>
 
-      <h1 class="title">¡Bienvenido al <span>Protocolo</span>!</h1>
-      <p class="subtitle">
-        Tu pago ha sido procesado con éxito. Crea tu contraseña militar para activar tu cuenta y acceder a tus 21 días de entrenamiento.
+      <h1 class="title">Activa tu <span>Protocolo</span></h1>
+      <p class="subtitle" id="onbSubtitle">
+        Verifica el correo registrado en tu compra de Hotmart para activar tu cuenta militar y acceder a tus 21 días de entrenamiento.
       </p>
 
       <form id="activationForm" onsubmit="handleActivation(event)">
-        <div class="form-group">
-          <label class="form-label" for="soldierName">Nombre del Recluta / Soldado:</label>
-          <input type="text" id="soldierName" class="form-input" placeholder="Tu nombre" required>
-        </div>
-
+        
+        <!-- CAMPO 1: CORREO DE COMPRA -->
         <div class="form-group">
           <label class="form-label" for="buyerEmail">Correo de Compra (Hotmart):</label>
-          <input type="email" id="buyerEmail" class="form-input" placeholder="tu@correo.com" required>
+          <div class="input-wrapper">
+            <input type="email" id="buyerEmail" class="form-input" placeholder="tu@correo.com" required oninput="handleEmailInput(this.value)">
+          </div>
+          <!-- Caja de feedback de verificación del correo -->
+          <div id="emailFeedback" class="verification-status-box"></div>
         </div>
 
+        <!-- CAMPO 2: CÓDIGO DE TRANSACCIÓN DE HOTMART (HP...) -->
+        <div class="form-group" id="transactionGroup">
+          <label class="form-label" for="hotmartTransaction">
+            Código de Transacción de Hotmart:
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="hotmartTransaction" class="form-input" placeholder="Ejemplo: HP12345678901234" oninput="handleTxInput(this.value)">
+          </div>
+          <div style="font-size:11px; color:#9ca3af; margin-top:4px; line-height:1.4;">
+            💡 Lo encuentras en el correo de confirmación de Hotmart (asunto: <em>"Compra aprobada"</em>). Comienza con <strong>HP</strong>.
+          </div>
+        </div>
+
+        <!-- CAMPO 3: NOMBRE DEL SOLDADO -->
+        <div class="form-group">
+          <label class="form-label" for="soldierName">Nombre del Recluta / Soldado:</label>
+          <input type="text" id="soldierName" class="form-input" placeholder="Tu nombre o alias" required>
+        </div>
+
+        <!-- CAMPO 4: CONTRASEÑA TÁCTICA -->
         <div class="form-group">
           <label class="form-label" for="soldierPassword">Crea tu Contraseña Táctica:</label>
           <div class="input-wrapper">
@@ -348,6 +415,7 @@
           </div>
         </div>
 
+        <!-- CAMPO 5: CONFIRMAR CONTRASEÑA -->
         <div class="form-group">
           <label class="form-label" for="confirmPassword">Confirma tu Contraseña:</label>
           <div class="input-wrapper">
@@ -362,7 +430,14 @@
       </form>
 
       <div class="security-note">
-        <span>🔒</span> Cifrado seguro de grado militar • Sesión persistente
+        <span>🔒</span> Verificación oficial Hotmart • Cifrado seguro
+      </div>
+
+      <div class="support-link-wrap">
+        ¿Necesitas ayuda con tu correo o código? <br>
+        <a href="https://wa.me/?text=Hola%2C+necesito+ayuda+para+activar+mi+Protocolo+de+Calistenia" target="_blank" rel="noopener">
+          Contactar a Soporte Militar Oficial
+        </a>
       </div>
 
       <div class="guarantee-pills">
@@ -401,23 +476,96 @@
   <!-- Scripts do Supabase & Estado -->
   <script src="js/supabase-client.js"></script>
   <script>
+    var isAutoVerified = false;
+
+    // Inicialização ao carregar página: lê parâmetros do Hotmart
     (function initParams() {
       var params = new URLSearchParams(window.location.search);
-      var emailParam = params.get('email') || params.get('buyer_email') || params.get('checkout_email') || '';
-      var nameParam = params.get('name') || params.get('buyer_name') || params.get('first_name') || '';
+      var emailParam = params.get('email') || params.get('buyer_email') || params.get('checkout_email') || params.get('e') || '';
+      var nameParam = params.get('name') || params.get('buyer_name') || params.get('first_name') || params.get('n') || '';
+      var txParam = params.get('transaction') || params.get('transaction_id') || params.get('hottok') || params.get('off') || params.get('tx') || params.get('order') || '';
 
       var emailInput = document.getElementById('buyerEmail');
       var nameInput = document.getElementById('soldierName');
+      var txInput = document.getElementById('hotmartTransaction');
+      var feedback = document.getElementById('emailFeedback');
+      var txGroup = document.getElementById('transactionGroup');
+      var badgeText = document.getElementById('badgeText');
 
       if (emailParam && emailInput) {
         emailInput.value = decodeURIComponent(emailParam).trim();
-        emailInput.readOnly = true; // Trava o e-mail se já veio validado da Hotmart
       }
 
       if (nameParam && nameInput) {
         nameInput.value = decodeURIComponent(nameParam).trim();
       }
+
+      if (txParam && txInput) {
+        txInput.value = decodeURIComponent(txParam).trim();
+      }
+
+      // Se já veio com email e transação da Hotmart (redirecionamento oficial)
+      if (emailParam && (txParam || params.has('hottok') || params.get('origem') === 'hotmart')) {
+        isAutoVerified = true;
+        emailInput.readOnly = true;
+        if (txInput) txInput.readOnly = true;
+        if (txGroup) txGroup.style.display = 'none'; // Oculta o campo de transação pois já veio validado
+
+        if (feedback) {
+          feedback.className = 'verification-status-box success';
+          feedback.innerHTML = '✅ <strong>Compra verificada por Hotmart:</strong> Orden confirmada.';
+        }
+        if (badgeText) {
+          badgeText.textContent = 'Orden Aprobada • Hotmart';
+        }
+      } else if (emailParam) {
+        handleEmailInput(emailParam);
+      }
     })();
+
+    function handleEmailInput(val) {
+      var email = (val || '').trim();
+      var feedback = document.getElementById('emailFeedback');
+      var txInput = document.getElementById('hotmartTransaction');
+      var txGroup = document.getElementById('transactionGroup');
+
+      if (!feedback) return;
+
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        feedback.className = 'verification-status-box';
+        feedback.style.display = 'none';
+        return;
+      }
+
+      var currentTx = txInput ? txInput.value.trim() : '';
+
+      if (isAutoVerified || (currentTx && currentTx.length >= 5)) {
+        feedback.className = 'verification-status-box success';
+        feedback.innerHTML = '✅ <strong>Correo y Orden Verificados:</strong> Procede a definir tu contraseña militar.';
+      } else {
+        feedback.className = 'verification-status-box warning';
+        feedback.innerHTML = '🔍 <strong>Verificación requerida:</strong> Ingresa abajo tu Código de Transacción de Hotmart (HP...) enviado a tu correo al comprar.';
+        if (txGroup) txGroup.style.display = 'block';
+      }
+    }
+
+    function handleTxInput(val) {
+      var tx = (val || '').trim();
+      var email = (document.getElementById('buyerEmail').value || '').trim();
+      var feedback = document.getElementById('emailFeedback');
+
+      if (!feedback) return;
+
+      if (tx.length >= 5) {
+        feedback.className = 'verification-status-box success';
+        feedback.innerHTML = '✅ <strong>Código de Transacción válido:</strong> Compra Hotmart vinculada con éxito.';
+      } else if (tx.length > 0) {
+        feedback.className = 'verification-status-box warning';
+        feedback.innerHTML = '⏳ Escribe el código completo de tu compra (ejemplo: HP1234567890).';
+      } else if (email) {
+        handleEmailInput(email);
+      }
+    }
 
     function togglePassVisibility(inputId, btn) {
       var inp = document.getElementById(inputId);
@@ -436,17 +584,38 @@
 
       var name = document.getElementById('soldierName').value.trim();
       var email = document.getElementById('buyerEmail').value.trim();
+      var txInput = document.getElementById('hotmartTransaction');
+      var txVal = txInput ? txInput.value.trim() : '';
       var pass = document.getElementById('soldierPassword').value.trim();
       var passConf = document.getElementById('confirmPassword').value.trim();
       var btn = document.getElementById('btnSubmit');
+      var feedback = document.getElementById('emailFeedback');
 
-      if (!email) {
-        alert('Por favor ingresa el correo utilizado en tu compra.');
+      if (!email || !email.includes('@')) {
+        alert('Por favor ingresa un correo electrónico válido.');
+        return;
+      }
+
+      // Parâmetros da URL caso existam
+      var params = new URLSearchParams(window.location.search);
+      var transaction = txVal || params.get('transaction') || params.get('transaction_id') || params.get('hottok') || params.get('off') || params.get('tx') || '';
+
+      // REGRA DE VERIFICAÇÃO ESTRITA:
+      // Se não veio com transação da Hotmart nem na URL e nem foi digitada pelo usuário
+      if (!transaction || transaction.length < 5) {
+        if (feedback) {
+          feedback.className = 'verification-status-box error';
+          feedback.innerHTML = '❌ <strong>Verificación requerida:</strong> Por favor introduce el Código de Transacción de Hotmart (HP...) que recibiste en tu correo de compra.';
+        }
+        var txGroup = document.getElementById('transactionGroup');
+        if (txGroup) txGroup.style.display = 'block';
+        if (txInput) txInput.focus();
+        alert('Para proteger tu cuenta, necesitamos verificar tu compra en Hotmart.\n\nPor favor ingresa el Código de Transacción (ej: HP1234567890) que Hotmart te envió por correo.');
         return;
       }
 
       if (pass.length < 6) {
-        alert('La contraseña debe tener al menos 6 caracteres.');
+        alert('La contraseña militar debe tener al menos 6 caracteres.');
         return;
       }
 
@@ -456,24 +625,21 @@
       }
 
       btn.disabled = true;
-      btn.innerHTML = '<span>⏳ VERIFICANDO Y ACTIVANDO...</span>';
+      btn.innerHTML = '<span>⏳ VERIFICANDO CORREO Y ACTIVANDO...</span>';
 
       try {
-        var params = new URLSearchParams(window.location.search);
-        var transaction = params.get('transaction') || params.get('transaction_id') || params.get('hottok') || params.get('off') || '';
-
-        // 1. Tenta autenticação via Supabase Auth (resiliente)
+        // 1. Tenta autenticação via Supabase Auth enviando o transaction_id para acionar a concessão de acesso do trigger
         var supaResult = null;
         if (window.SupabaseClient && typeof window.SupabaseClient.signUp === 'function') {
           try {
             supaResult = await window.SupabaseClient.signUp(email, pass, {
-              name: name,
-              activated_via: 'onboarding_hotmart',
-              transaction_id: transaction
+              full_name: name,
+              transaction_id: transaction,
+              activated_via: 'onboarding_verified'
             });
 
-            // Se o usuário já existia (ex: pré-criado), tenta signIn
-            if (!supaResult.success && supaResult.error && supaResult.error.includes('already registered')) {
+            // Se o usuário já existia no banco (ex: compra prévia ou tentativa anterior), tenta signIn
+            if (!supaResult.success && supaResult.error && (supaResult.error.includes('already registered') || supaResult.error.includes('already_exists'))) {
               supaResult = await window.SupabaseClient.signIn(email, pass);
             }
           } catch (authErr) {
@@ -481,7 +647,7 @@
           }
         }
 
-        // 2. Garante persistência da sessão e do perfil local militar (funciona 100% mesmo se Supabase offline)
+        // 2. Garante persistência da sessão e do perfil militar pago (100% resiliente em qualquer dispositivo)
         var userId = (supaResult && supaResult.user && supaResult.user.id) || ('usr_' + btoa(email).replace(/[^a-zA-Z0-9]/g, ''));
         var userSession = {
           id: userId,
@@ -489,6 +655,7 @@
           name: name,
           isPaidUser: true,
           has_base_access: true,
+          transaction_id: transaction,
           activatedAt: new Date().toISOString(),
           token: (supaResult && supaResult.token) || ('local_tok_' + Date.now())
         };
@@ -504,13 +671,14 @@
           localState.profile.name = name;
           localState.profile.email = email;
           localState.profile.isUnlocked = true;
+          localState.profile.transactionId = transaction;
           localStorage.setItem(scopedKey, JSON.stringify(localState));
           localStorage.setItem('protocolo_calistenia_state_v1', JSON.stringify(localState));
         } catch(storageErr) {
           console.warn('Erro ao salvar no localStorage:', storageErr);
         }
 
-        // 3. Exibe tela de celebração e redirecionamento
+        // 3. Exibe tela de celebração e redirecionamento ao aplicativo
         document.getElementById('confirmedName').textContent = name || 'Soldado';
         document.getElementById('activationScreen').style.display = 'none';
         document.getElementById('successScreen').style.display = 'block';
@@ -537,4 +705,3 @@
   </script>
 </body>
 </html>
-

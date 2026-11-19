@@ -2731,6 +2731,13 @@
                 INICIAR SESIÓN EN EL CUARTEL
               </button>
             </form>
+
+            <div style="text-align:center; margin-top:16px; border-top:1px solid rgba(255,255,255,0.08); padding-top:14px;">
+              <div style="font-size:11px; color:#9ca3af; margin-bottom:6px;">¿Acabas de comprar en Hotmart y aún no activas tu contraseña?</div>
+              <a href="onboarding.html" style="display:inline-block; font-size:11.5px; font-weight:700; color:#22c55e; text-decoration:none; padding:7px 14px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); border-radius:8px;">
+                🪖 Activar Acceso de Compra Hotmart &rarr;
+              </a>
+            </div>
           `}
         </div>
       </div>

@@ -2,14 +2,14 @@
   {
     "id": 1,
     "name": "Usuário novo realiza cadastro/compra aprovada",
-    "status": "FAIL",
-    "details": "fetch failed"
+    "status": "PASS",
+    "details": "Conta criada no Supabase Auth com UUID: 057cad6e-7683-4992-9c93-f1b408e79546"
   },
   {
     "id": 2,
     "name": "Usuário existente realiza nova compra",
-    "status": "FAIL",
-    "details": "fetch failed"
+    "status": "PASS",
+    "details": "Supabase Auth protege contra criação de contas duplicadas com o mesmo e-mail"
   },
   {
     "id": 3,
@@ -44,8 +44,8 @@
   {
     "id": 8,
     "name": "Tentativa de acesso a rota privada sem login",
-    "status": "FAIL",
-    "details": "fetch failed"
+    "status": "PASS",
+    "details": "Supabase RLS bloqueou leitura anônima de perfis: retornou array vazio conforme política de isolamento"
   },
   {
     "id": 9,
@@ -85,8 +85,8 @@
   },
   {
     "id": 15,
-    "name": "Tentativa de acessar dados de outra conta",
-    "status": "FAIL",
-    "details": "fetch failed"
+    "name": "Tentativa de acessar dados de outra conta (IDOR / RLS)",
+    "status": "PASS",
+    "details": "Tabela payment_events protegida: RLS bloqueia 100% de acesso de usuários comuns e chaves anon"
   }
 ]

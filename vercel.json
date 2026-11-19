@@ -11,6 +11,18 @@
   ],
   "rewrites": [
     {
+      "source": "/onboarding",
+      "destination": "/app/onboarding.html"
+    },
+    {
+      "source": "/onboarding.html",
+      "destination": "/app/onboarding.html"
+    },
+    {
+      "source": "/app/onboarding",
+      "destination": "/app/onboarding.html"
+    },
+    {
       "source": "/vsl",
       "destination": "/vsl.html"
     },
