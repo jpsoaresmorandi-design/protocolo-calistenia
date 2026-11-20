@@ -1591,7 +1591,7 @@
 
   <!-- ==================== 01. BARRA DE URGÊNCIA NO TOPO ==================== -->
   <div class="top-banner" id="topBanner">
-    🔥 Acceso especial con descuento garantizado hasta el <strong id="urgencyDate"></strong>.
+    🔥 Descuento de 94% OFF garantizado solo por <strong>HOY, <span id="urgencyDate"></span></strong> • Tu oferta expira en: <span id="countdownTimer" style="background: rgba(0,0,0,0.35); padding: 2px 8px; border-radius: 6px; font-family: monospace; font-size: 0.95rem; font-weight: 800; letter-spacing: 1px; display: inline-block;">14:59</span>
   </div>
 
   <!-- ==================== 02. HEADLINE + MOCKUP + SUBHEADLINE + CTA ==================== -->
@@ -2326,15 +2326,42 @@
     (function () {
       'use strict';
 
-      // 1. Data Dinâmica de Urgência (Hoje + 1 dia em espanhol)
+      // 1. Data Dinâmica de Urgência (HOY - Dia Atual) + Cronômetro Regressivo de 15 Minutos
       try {
         var d = new Date();
-        d.setDate(d.getDate() + 1);
         var m = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
         var el = document.getElementById('urgencyDate');
         if (el) {
           el.textContent = d.getDate() + ' de ' + m[d.getMonth()];
         }
+
+        // Cronômetro regressivo de 15 minutos (persiste na sessão do visitante)
+        var timerKey = '__cali_urgency_timer';
+        var totalSec = 15 * 60;
+        try {
+          var savedTimer = sessionStorage.getItem(timerKey);
+          if (savedTimer && parseInt(savedTimer, 10) > 0) {
+            totalSec = parseInt(savedTimer, 10);
+          }
+        } catch (e) { }
+
+        var timerEl = document.getElementById('countdownTimer');
+        function renderTimer() {
+          if (!timerEl) return;
+          var min = Math.floor(totalSec / 60);
+          var sec = totalSec % 60;
+          timerEl.textContent = (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+        renderTimer();
+
+        setInterval(function () {
+          totalSec--;
+          if (totalSec <= 0) {
+            totalSec = 3 * 60 + 45; // Reseta sutilmente para nunca ficar zerado
+          }
+          try { sessionStorage.setItem(timerKey, totalSec.toString()); } catch (e) { }
+          renderTimer();
+        }, 1000);
       } catch (e) { }
 
       // 2. Checkout Hotmart Oficial com Repasse de UTMs
