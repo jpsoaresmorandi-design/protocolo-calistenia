@@ -523,6 +523,38 @@
       color: #166534;
       font-weight: 600;
     }
+    .payment-methods-accepted {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: #64748b;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .pm-pill {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 3px 8px;
+      color: #334155;
+      font-weight: 700;
+      font-size: 0.76rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .price-card.featured .pm-pill {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+    }
+    .price-card.featured .payment-methods-accepted {
+      color: #94a3b8;
+    }
     .mobile-sticky-cta {
       position: fixed;
       bottom: 0;
@@ -1649,7 +1681,7 @@
 
       <div class="hero-actions">
         <a href="#pricing" class="cta-button" data-prevent-automatic-event="true">Ver Planes con Descuento</a>
-        <div class="price-anchor-pill">⚡ Acceso Completo desde solo <strong>$9.90 USD</strong> (Pago Único • Sin mensualidades)</div>
+        <div class="price-anchor-pill" id="heroPriceAnchor">⚡ Acceso Completo desde solo <strong id="heroPriceText">$9.90 USD</strong> (Pago Único • Sin mensualidades)</div>
         <div class="safe-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
             stroke-linejoin="round">
@@ -1794,8 +1826,8 @@
           </thead>
           <tbody>
             <tr>
-              <td class="cell-gym"><span class="comp-cross">✗</span> $40 a $70 USD mensuales (gasto eterno de por vida).</td>
-              <td class="cell-protocol"><span class="comp-check">✓</span> <strong>Solo $9.90 USD pago único</strong> (acceso total de por vida).</td>
+              <td class="cell-gym" id="compGymCell"><span class="comp-cross">✗</span> $40 a $70 USD mensuales (gasto eterno de por vida).</td>
+              <td class="cell-protocol" id="compProtocolCell"><span class="comp-check">✓</span> <strong id="compPriceText">Solo $9.90 USD pago único</strong> (acceso total de por vida).</td>
             </tr>
             <tr>
               <td class="cell-gym"><span class="comp-cross">✗</span> Requiere 1h30 a 2h al día (tráfico, cambiarse, esperar máquinas).</td>
@@ -2114,16 +2146,18 @@
                   USD)</span></li>
             </ul>
             <div class="price-amount-block">
-              <p class="price-was">Valor Total <s>$156.00 USD</s> por solo</p>
-              <div class="price-amount">$9.90</div>
-              <span class="price-save">Ahorras $146.10 (94% OFF)</span>
+              <p class="price-was" id="basicPriceWas">Valor Total <s>$156.00 USD</s> por solo</p>
+              <div class="price-amount" id="basicPriceAmount">$9.90</div>
+              <div class="price-cuotas" id="basicCuotasText" style="display: none; font-size: 0.95rem; font-weight: 700; color: #15803d; margin-top: -4px; margin-bottom: 6px;"></div>
+              <span class="price-save" id="basicPriceSave">Ahorras $146.10 (94% OFF)</span>
             </div>
-            <a href="https://pay.hotmart.com/T108488175Q?checkoutMode=10" class="cta-button" onclick="triggerCheckout(event, 'basic')" style="display: block; text-decoration: none; text-align: center;">Comprar Pack Básico ($9.90 USD)</a>
-            <p class="price-note">⚡ Acceso Completo Inmediato • Pago Único</p>
-            <div class="local-currency-badge">
+            <a href="https://pay.hotmart.com/T108488175Q?checkoutMode=10" class="cta-button" id="basicCtaBtn" onclick="triggerCheckout(event, 'basic')" style="display: block; text-decoration: none; text-align: center;">Comprar Pack Básico ($9.90 USD)</a>
+            <p class="price-note" id="basicPriceNote">⚡ Acceso Completo Inmediato • Pago Único</p>
+            <div class="local-currency-badge" id="basicCurrencyBadge">
               <span>💳 <strong>Cobro automático en tu moneda local</strong></span>
               <span>🔒 Pago 100% seguro por Hotmart • Sin mensualidades</span>
             </div>
+            <div class="payment-methods-accepted" id="basicPaymentMethods"></div>
           </div>
         </div>
 
@@ -2186,16 +2220,18 @@
               </div>
             </div>
             <div class="price-amount-block">
-              <p class="price-was">Valor Total <s>$206.00 USD</s> por solo</p>
-              <div class="price-amount">$17.90</div>
-              <span class="price-save">Ahorras $188.10 (91% OFF)</span>
+              <p class="price-was" id="vipPriceWas">Valor Total <s>$206.00 USD</s> por solo</p>
+              <div class="price-amount" id="vipPriceAmount">$17.90</div>
+              <div class="price-cuotas" id="vipCuotasText" style="display: none; font-size: 0.95rem; font-weight: 700; color: #10b981; margin-top: -4px; margin-bottom: 6px;"></div>
+              <span class="price-save" id="vipPriceSave">Ahorras $188.10 (91% OFF)</span>
             </div>
-            <a href="https://pay.hotmart.com/M108553772C?checkoutMode=10" class="cta-button" onclick="triggerCheckout(event, 'complete')" style="display: block; text-decoration: none; text-align: center;">Desbloquear Pack Completo ($17.90 USD)</a>
-            <p class="price-note hot-note">🔥 ¡MÁS VENDIDO — INCLUYE LOS 3 UPGRADES VIP!</p>
-            <div class="local-currency-badge vip">
+            <a href="https://pay.hotmart.com/M108553772C?checkoutMode=10" class="cta-button" id="vipCtaBtn" onclick="triggerCheckout(event, 'complete')" style="display: block; text-decoration: none; text-align: center;">Desbloquear Pack Completo ($17.90 USD)</a>
+            <p class="price-note hot-note" id="vipPriceNote">🔥 ¡MÁS VENDIDO — INCLUYE LOS 3 UPGRADES VIP!</p>
+            <div class="local-currency-badge vip" id="vipCurrencyBadge">
               <span>🎖️ <strong>Acceso Total de Por Vida + Certificado</strong></span>
               <span>🛡️ Garantía blindada de 7 días con reembolso instantáneo</span>
             </div>
+            <div class="payment-methods-accepted" id="vipPaymentMethods"></div>
           </div>
         </div>
       </div>
@@ -2311,7 +2347,7 @@
     <div class="sticky-inner">
       <div class="sticky-text">
         <span class="sticky-title">Protocolo Militar 21 Días</span>
-        <span class="sticky-price">Desde <strong>$9.90 USD</strong> (Pago único)</span>
+        <span class="sticky-price" id="stickyPriceSpan">Desde <strong id="stickyPriceText">$9.90 USD</strong> (Pago único)</span>
       </div>
       <a href="#pricing" class="sticky-btn" data-prevent-automatic-event="true">¡QUIERO EMPEZAR! ➔</a>
     </div>
@@ -2638,6 +2674,222 @@
           scrollTicking = true;
         }
       }, { passive: true });
+
+      // 5. Geolocalización de Moneda, Anclajes y Medios de Pago Locales
+      var COUNTRY_PRICING = {
+        MX: {
+          currency: 'MXN',
+          heroAnchor: '⚡ Acceso Completo desde solo <strong>$232.00 MXN</strong> (Pago Único • Sin mensualidades)',
+          compGym: '<span class="comp-cross">✗</span> $800 a $1,400 MXN mensuales en gimnasio.',
+          compProtocol: '<span class="comp-check">✓</span> <strong>Solo $232.00 MXN pago único</strong> (acceso total de por vida).',
+          stickyPrice: 'Desde <strong>$232.00 MXN</strong> (Pago único)',
+          basic: {
+            was: 'Valor Total <s>$3,600 MXN</s> por solo',
+            price: '$232.00 MXN',
+            cuotas: '',
+            save: 'Ahorras más de $3,360 MXN (94% OFF)',
+            btn: 'Comprar Pack Básico ($232.00 MXN)',
+            note: '⚡ IVA incluido ($32.00 MXN) • Pago Único',
+            badge: '<span>💳 <strong>Cobro en Pesos Mexicanos (MXN)</strong></span><span>🔒 Pago 100% seguro por Hotmart • Sin mensualidades</span>',
+            methods: ['💳 Tarjetas', '🏪 OXXO', '⚡ SPEI', '🅿️ PayPal', '📱 Mercado Pago']
+          },
+          vip: {
+            was: 'Valor Total <s>$4,800 MXN</s> por solo',
+            price: '$419.92 MXN',
+            cuotas: 'o en 3 cuotas de $148.42 MXN con tarjeta',
+            save: 'Ahorras más de $4,380 MXN (91% OFF)',
+            btn: 'Desbloquear Pack Completo ($419.92 MXN)',
+            note: '🔥 IVA incluido ($57.92 MXN) • ¡MÁS VENDIDO!',
+            badge: '<span>🎖️ <strong>Acceso Total de Por Vida + Certificado</strong></span><span>🛡️ Garantía blindada de 7 días con reembolso instantáneo</span>',
+            methods: ['💳 Tarjetas (hasta 3 cuotas)', '🏪 OXXO', '⚡ SPEI', '🅿️ PayPal', '📱 Mercado Pago']
+          }
+        },
+        CO: {
+          currency: 'COP',
+          heroAnchor: '⚡ Acceso Completo desde solo <strong>$ 35.919 COP</strong> (o 12x $ 2.993 COP)',
+          compGym: '<span class="comp-cross">✗</span> $120.000 a $200.000 COP mensuales en gimnasio.',
+          compProtocol: '<span class="comp-check">✓</span> <strong>Solo $ 35.919 COP pago único</strong> (o 12x $ 2.993 COP).',
+          stickyPrice: 'Desde <strong>$ 35.919 COP</strong> (o 12x $ 2.993 COP)',
+          basic: {
+            was: 'Valor Total <s>$ 650.000 COP</s> por solo',
+            price: '$ 35.919 COP',
+            cuotas: 'o en 12 cuotas de $ 2.993 COP con tarjeta',
+            save: 'Ahorras $ 614.081 COP (94% OFF)',
+            btn: 'Comprar Pack Básico ($ 35.919 COP)',
+            note: '⚡ Acceso Completo Inmediato • Pago Único',
+            badge: '<span>💳 <strong>Cobro en Pesos Colombianos (COP)</strong></span><span>🔒 Pago 100% seguro por Hotmart • Sin mensualidades</span>',
+            methods: ['💳 Tarjetas', '🏦 PSE (Nequi / Daviplata)', '💵 Efecty', '🅿️ PayPal']
+          },
+          vip: {
+            was: 'Valor Total <s>$ 850.000 COP</s> por solo',
+            price: '$ 64.944 COP',
+            cuotas: 'o en 12 cuotas de $ 5.412 COP con tarjeta',
+            save: 'Ahorras $ 785.056 COP (92% OFF)',
+            btn: 'Desbloquear Pack Completo ($ 64.944 COP)',
+            note: '🔥 ¡MÁS VENDIDO — INCLUYE LOS 3 UPGRADES VIP!',
+            badge: '<span>🎖️ <strong>Acceso Total de Por Vida + Certificado</strong></span><span>🛡️ Garantía blindada de 7 días con reembolso instantáneo</span>',
+            methods: ['💳 Tarjetas (hasta 12 cuotas)', '🏦 PSE (Nequi / Daviplata)', '💵 Efecty', '🅿️ PayPal']
+          }
+        },
+        AR: {
+          currency: 'ARS',
+          heroAnchor: '⚡ Acceso Completo desde solo <strong>$ 18.917 ARS</strong> (Pago Único • Sin mensualidades)',
+          compGym: '<span class="comp-cross">✗</span> $45.000 a $80.000 ARS mensuales en gimnasio.',
+          compProtocol: '<span class="comp-check">✓</span> <strong>Solo $ 18.917 ARS pago único</strong> (acceso total de por vida).',
+          stickyPrice: 'Desde <strong>$ 18.917 ARS</strong> (Pago único)',
+          basic: {
+            was: 'Valor Total <s>$ 350.000 ARS</s> por solo',
+            price: '$ 18.917,00 ARS',
+            cuotas: '',
+            save: 'Ahorro superior al 94% OFF',
+            btn: 'Comprar Pack Básico ($ 18.917 ARS)',
+            note: '⚡ (+ tarifas correspondientes de Hotmart) • Pago Único',
+            badge: '<span>💳 <strong>Cobro en Pesos Argentinos (ARS)</strong></span><span>🔒 Pago 100% seguro por Hotmart • Sin mensualidades</span>',
+            methods: ['💳 Tarjetas Débito / Crédito', '🏪 Pago Fácil', '🏪 RapiPago', '🅿️ PayPal']
+          },
+          vip: {
+            was: 'Valor Total <s>$ 480.000 ARS</s> por solo',
+            price: '$ 34.204,00 ARS',
+            cuotas: '',
+            save: 'Ahorro superior al 91% OFF',
+            btn: 'Desbloquear Pack Completo ($ 34.204 ARS)',
+            note: '🔥 (+ tarifas correspondientes de Hotmart) • ¡MÁS VENDIDO!',
+            badge: '<span>🎖️ <strong>Acceso Total de Por Vida + Certificado</strong></span><span>🛡️ Garantía blindada de 7 días con reembolso instantáneo</span>',
+            methods: ['💳 Tarjetas Débito / Crédito', '🏪 Pago Fácil', '🏪 RapiPago', '🅿️ PayPal']
+          }
+        },
+        USD: {
+          currency: 'USD',
+          heroAnchor: '⚡ Acceso Completo desde solo <strong>$9.90 USD</strong> (Pago Único • Sin mensualidades)',
+          compGym: '<span class="comp-cross">✗</span> $40 a $70 USD mensuales (gasto eterno de por vida).',
+          compProtocol: '<span class="comp-check">✓</span> <strong>Solo $9.90 USD pago único</strong> (acceso total de por vida).',
+          stickyPrice: 'Desde <strong>$9.90 USD</strong> (Pago único)',
+          basic: {
+            was: 'Valor Total <s>$156.00 USD</s> por solo',
+            price: '$9.90 USD',
+            cuotas: '',
+            save: 'Ahorras $146.10 (94% OFF)',
+            btn: 'Comprar Pack Básico ($9.90 USD)',
+            note: '⚡ Acceso Completo Inmediato • Pago Único',
+            badge: '<span>💳 <strong>Cobro automático en tu moneda local</strong></span><span>🔒 Pago 100% seguro por Hotmart • Sin mensualidades</span>',
+            methods: ['💳 Tarjetas de Crédito / Débito', '🅿️ PayPal', '💵 Efectivo Local']
+          },
+          vip: {
+            was: 'Valor Total <s>$206.00 USD</s> por solo',
+            price: '$17.90 USD',
+            cuotas: '',
+            save: 'Ahorras $188.10 (91% OFF)',
+            btn: 'Desbloquear Pack Completo ($17.90 USD)',
+            note: '🔥 ¡MÁS VENDIDO — INCLUYE LOS 3 UPGRADES VIP!',
+            badge: '<span>🎖️ <strong>Acceso Total de Por Vida + Certificado</strong></span><span>🛡️ Garantía blindada de 7 días con reembolso instantáneo</span>',
+            methods: ['💳 Tarjetas de Crédito / Débito', '🅿️ PayPal', '💵 Efectivo Local']
+          }
+        }
+      };
+
+      function detectUserCountry() {
+        var params = new URLSearchParams(window.location.search);
+        var urlCountry = (params.get('country') || params.get('pais') || '').toUpperCase();
+        if (urlCountry && COUNTRY_PRICING[urlCountry]) return urlCountry;
+
+        try {
+          var tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
+          if (tz.indexOf('mexico') !== -1 || tz.indexOf('cancun') !== -1 || tz.indexOf('monterrey') !== -1 || tz.indexOf('merida') !== -1 || tz.indexOf('tijuana') !== -1 || tz.indexOf('chihuahua') !== -1 || tz.indexOf('mazatlan') !== -1 || tz.indexOf('hermosillo') !== -1) {
+            return 'MX';
+          }
+          if (tz.indexOf('bogota') !== -1) {
+            return 'CO';
+          }
+          if (tz.indexOf('argentina') !== -1 || tz.indexOf('buenos_aires') !== -1 || tz.indexOf('cordoba') !== -1 || tz.indexOf('mendoza') !== -1 || tz.indexOf('rosario') !== -1 || tz.indexOf('jujuy') !== -1 || tz.indexOf('tucuman') !== -1 || tz.indexOf('catamarca') !== -1 || tz.indexOf('ushuaia') !== -1) {
+            return 'AR';
+          }
+        } catch (e) { }
+
+        var lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+        if (lang.indexOf('-mx') !== -1) return 'MX';
+        if (lang.indexOf('-co') !== -1) return 'CO';
+        if (lang.indexOf('-ar') !== -1) return 'AR';
+
+        return 'USD';
+      }
+
+      function renderPaymentPills(containerEl, methods) {
+        if (!containerEl || !methods) return;
+        var html = '<div style="width: 100%; text-align: center; margin-bottom: 2px;">Medios de pago aceptados:</div>';
+        methods.forEach(function (m) {
+          html += '<span class="pm-pill">' + m + '</span>';
+        });
+        containerEl.innerHTML = html;
+      }
+
+      function applyCountryPricing() {
+        var country = detectUserCountry();
+        var data = COUNTRY_PRICING[country] || COUNTRY_PRICING.USD;
+
+        // Hero anchor pill
+        var heroAnchor = document.getElementById('heroPriceAnchor');
+        if (heroAnchor) heroAnchor.innerHTML = data.heroAnchor;
+
+        // Comparison table
+        var compGym = document.getElementById('compGymCell');
+        if (compGym) compGym.innerHTML = data.compGym;
+        var compProtocol = document.getElementById('compProtocolCell');
+        if (compProtocol) compProtocol.innerHTML = data.compProtocol;
+
+        // Sticky Mobile
+        var stickySpan = document.getElementById('stickyPriceSpan');
+        if (stickySpan) stickySpan.innerHTML = data.stickyPrice;
+
+        // Basic card
+        var bWas = document.getElementById('basicPriceWas');
+        if (bWas) bWas.innerHTML = data.basic.was;
+        var bAmount = document.getElementById('basicPriceAmount');
+        if (bAmount) bAmount.textContent = data.basic.price;
+        var bCuotas = document.getElementById('basicCuotasText');
+        if (bCuotas) {
+          if (data.basic.cuotas) {
+            bCuotas.textContent = data.basic.cuotas;
+            bCuotas.style.display = 'block';
+          } else {
+            bCuotas.style.display = 'none';
+          }
+        }
+        var bSave = document.getElementById('basicPriceSave');
+        if (bSave) bSave.textContent = data.basic.save;
+        var bBtn = document.getElementById('basicCtaBtn');
+        if (bBtn) bBtn.textContent = data.basic.btn;
+        var bNote = document.getElementById('basicPriceNote');
+        if (bNote) bNote.textContent = data.basic.note;
+        var bBadge = document.getElementById('basicCurrencyBadge');
+        if (bBadge) bBadge.innerHTML = data.basic.badge;
+        renderPaymentPills(document.getElementById('basicPaymentMethods'), data.basic.methods);
+
+        // VIP card
+        var vWas = document.getElementById('vipPriceWas');
+        if (vWas) vWas.innerHTML = data.vip.was;
+        var vAmount = document.getElementById('vipPriceAmount');
+        if (vAmount) vAmount.textContent = data.vip.price;
+        var vCuotas = document.getElementById('vipCuotasText');
+        if (vCuotas) {
+          if (data.vip.cuotas) {
+            vCuotas.textContent = data.vip.cuotas;
+            vCuotas.style.display = 'block';
+          } else {
+            vCuotas.style.display = 'none';
+          }
+        }
+        var vSave = document.getElementById('vipPriceSave');
+        if (vSave) vSave.textContent = data.vip.save;
+        var vBtn = document.getElementById('vipCtaBtn');
+        if (vBtn) vBtn.textContent = data.vip.btn;
+        var vNote = document.getElementById('vipPriceNote');
+        if (vNote) vNote.textContent = data.vip.note;
+        var vBadge = document.getElementById('vipCurrencyBadge');
+        if (vBadge) vBadge.innerHTML = data.vip.badge;
+        renderPaymentPills(document.getElementById('vipPaymentMethods'), data.vip.methods);
+      }
+
+      applyCountryPricing();
 
       setTimeout(checkScroll, 1000);
     })();
