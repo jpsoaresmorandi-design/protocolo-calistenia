@@ -875,7 +875,7 @@ function gotoVsl(){
   }
   const qs = (window.__funnelQSString && window.__funnelQSString()) || '';
   const currentParams = new URLSearchParams(window.location.search);
-  const targetPage = currentParams.get('dest') === 'vsl' ? 'vsl.html' : 'tsl.html';
+  const targetPage = currentParams.get('dest') === 'vsl' ? 'vsl' : 'tsl';
   window.location.href = targetPage + (qs ? '?' + qs : '');
 }
 

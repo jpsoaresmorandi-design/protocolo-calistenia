@@ -1799,19 +1799,30 @@
       var CHECKOUT_URL_BASIC = 'https://pay.hotmart.com/T108488175Q?checkoutMode=10';
       var CHECKOUT_URL_COMPLETE = 'https://pay.hotmart.com/M108553772C?checkoutMode=10';
 
-      function getFinalCheckoutUrl(plan) {
+      function getFinalCheckoutUrl(plan, linkHref) {
         var base = (plan === 'complete' || plan === 'vip') ? CHECKOUT_URL_COMPLETE : CHECKOUT_URL_BASIC;
+        var startUrl = (linkHref && linkHref.indexOf('pay.hotmart.com') !== -1) ? linkHref : base;
         try {
+          var targetUrl = new URL(startUrl);
+
+          // 1. Recupera parâmetros UTM salvos no Quiz (sessionStorage)
+          try {
+            var saved = JSON.parse(sessionStorage.getItem('__funnel_qs') || '{}');
+            Object.keys(saved).forEach(function (k) {
+              if (saved[k] && !targetUrl.searchParams.has(k)) {
+                targetUrl.searchParams.set(k, saved[k]);
+              }
+            });
+          } catch (e) { }
+
+          // 2. Adiciona parâmetros da URL atual
           var currentParams = new URLSearchParams(window.location.search);
-          var targetUrl = new URL(base);
           currentParams.forEach(function (val, key) {
-            if (key !== 'cta' && key !== 'pitch' && key !== 'test') {
+            if (key !== 'cta' && key !== 'pitch' && key !== 'test' && key !== 'plan') {
               targetUrl.searchParams.set(key, val);
             }
           });
-          if (plan) {
-            targetUrl.searchParams.set('plan', plan);
-          }
+
           return targetUrl.toString();
         } catch (err) {
           return base;
@@ -1831,8 +1842,11 @@
             });
           } catch (err) { }
         }
-        var dest = getFinalCheckoutUrl(plan);
-        window.location.href = dest;
+        var currentHref = (e && e.currentTarget && e.currentTarget.href) ? e.currentTarget.href : '';
+        var dest = getFinalCheckoutUrl(plan, currentHref);
+        setTimeout(function () {
+          window.location.href = dest;
+        }, 120);
       };
 
       // 3. FAQ Acordeão
