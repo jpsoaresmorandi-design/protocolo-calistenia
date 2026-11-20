@@ -583,6 +583,145 @@
       animation: pulse 2s infinite;
     }
 
+    /* ==================== COMPARISON TABLE ==================== */
+    .comparison-section {
+      padding: 60px 0;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+    }
+    .comparison-table-wrapper {
+      max-width: 860px;
+      margin: 32px auto 0;
+      overflow-x: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    .comparison-table th {
+      padding: 16px 20px;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .comparison-table th.col-gym {
+      background: #f1f5f9;
+      color: #64748b;
+      width: 45%;
+    }
+    .comparison-table th.col-protocol {
+      background: #15803d;
+      color: #ffffff;
+      width: 55%;
+    }
+    .comparison-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+    }
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+    .comparison-table td.cell-gym {
+      background: #fafafa;
+      color: #64748b;
+    }
+    .comparison-table td.cell-protocol {
+      background: rgba(22, 163, 74, 0.04);
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .comp-check {
+      color: #16a34a;
+      font-weight: 800;
+      margin-right: 6px;
+    }
+    .comp-cross {
+      color: #dc2626;
+      font-weight: 800;
+      margin-right: 6px;
+    }
+
+    /* ==================== QUALIFICATION (PARA QUIEN ES) ==================== */
+    .target-audience-section {
+      padding: 60px 0;
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+    }
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+      max-width: 860px;
+      margin: 32px auto 0;
+    }
+    .target-box {
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .target-box.yes {
+      background: #ffffff;
+      border: 2px solid rgba(22, 163, 74, 0.4);
+      box-shadow: 0 4px 15px rgba(22, 163, 74, 0.08);
+    }
+    .target-box.no {
+      background: #ffffff;
+      border: 2px solid rgba(220, 38, 38, 0.3);
+      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.05);
+    }
+    .target-box h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .target-box.yes h3 { color: #16a34a; }
+    .target-box.no h3 { color: #dc2626; }
+    .target-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+    .target-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .authority-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(22, 163, 74, 0.1);
+      border: 1px solid rgba(22, 163, 74, 0.3);
+      color: #15803d;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    .price-anchor-pill {
+      font-size: 0.88rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .price-anchor-pill strong {
+      color: #16a34a;
+      font-weight: 800;
+    }
+
     /* ==================== 06. O QUE VOCÊ RECEBE ==================== */
     .what-you-get {
       padding: 65px 0;
@@ -1459,6 +1598,9 @@
   <section class="hero">
     <div class="container">
 
+      <div style="text-align: center; margin-bottom: 14px;">
+        <span class="authority-pill">🎖️ MÉTODO PROBADO EN MÁS DE 2,400 HOMBRES • 21 DÍAS</span>
+      </div>
 
       <h1>
         Consigue un físico seco, fuerte y marcado en <span class="highlight">21 días usando solo tu peso
@@ -1507,6 +1649,7 @@
 
       <div class="hero-actions">
         <a href="#pricing" class="cta-button" data-prevent-automatic-event="true">Ver Planes con Descuento</a>
+        <div class="price-anchor-pill">⚡ Acceso Completo desde solo <strong>$9.90 USD</strong> (Pago Único • Sin mensualidades)</div>
         <div class="safe-badge">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
             stroke-linejoin="round">
@@ -1627,6 +1770,82 @@
           <h3>Garantía Blindada de 7 Días Hotmart</h3>
           <p>Pruébalo durante una semana entera. Si no sientes tus músculos más firmes y tu energía al doble, te
             devolvemos el 100% sin preguntas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 04B. COMPARATIVA: GIMNASIO VS PROTOCOLO ==================== -->
+  <section class="comparison-section">
+    <div class="container">
+      <div style="text-align: center; max-width: 720px; margin: 0 auto;">
+        <span class="badge-tag">LA VERDAD DEL ENTRENAMIENTO</span>
+        <h2 class="section-title">¿Por qué este método funciona donde el gimnasio te falló?</h2>
+        <p class="section-sub">La mayoría de los hombres abandonan el gimnasio porque no está adaptado a su vida real. Mira la diferencia:</p>
+      </div>
+
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th class="col-gym">❌ Gimnasio Tradicional</th>
+              <th class="col-protocol">🎖️ Protocolo Calistenia Militar</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cell-gym"><span class="comp-cross">✗</span> $40 a $70 USD mensuales (gasto eterno de por vida).</td>
+              <td class="cell-protocol"><span class="comp-check">✓</span> <strong>Solo $9.90 USD pago único</strong> (acceso total de por vida).</td>
+            </tr>
+            <tr>
+              <td class="cell-gym"><span class="comp-cross">✗</span> Requiere 1h30 a 2h al día (tráfico, cambiarse, esperar máquinas).</td>
+              <td class="cell-protocol"><span class="comp-check">✓</span> <strong>Solo 15 a 20 minutos al día</strong> en la sala de tu casa.</td>
+            </tr>
+            <tr>
+              <td class="cell-gym"><span class="comp-cross">✗</span> Cargas pesadas que desgastan rodillas, hombros y lumbares.</td>
+              <td class="cell-protocol"><span class="comp-check">✓</span> <strong>Cero impacto articular dañino.</strong> Descompresión biomecánica y movilidad.</td>
+            </tr>
+            <tr>
+              <td class="cell-gym"><span class="comp-cross">✗</span> Músculo "inflado" y rígido con poca agilidad real.</td>
+              <td class="cell-protocol"><span class="comp-check">✓</span> <strong>Físico fibroso, seco y atlético</strong> con verdadera fuerza masculina.</td>
+            </tr>
+            <tr>
+              <td class="cell-gym"><span class="comp-cross">✗</span> Dependencia de máquinas costosas y suplementos químicos.</td>
+              <td class="cell-protocol"><span class="comp-check">✓</span> <strong>100% peso corporal y gravedad.</strong> Entrenas cuando y donde quieras.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 04C. ¿PARA QUIÉN ES ESTO? ==================== -->
+  <section class="target-audience-section">
+    <div class="container">
+      <div style="text-align: center; max-width: 720px; margin: 0 auto;">
+        <span class="badge-tag">FILTRO DE COMPROMISO</span>
+        <h2 class="section-title">¿Este protocolo es para ti?</h2>
+        <p class="section-sub">Queremos reclutas comprometidos con ver un cambio real frente al espejo en los próximos 21 días:</p>
+      </div>
+
+      <div class="target-grid">
+        <div class="target-box yes">
+          <h3>✅ ESTO ES PARA TI SI:</h3>
+          <ul class="target-list">
+            <li><span>✓</span> <strong>Tienes más de 30 o 40 años</strong> y notas que la grasa del abdomen y los costados es más difícil de quemar que antes.</li>
+            <li><span>✓</span> <strong>Tienes poco tiempo libre</strong> y necesitas una rutina rápida que puedas completar antes de bañarte para ir a trabajar.</li>
+            <li><span>✓</span> <strong>Sientes dolor o rigidez</strong> en rodillas, espalda baja u hombros y sabes que las pesas pesadas solo empeoran la lesión.</li>
+            <li><span>✓</span> <strong>Quieres verte y sentirte fuerte</strong>, con postura recta, abdomen firme y la energía masculina de hace 10 años.</li>
+          </ul>
+        </div>
+
+        <div class="target-box no">
+          <h3>❌ ESTO NO ES PARA TI SI:</h3>
+          <ul class="target-list">
+            <li><span>✗</span> <strong>Buscas resultados mágicos</strong> sin mover un solo dedo ni comprometerte a 15 minutos diarios durante 21 días.</li>
+            <li><span>✗</span> <strong>Prefieres pagar mensualidades caras</strong> de gimnasio a las que casi nunca tienes tiempo de ir.</li>
+            <li><span>✗</span> <strong>Quieres inflarte artificialmente</strong> usando anabólicos o polvos químicos en lugar de fuerza funcional real.</li>
+          </ul>
         </div>
       </div>
     </div>
